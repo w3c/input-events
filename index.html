@@ -56,6 +56,11 @@ var respecConfig = {
                     title:    "The DataTransfer interface"
                 ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html#the-datatransfer-interface"
                 ,   publisher: "WHATWG"
+                },
+                "HTML-LIVING": {
+                    title:    "HTML Living Standard"
+                ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html"
+                ,   publisher: "WHATWG"
                 }
         }
         };
@@ -465,11 +470,17 @@ var respecConfig = {
                     or <code>"insertNonText"</code>, the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
-                            <li><code>dataTransfer.getData('text/html')</code> returns a HTML representation
-                            of the content that is to be cut, copied, pasted, dragged, dropped or added.
-                            <li><code>dataTransfer.getData('text/plain')</code> returns a plain text
+                            <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                            contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
+                            <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
+                            is <i>Plain Unicode string</i>, and whose data is a HTML representation
+                            of the content that is to be cut, copied, pasted, dragged, dropped or added. [[!HTML-LIVING]]</li>
+                            <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                            contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
+                            <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
+                            is <i>Plain Unicode string</i>, and whose data is a plain text
                             representation of the content that is to be cut, copied, pasted, dragged,
-                            dropped or added.</li>
+                            dropped or added. [[!HTML-LIVING]]</li>
                         </ol>
                     </li>
                     <li>Else, the dataTransfer attribute is null.</li>
@@ -577,7 +588,7 @@ var respecConfig = {
                         </tr>
                     </table>
 
-                    <p>A <a>user
+                    <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
                     agent</a> MUST dispatch this event when the user has
                     attempted to input in a contenteditable element. It does
                     not necessarily mean the
@@ -585,7 +596,7 @@ var respecConfig = {
                     [[!UI-EVENTS]] will then update the
                     DOM.</p>
 
-                    <p>A <a>user
+                    <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
                     agent</a> MUST NOT dispatch this event due to events that
                     are not caused by attempted user input, such as system
                     events.</p>
