@@ -177,14 +177,14 @@ var respecConfig = {
                         <th>getTargetRanges()</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>insertText</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>cut</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>paste</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>drag</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>drop</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>insertNonText</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>undo</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
-                        <tr><td><code>redo</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td><code>"insertText"</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"cut"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"paste"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"drag"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"drop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"insertNonText"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td><code>"redo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
                     </tbody>
                 </table>
@@ -195,20 +195,20 @@ var respecConfig = {
                 <h5>Attributes</h5>
 
                 <p><dfn>inputType</dfn> holds the type of input. Allowed
-                values are the following: <code>insertText</code>, <code>insertNonText</code>,
-                <code>insertLineBreak</code>, <code>insertParagraph</code>,
-                <code>insertOrderedList</code>, <code>insertUnorderedList</code>,
-                <code>insertHorizontalRule</code>, <code>deleteWordForward</code>,
-                <code>deleteWordBackward</code>, <code>deleteLineForward</code>,
-                <code>deleteLineBackward</code>, <code>deleteComposedCharacterBackward</code>,
-                <code>deleteComposedCharacterForward</code>,
-                <code>deleteContentBackward</code>, <code>deleteContentForward</code>,
-                <code>undo</code>, <code>redo</code>, <code>cut</code>, <code>paste</code>,
-                <code>bold</code>, <code>italic</code>, <code>underline</code>,
-                <code>strikeThrough</code>, <code>superscript</code>,
-                <code>subscript</code>, <code>justifyCenter</code>, <code>justifyRight</code>,
-                <code>justifyLeft</code>, <code>indent</code>, <code>outdent</code>,
-                <code>removeFormat</code>, <code>drag</code>, <code>drop</code>.
+                values are the following: <code>"insertText"</code>, <code>"insertNonText"</code>,
+                <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
+                <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
+                <code>"insertHorizontalRule"</code>, <code>"deleteWordForward"</code>,
+                <code>"deleteWordBackward"</code>, <code>"deleteLineForward"</code>,
+                <code>"deleteLineBackward"</code>, <code>"deleteComposedCharacterBackward"</code>,
+                <code>"deleteComposedCharacterForward"</code>,
+                <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
+                <code>"undo"</code>, <code>"redo"</code>, <code>"cut"</code>, <code>"paste"</code>,
+                <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
+                <code>"strikeThrough"</code>, <code>"superscript"</code>,
+                <code>"subscript"</code>, <code>"justifyCenter"</code>, <code>"justifyRight"</code>,
+                <code>"justifyLeft"</code>, <code>"indent"</code>, <code>"outdent"</code>,
+                <code>"removeFormat"</code>, <code>"drag"</code>, <code>"drop"</code>.
                 During initialization, the user agent is responsible for
                 populating this field as follows:
                 </p>
@@ -223,45 +223,45 @@ var respecConfig = {
                 <ol>
                     <li>If the user intends to insert plain text typing on a
                     keyboard, IME, speech, or similar method, the inputType
-                    MUST be <code>insertText</code>.
+                    MUST be <code>"insertText"</code>.
                     </li>
 
                     <li>If the user intends to insert content potentially
                     containing more than just plain text using a keyboard,
                     IME, speech, or similar method, the inputType MUST be
-                    <code>insertNonText</code>.
+                    <code>"insertNonText"</code>.
 
                     </li>
 
                     <li>If the user intends to insert a line break using a
                     keyboard, IME, speech, or similar method, the  inputType
-                    MUST be <code>insertLineBreak</code>.
+                    MUST be <code>"insertLineBreak"</code>.
                     </li>
 
                     <li>If the user intends to insert a paragraph break
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>insertParagraph</code>.
+                    inputType MUST be <code>"insertParagraph"</code>.
                     </li>
 
                     <li>If the user intends to insert a numbered list
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>insertOrderedList</code>.
+                    inputType MUST be <code>"insertOrderedList"</code>.
                     </li>
 
                     <li>If the user intends to insert a bulleted list
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>insertUnorderedList</code>.
+                    inputType MUST be <code>"insertUnorderedList"</code>.
                     </li>
 
                     <li>If the user intends to insert a horizontal rule
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>insertHorizontalRule</code>.
+                    inputType MUST be <code>"insertHorizontalRule"</code>.
                     </li>
 
                     <li>If the user intends to delete a character after the
                     caret position during character composition using IME, the
                     inputType MUST be
-                    <code>deleteComposedCharacterForward</code>.
+                    <code>"deleteComposedCharacterForward"</code>.
 
                         <ol>
                             <li>Set the value of cancelable to <code>false</code>.</li>
@@ -271,7 +271,7 @@ var respecConfig = {
                     <li>If the user intends to delete a character before
                     the caret position during character composition using IME,
                     the inputType MUST be
-                    <code>deleteComposedCharacterBackward</code>.
+                    <code>"deleteComposedCharacterBackward"</code>.
 
                         <ol>
                             <li>Set the value of cancelable to <code>false</code>.</li>
@@ -281,25 +281,25 @@ var respecConfig = {
                     <li>If the user intends to delete a word directly before
                     the caret position, using a keyboard, speech, or similar
                     method, and the selection is empty, the inputType MUST be
-                    <code>deleteWordBackward</code>.
+                    <code>"deleteWordBackward"</code>.
                     </li>
 
                     <li>If the user intends to delete a word directly after
                     the caret position using a keyboard, speech, or similar
                     method, and the selection is empty, the inputType MUST be
-                    <code>deleteWordForward</code>.
+                    <code>"deleteWordForward"</code>.
                     </li>
 
                     <li>If the user intends to delete a line directly before
                     the caret position using a keyboard, speech, or similar
                     method, and the selection is empty, the inputType MUST be
-                    <code>deleteLineBackward</code>.
+                    <code>"deleteLineBackward"</code>.
                     </li>
 
                     <li>If the user intends to delete a line directly after
                     the caret position using a keyboard, speech, or similar
                     method, and the selection is empty, the inputType MUST be
-                    <code>deleteLineForward</code>.
+                    <code>"deleteLineForward"</code>.
                     </li>
 
                     <li>If the user intends to delete the content directly before
@@ -307,7 +307,7 @@ var respecConfig = {
                     inputType or the user itends to delete a non-collapsed selection
                     with the selection collapsing to its start after the deletion,
                     using a keyboard, speech, or similar method, the inputType
-                    MUST be <code>deleteContentBackward</code>.
+                    MUST be <code>"deleteContentBackward"</code>.
 
                     <div class="note">If the selection is collapsed,
                     <code>deleteContentBackward</code> will be used both when
@@ -329,7 +329,7 @@ var respecConfig = {
                     inputType or the user itends to delete a non-collapsed selection
                     with the selection collapsing to its end after the deletion,
                     using a keyboard, speech, or similar method, the inputType
-                    MUST be <code>deleteContentForward</code>.
+                    MUST be <code>"deleteContentForward"</code>.
 
                     <div class="note">If the selection is collapsed,
                     <code>deleteContentForward</code> will be used both when
@@ -348,96 +348,96 @@ var respecConfig = {
 
                     <li>If the user intends to undo the last editing action
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>undo</code>.
+                    inputType MUST be <code>"undo"</code>.
                     </li>
 
                     <li>If the user intends to redo the last editing action
                     using a keyboard, IME, speech, or similar method, the
-                    inputType MUST be <code>redo</code>.
+                    inputType MUST be <code>"redo"</code>.
                     </li>
 
                     <li>If the user intends to cut using a keyboard, context
                     menu, speech, or similar method, the inputType MUST be
-                    <code>cut</code>.
+                    <code>"cut"</code>.
                     </li>
 
                     <li>If the user intends to paste using a keyboard, context
                     menu, speech, or similar method, the inputType MUST be
-                    <code>paste</code>.
+                    <code>"paste"</code>.
                     </li>
 
                     <li>If the user intends to initiate bold text using a
                     keyboard, context menu, speech, or similar method, the
-                    inputType MUST be <code>bold</code>.
+                    inputType MUST be <code>"bold"</code>.
                     </li>
 
                     <li>If the user intends to initiate italic text using a
                     keyboard, context menu, speech, or similar method, the
-                    inputType MUST be <code>italic</code>.
+                    inputType MUST be <code>"italic"</code>.
                     </li>
 
                     <li>If the user intends to initiate underline text using a
                     keyboard, context menu, speech, or similar method, the
-                    inputType MUST be <code>underline</code>.
+                    inputType MUST be <code>"underline"</code>.
                     </li>
 
                     <li>If the user intends to initiate stricken through text
                     using a keyboard, context menu, speech, or similar method,
-                    the inputType MUST be <code>strikeThrough</code>.
+                    the inputType MUST be <code>"strikeThrough"</code>.
                     </li>
 
                     <li>If the user intends to initiate superscript through text
                     using a keyboard, context menu, speech, or similar method,
-                    the inputType MUST be <code>superscript</code>.
+                    the inputType MUST be <code>"superscript"</code>.
                     </li>
 
                     <li>If the user intends to initiate subscript through text
                     using a keyboard, context menu, speech, or similar method,
-                    the inputType MUST be <code>subscript</code>.
+                    the inputType MUST be <code>"subscript"</code>.
                     </li>
 
                     <li>If the user intends to justify center the current
                     selection using a keyboard, context menu, speech, or
                     similar method, the inputType MUST be
-                    <code>justifyCenter</code>.
+                    <code>"justifyCenter"</code>.
                     </li>
 
                     <li>If the user intends to justify right the current
                     selection using a keyboard, context menu, speech, or
                     similar method, the inputType MUST be
-                    <code>justifyRight</code>.
+                    <code>"justifyRight"</code>.
                     </li>
 
                     <li>If the user intends to justify left the current
                     selection using a keyboard, context menu, speech, or
                     similar method, the inputType MUST be
-                    <code>justifyLeft</code>.
+                    <code>"justifyLeft"</code>.
                     </li>
 
                     <li>If the user intends to indent the current
                     selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be <code>indent</code>.
+                    similar method, the inputType MUST be <code>"indent"</code>.
                     </li>
 
                     <li>If the user intends to outdent the current
                     selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be <code>outdent</code>.
+                    similar method, the inputType MUST be <code>"outdent"</code>.
                     </li>
 
                     <li>If the user intends to remove all formatting from the
                     current selection using a keyboard, context menu, speech,
                     or similar method, the inputType MUST be
-                    <code>removeFormat</code>.
+                    <code>"removeFormat"</code>.
                     </li>
 
                     <li>If the user intends to drag the current selection using
                         keyboard, context menu, speech, or similar method, the
-                        inputType MUST be <code>drag</code>.
+                        inputType MUST be <code>"drag"</code>.
                     </li>
 
                     <li>If the user intends to drop a dragged object into the
                     current selection using a keyboard, context menu, speech,
-                    or similar method, the inputType MUST be <code>drop</code>.
+                    or similar method, the inputType MUST be <code>"drop"</code>.
                     </li>
 
                 </ol>
@@ -458,8 +458,9 @@ var respecConfig = {
                 </p>
 
                 <ol>
-                    <li>If the inputType is cut, paste, drag, drop,
-                    or insertNonText, the dataTransfer attribute is a
+                    <li>If the inputType is <code>"cut"</code>, <code>"paste"</code>,
+                    <code>"drag"</code>, <code>"drop"</code>,
+                    or <code>"insertNonText"</code>, the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
                             <li><code>dataTransfer.getData('text/html')</code> returns a HTML representation
@@ -478,16 +479,8 @@ var respecConfig = {
 
                 <p><dfn><code>getTargetRanges()</code></dfn> returns an Array of
                 <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
-                affected by this event if there is available, otherwise it
-                returns and empty Array.</p>
-
-                <ol>
-                    <li>If the inputType is <code>undo</code> or <code>redo</code>,
-                    getTargetRanges() returns an empty Array.</li>
-                    <li>Else, getTargetRanges returns an Array of StaticRanges.</li>
-                </ol>
-
-
+                affected by this event, unless the inputType is <code>"undo"</code> or <code>"redo"</code>
+                in which case it returns an empty Array.</p>
 
             </section><!-- interface-InputEvent-Methods -->
 
