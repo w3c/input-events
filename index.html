@@ -88,6 +88,9 @@ var respecConfig = {
         <dl>
             <dt><code><dfn>DataTransfer</dfn></code></dt>
             <dd>An object that contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]</dd>
+            <dt><code><dfn>user agent</dfn></code></dt>
+            <dd>A program, such as a browser or content authoring tool, normally running on a client machine,
+            which acts on a user’s behalf in retrieving, interpreting, executing, presenting, or creating content. [[!UI-EVENTS]]</dd>
         </dl>
     </section>
 
@@ -575,13 +578,13 @@ var respecConfig = {
                         </tr>
                     </table>
 
-                    <p>A <a class="def" href="#glossary-user-agent">user
+                    <p>A <a>user
                     agent</a> MUST dispatch this event when the user has
                     attempted to input in a contenteditable element. It does
                     not necessarily mean the user agent will then update the
                     DOM.</p>
 
-                    <p>A <a class="def" href="#glossary-user-agent">user
+                    <p>A <a>user
                     agent</a> MUST NOT dispatch this event due to events that
                     are not caused by attempted user input, such as system
                     events.</p>
