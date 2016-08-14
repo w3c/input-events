@@ -91,10 +91,8 @@ var respecConfig = {
         <h2>Definitions</h2>
         <dl>
             <dt><code><dfn>DataTransfer</dfn></code></dt>
-            <dd>An object that contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]</dd>
-            <dt><code><dfn>user agent</dfn></code></dt>
-            <dd>A program, such as a browser or content authoring tool, normally running on a client machine,
-            which acts on a user’s behalf in retrieving, interpreting, executing, presenting, or creating content. [[!UI-EVENTS]]</dd>
+            <dd>An <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
+            object contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]</dd>
         </dl>
     </section>
 
@@ -216,8 +214,9 @@ var respecConfig = {
                 <code>"subscript"</code>, <code>"justifyCenter"</code>, <code>"justifyRight"</code>,
                 <code>"justifyLeft"</code>, <code>"indent"</code>, <code>"outdent"</code>,
                 <code>"removeFormat"</code>, <code>"drag"</code>, <code>"drop"</code>.
-                During initialization, the user agent is responsible for
-                populating this field as follows:
+                During initialization, the
+                <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
+                is responsible for populating this field as follows:
                 </p>
 
                 <div class="note">The existence of the above mentioned <code>inputTypes</code>
@@ -542,7 +541,7 @@ var respecConfig = {
                         </tr>
 
                         <tr>
-                            <th>Default action</th>
+                            <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
 
                             <td>Varies: 'Update the DOM' for contentEditable=typing editing hosts for inputTypes insertText and deleteComposedCharacter. 'Update the DOM element' for contentEditable=true editing hosts for all inputTypes. None otherwise.</td>
                         </tr>
@@ -585,7 +584,9 @@ var respecConfig = {
                     <p>A <a>user
                     agent</a> MUST dispatch this event when the user has
                     attempted to input in a contenteditable element. It does
-                    not necessarily mean the user agent will then update the
+                    not necessarily mean the
+                    <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a>
+                    [[!UI-EVENTS]] will then update the
                     DOM.</p>
 
                     <p>A <a>user
@@ -641,7 +642,7 @@ var respecConfig = {
                         </tr>
 
                         <tr>
-                            <th>Default action</th>
+                            <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
 
                             <td>None</td>
                         </tr>
