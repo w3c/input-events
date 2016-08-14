@@ -167,7 +167,7 @@ var respecConfig = {
 
                 <p>The following table provides a summary of when the <a>data</a>
                 and <a>dataTransfer</a> attributes contain contents and when they
-                are NULL as well as when the <a>getTargetRanges()</a> method
+                are null as well as when the <a>getTargetRanges()</a> method
                 returns an empty or non-empty Array, based on the inputType.</p>
 
 
@@ -177,15 +177,15 @@ var respecConfig = {
                         <th>getTargetRanges()</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>insertText</code></td><td>Yes</td><td>NULL</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>cut</code></td><td>NULL</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>paste</code></td><td>NULL</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>drag</code></td><td>NULL</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>drop</code></td><td>NULL</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>insertNonText</code></td><td>NULL</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>undo</code></td><td>NULL</td><td>NULL</td><td>Empty Array</td></tr>
-                        <tr><td><code>redo</code></td><td>NULL</td><td>NULL</td><td>Empty Array</td></tr>
-                        <tr><td>All Remaining</td><td>NULL</td><td>NULL</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>insertText</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>cut</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>paste</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>drag</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>drop</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>insertNonText</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>undo</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td><code>redo</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
                     </tbody>
                 </table>
 
@@ -449,7 +449,7 @@ var respecConfig = {
                 <ol>
                     <li>If the inputType is insertText, the value of data is to be
                     the plain text string to be inserted.</li>
-                    <li>Else, the value of data is to be NULL.</li>
+                    <li>Else, the value of data is to be null.</li>
                 </ol>
 
                 <p><dfn data-dfn-for=InputEvent>dataTransfer</dfn> holds information about richtext and
@@ -469,7 +469,7 @@ var respecConfig = {
                             dropped or added.</li>
                         </ol>
                     </li>
-                    <li>Else, the dataTransfer attribute is NULL.</li>
+                    <li>Else, the dataTransfer attribute is null.</li>
                 </ol>
 
             </section><!-- interface-InputEvent-Attributes -->
@@ -560,7 +560,7 @@ var respecConfig = {
                                         "attribute-name">InputEvent.data</code></a>:
                                         the string containing the data that was
                                         added to the element, which MAY be
-                                        NULL if it doesn't apply.
+                                        null if it doesn't apply.
                                     </li>
 
                                     <li>
@@ -568,7 +568,7 @@ var respecConfig = {
                                         "#dom-inputevent-datatransfer"><code class=
                                         "attribute-name">InputEvent.dataTransfer</code></a>:
                                         richtext data added or removed from element,
-                                        which MAY be NULL if it doesn't apply.
+                                        which MAY be null if it doesn't apply.
                                     </li>
 
                                     <li>
@@ -659,7 +659,7 @@ var respecConfig = {
                                         "attribute-name">InputEvent.data</code></a>:
                                         the string containing the data that was
                                         added to the element, which MAY be
-                                        NULL if it doesn't apply.
+                                        null if it doesn't apply.
                                     </li>
 
                                     <li>
@@ -667,7 +667,7 @@ var respecConfig = {
                                         "#dom-inputevent-datatransfer"><code class=
                                         "attribute-name">InputEvent.dataTransfer</code></a>:
                                         richtext data added or removed from element,
-                                        which MAY be NULL if it doesn't apply.
+                                        which MAY be null if it doesn't apply.
                                     </li>
 
                                 </ul>
