@@ -454,7 +454,7 @@ var respecConfig = {
                 </p>
 
                 <ol>
-                    <li>If the inputType is insertText, the value of data is to be
+                    <li>If the inputType is <code>"insertText"</code>, the value of data is to be
                     the plain text string to be inserted.</li>
                     <li>Else, the value of data is to be null.</li>
                 </ol>
@@ -550,7 +550,11 @@ var respecConfig = {
                         <tr>
                             <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
 
-                            <td>Varies: 'Update the DOM' for contentEditable=typing editing hosts for inputTypes insertText and deleteComposedCharacter. 'Update the DOM element' for contentEditable=true editing hosts for all inputTypes. None otherwise.</td>
+                            <td>Varies: 'Update the DOM' for contentEditable=typing
+                            editing hosts for inputTypes <code>"insertText"</code>
+                            and <code>"deleteComposedCharacter"</code>.
+                            'Update the DOM element' for <code>contentEditable="true"</code>
+                            editing hosts for all inputTypes. None otherwise.</td>
                         </tr>
 
                         <tr>
