@@ -222,8 +222,9 @@ var respecConfig = {
 
                 <div class="note">The existence of the above mentioned <code>inputTypes</code>
                 does not mean that any given implementation will support all of these.
-                But if a given browser supports an editing operation which potnetially leads to
-                a change of the DOM, it MUST trigger the corresponding <code>beforeinput</code>
+                But if a given browser supports an editing operation which potentially leads to
+                a change of the DOM, it MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
+                [[!UI-EVENTS]] the corresponding <code>beforeinput</code>
                 and <code>input</code> events.
                 </div>
 
@@ -593,7 +594,7 @@ var respecConfig = {
                     </table>
 
                     <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                    agent</a> MUST dispatch this event when the user has
+                    agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event when the user has
                     attempted to input in a contenteditable element. It does
                     not necessarily mean the
                     <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a>
@@ -601,7 +602,7 @@ var respecConfig = {
                     DOM.</p>
 
                     <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                    agent</a> MUST NOT dispatch this event due to events that
+                    agent</a> MUST NOT <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event due to events that
                     are not caused by attempted user input, such as system
                     events.</p>
                 </dd>
@@ -688,7 +689,7 @@ var respecConfig = {
                     </table>
 
                     <p>A <a class="def" href="#glossary-user-agent">user
-                    agent</a> MUST dispatch this event immediately after the
+                    agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event immediately after the
                     DOM has been updated due to a user expressed intention to change
                     the document contents which the browser has handled.</p>
                 </dd>
