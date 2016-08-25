@@ -94,11 +94,16 @@ var respecConfig = {
             <dt><code><dfn>DataTransfer</dfn></code></dt>
             <dd>An <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
             object contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]</dd>
+            <dt><dfn>express intention</dfn></dt>
+            <dd>A user can <a data-lt="express intention">express an intention</a> to execute a specific editing
+            operation by means of keyboard, IME, speech, or similar method. Specific
+            input actions are mapped to intentions following platform-specific conventions.
+            </dd>
             <dt><dfn>kill buffer</dfn></dt>
             <dd>
                 <p><i>This section is not normative.</i></p>
 
-                A <b>kill buffer</b> is a in-memory store of richtext content that
+                A <a>kill buffer</a> is a in-memory store of richtext content that
                 is separate from the clipboard which allows for the temporal storage of
                 content that was deleted using specific deletion commands. The user can
                 replace the current selection with the content held in the kill buffer
@@ -242,49 +247,51 @@ var respecConfig = {
                 </div>
 
                 <ol>
-                    <li>If the user intends to insert plain text typing on a
-                    keyboard, IME, speech, or similar method, the inputType
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert typed plain text, the inputType
                     MUST be <code>"insertText"</code>.
                     </li>
 
-                    <li>If the user intends to insert content potentially
-                    containing more than just plain text using a keyboard,
-                    IME, speech, or similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert content potentially
+                    containing more than just plain text, the inputType MUST be
                     <code>"insertNonText"</code>.
 
                     </li>
 
-                    <li>If the user intends to insert a line break using a
-                    keyboard, IME, speech, or similar method, the  inputType
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a line break, the inputType
                     MUST be <code>"insertLineBreak"</code>.
                     </li>
 
-                    <li>If the user intends to insert a paragraph break
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a paragraph break, the
                     inputType MUST be <code>"insertParagraph"</code>.
                     </li>
 
-                    <li>If the user intends to insert a numbered list
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a numbered list, the
                     inputType MUST be <code>"insertOrderedList"</code>.
                     </li>
 
-                    <li>If the user intends to insert a bulleted list
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a bulleted list, the
                     inputType MUST be <code>"insertUnorderedList"</code>.
                     </li>
 
-                    <li>If the user intends to insert a horizontal rule
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a horizontal rule, the
                     inputType MUST be <code>"insertHorizontalRule"</code>.
                     </li>
 
-                    <li>If the user intends to replace the current selection
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to replace the current selection
                     with content stored in a <a>kill buffer</a>, the
                     inputType MUST be <code>"insertFromYank"</code>.
                     </li>
 
-                    <li>If the user intends to delete a character after the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a character after the
                     caret position during character composition using IME, the
                     inputType MUST be
                     <code>"deleteComposedCharacterForward"</code>.
@@ -294,7 +301,8 @@ var respecConfig = {
                         </ol>
                     </li>
 
-                    <li>If the user intends to delete a character before
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a character before
                     the caret position during character composition using IME,
                     the inputType MUST be
                     <code>"deleteComposedCharacterBackward"</code>.
@@ -304,35 +312,36 @@ var respecConfig = {
                         </ol>
                     </li>
 
-                    <li>If the user intends to delete a word directly before
-                    the caret position, using a keyboard, speech, or similar
-                    method, and the selection is empty, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a word directly before
+                    the caret position, the inputType MUST be
                     <code>"deleteWordBackward"</code>.
                     </li>
 
-                    <li>If the user intends to delete a word directly after
-                    the caret position using a keyboard, speech, or similar
-                    method, and the selection is empty, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a word directly after
+                    the caret position, and the selection is empty, the inputType MUST be
                     <code>"deleteWordForward"</code>.
                     </li>
 
-                    <li>If the user intends to delete a line directly before
-                    the caret position using a keyboard, speech, or similar
-                    method, and the selection is empty, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a line directly before
+                    the caret position and the selection is empty, the inputType MUST be
                     <code>"deleteLineBackward"</code>.
                     </li>
 
-                    <li>If the user intends to delete a line directly after
-                    the caret position using a keyboard, speech, or similar
-                    method, and the selection is empty, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a line directly after
+                    the caret position and the selection is empty, the inputType MUST be
                     <code>"deleteLineForward"</code>.
                     </li>
 
-                    <li>If the user intends to delete the content directly before
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete the content directly before
                     the caret position and this intention is not covered by another
                     inputType or the user itends to delete a non-collapsed selection
                     with the selection collapsing to its start after the deletion,
-                    using a keyboard, speech, or similar method, the inputType
+                    the inputType
                     MUST be <code>"deleteContentBackward"</code>.
 
                     <div class="note">If the selection is collapsed,
@@ -350,12 +359,13 @@ var respecConfig = {
                     node.</div>
                     </li>
 
-                    <li>If the user intends to delete the content directly after
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete the content directly after
                     the caret position and this intention is not covered by another
-                    inputType or the user itends to delete a non-collapsed selection
+                    inputType or the user <a data-lt="express intention">expresses an intention</a>
+                    to delete a non-collapsed selection
                     with the selection collapsing to its end after the deletion,
-                    using a keyboard, speech, or similar method, the inputType
-                    MUST be <code>"deleteContentForward"</code>.
+                    the inputType MUST be <code>"deleteContentForward"</code>.
 
                     <div class="note">If the selection is collapsed,
                     <code>deleteContentForward</code> will be used both when
@@ -372,107 +382,105 @@ var respecConfig = {
                     node.</div>
                     </li>
 
-                    <li>If the user intends to delete
-                    <code>"deleteLineForward"</code>.
-                    </li>
 
-                    <li>If the user intends to undo the last editing action
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to undo the last editing action, the
                     inputType MUST be <code>"undo"</code>.
                     </li>
 
-                    <li>If the user intends to redo the last editing action
-                    using a keyboard, IME, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to redo the last editing action, the
                     inputType MUST be <code>"redo"</code>.
                     </li>
 
-                    <li>If the user intends to cut using a keyboard, context
-                    menu, speech, or similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to cut, the inputType MUST be
                     <code>"cut"</code>.
                     </li>
 
-                    <li>If the user intends to paste using a keyboard, context
-                    menu, speech, or similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to paste, the inputType MUST be
                     <code>"paste"</code>.
                     </li>
 
-                    <li>If the user intends to transpose the last two characters
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to transpose the last two characters
                     that were entered, the inputType MUST be
                     <code>"transpose"</code>.
                     </li>
 
-                    <li>If the user intends to initiate bold text using a
-                    keyboard, context menu, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate bold text, the
                     inputType MUST be <code>"bold"</code>.
                     </li>
 
-                    <li>If the user intends to initiate italic text using a
-                    keyboard, context menu, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate italic text, the
                     inputType MUST be <code>"italic"</code>.
                     </li>
 
-                    <li>If the user intends to initiate underline text using a
-                    keyboard, context menu, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate underline text, the
                     inputType MUST be <code>"underline"</code>.
                     </li>
 
-                    <li>If the user intends to initiate stricken through text
-                    using a keyboard, context menu, speech, or similar method,
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate stricken through text,
                     the inputType MUST be <code>"strikeThrough"</code>.
                     </li>
 
-                    <li>If the user intends to initiate superscript through text
-                    using a keyboard, context menu, speech, or similar method,
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate superscript through text,
                     the inputType MUST be <code>"superscript"</code>.
                     </li>
 
-                    <li>If the user intends to initiate subscript through text
-                    using a keyboard, context menu, speech, or similar method,
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to initiate subscript through text,
                     the inputType MUST be <code>"subscript"</code>.
                     </li>
 
-                    <li>If the user intends to justify center the current
-                    selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to justify center the current
+                    selection, the inputType MUST be
                     <code>"justifyCenter"</code>.
                     </li>
 
-                    <li>If the user intends to justify right the current
-                    selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to justify right the current
+                    selection, the inputType MUST be
                     <code>"justifyRight"</code>.
                     </li>
 
-                    <li>If the user intends to justify left the current
-                    selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to justify left the current
+                    selection, the inputType MUST be
                     <code>"justifyLeft"</code>.
                     </li>
 
-                    <li>If the user intends to indent the current
-                    selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be <code>"indent"</code>.
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to indent the current
+                    selection, the inputType MUST be <code>"indent"</code>.
                     </li>
 
-                    <li>If the user intends to outdent the current
-                    selection using a keyboard, context menu, speech, or
-                    similar method, the inputType MUST be <code>"outdent"</code>.
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to outdent the current
+                    selection, the inputType MUST be <code>"outdent"</code>.
                     </li>
 
-                    <li>If the user intends to remove all formatting from the
-                    current selection using a keyboard, context menu, speech,
-                    or similar method, the inputType MUST be
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to remove all formatting from the
+                    current selection, the inputType MUST be
                     <code>"removeFormat"</code>.
                     </li>
 
-                    <li>If the user intends to drag the current selection using
-                        keyboard, context menu, speech, or similar method, the
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                        to drag the current selection, the
                         inputType MUST be <code>"drag"</code>.
                     </li>
 
-                    <li>If the user intends to drop a dragged object into the
-                    current selection using a keyboard, context menu, speech,
-                    or similar method, the inputType MUST be <code>"drop"</code>.
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to drop a dragged object into the
+                    current selection, the inputType MUST be <code>"drop"</code>.
                     </li>
 
                 </ol>
