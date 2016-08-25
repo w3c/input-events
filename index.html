@@ -202,10 +202,8 @@ var respecConfig = {
                     </thead>
                     <tbody>
                         <tr><td><code>"insertText"</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"cut"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"paste"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"drag"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"drop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"insertFromDrop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertNonText"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertFromYank"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
@@ -224,18 +222,19 @@ var respecConfig = {
                 <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
-                <code>"deleteWordForward"</code>,
+                <code>"deleteWordForward"</code>, <code>"insertFromDrop"</code>,
                 <code>"deleteWordBackward"</code>, <code>"deleteLineForward"</code>,
                 <code>"deleteLineBackward"</code>, <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
+                <code>"deleteByDrag"</code>
                 <code>"undo"</code>, <code>"redo"</code>, <code>"cut"</code>, <code>"paste"</code>,
                 <code>"transpose"</code>,
                 <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
                 <code>"strikeThrough"</code>, <code>"superscript"</code>,
                 <code>"subscript"</code>, <code>"justifyCenter"</code>, <code>"justifyRight"</code>,
                 <code>"justifyLeft"</code>, <code>"indent"</code>, <code>"outdent"</code>,
-                <code>"removeFormat"</code>, <code>"drag"</code>, <code>"drop"</code>.
+                <code>"removeFormat"</code>.
                 During initialization, the
                 <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
                 is responsible for populating this field as follows:
@@ -477,13 +476,13 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                        to drag the current selection, the
-                        inputType MUST be <code>"drag"</code>.
+                        to remove content from the DOM
+                        by means of drag, the inputType MUST be <code>"deleteByDrag"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to drop a dragged object into the
-                    current selection, the inputType MUST be <code>"drop"</code>.
+                    to insert content into the DOM by means of drop,
+                    the inputType MUST be <code>"insertFromDrop"</code>.
                     </li>
 
                 </ol>
@@ -504,8 +503,8 @@ var respecConfig = {
                 </p>
 
                 <ol>
-                    <li>If the inputType is <code>"cut"</code>, <code>"paste"</code>,
-                    <code>"drag"</code>, <code>"drop"</code>, <code>"transpose"</code>,
+                    <li>If the inputType is <code>"paste"</code>,
+                    <code>"insertFromDrop"</code>, <code>"transpose"</code>,
                     <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
@@ -513,13 +512,14 @@ var respecConfig = {
                             contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
                             <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                             is <i>Plain Unicode string</i>, and whose data is a HTML representation
-                            of the content that is to be cut, copied, pasted, dragged, dropped or added. [[!HTML-LIVING]]</li>
+                            of the content that is in the clipboard, in the <a>kill buffer</a>,
+                            to be dropped or otherwise the content that is to be added. [[!HTML-LIVING]]</li>
                             <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
                             contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
                             <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                             is <i>Plain Unicode string</i>, and whose data is a plain text
-                            representation of the content that is to be cut, copied, pasted, dragged,
-                            dropped or added. [[!HTML-LIVING]]</li>
+                            representation of the content that is to be pasted,
+                            dropped or otherwise added. [[!HTML-LIVING]]</li>
                         </ol>
                     </li>
                     <li>Else, the dataTransfer attribute is null.</li>
