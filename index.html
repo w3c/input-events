@@ -202,7 +202,7 @@ var respecConfig = {
                     </thead>
                     <tbody>
                         <tr><td><code>"insertText"</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"paste"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"insertFromPaste"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertFromDrop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertNonText"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertFromYank"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
@@ -222,13 +222,14 @@ var respecConfig = {
                 <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
-                <code>"deleteWordForward"</code>, <code>"insertFromDrop"</code>,
+                <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
+                <code>"deleteWordForward"</code>,
                 <code>"deleteWordBackward"</code>, <code>"deleteLineForward"</code>,
                 <code>"deleteLineBackward"</code>, <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
-                <code>"deleteByDrag"</code>
-                <code>"undo"</code>, <code>"redo"</code>, <code>"cut"</code>, <code>"paste"</code>,
+                <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
+                <code>"undo"</code>, <code>"redo"</code>,
                 <code>"transpose"</code>,
                 <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
                 <code>"strikeThrough"</code>, <code>"superscript"</code>,
@@ -396,13 +397,13 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to cut, the inputType MUST be
-                    <code>"cut"</code>.
+                    to remove the current selection as part of a cut, the inputType MUST be
+                    <code>"deleteByCut"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to paste, the inputType MUST be
-                    <code>"paste"</code>.
+                    <code>"insertFromPaste"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -503,7 +504,7 @@ var respecConfig = {
                 </p>
 
                 <ol>
-                    <li>If the inputType is <code>"paste"</code>,
+                    <li>If the inputType is <code>"insertFromPaste"</code>,
                     <code>"insertFromDrop"</code>, <code>"transpose"</code>,
                     <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
