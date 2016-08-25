@@ -94,6 +94,16 @@ var respecConfig = {
             <dt><code><dfn>DataTransfer</dfn></code></dt>
             <dd>An <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
             object contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]</dd>
+            <dt><dfn>kill buffer</dfn></dt>
+            <dd>
+                <p><i>This section is not normative.</i></p>
+
+                A <b>kill buffer</b> is a in-memory store of richtext content that
+                is separate from the clipboard which allows for the temporal storage of
+                content that was deleted using specific deletion commands. The user can
+                replace the current selection with the content held in the kill buffer
+                by indicating an intention to <dfn>yank</dfn> the kill buffer.
+            </dd>
         </dl>
     </section>
 
@@ -189,6 +199,7 @@ var respecConfig = {
                         <tr><td><code>"drag"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"drop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"insertNonText"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>"insertFromYank"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td><code>"redo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
@@ -204,12 +215,14 @@ var respecConfig = {
                 values are the following: <code>"insertText"</code>, <code>"insertNonText"</code>,
                 <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
-                <code>"insertHorizontalRule"</code>, <code>"deleteWordForward"</code>,
+                <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
+                <code>"deleteWordForward"</code>,
                 <code>"deleteWordBackward"</code>, <code>"deleteLineForward"</code>,
                 <code>"deleteLineBackward"</code>, <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
                 <code>"undo"</code>, <code>"redo"</code>, <code>"cut"</code>, <code>"paste"</code>,
+                <code>"transpose"</code>,
                 <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
                 <code>"strikeThrough"</code>, <code>"superscript"</code>,
                 <code>"subscript"</code>, <code>"justifyCenter"</code>, <code>"justifyRight"</code>,
@@ -264,6 +277,11 @@ var respecConfig = {
                     <li>If the user intends to insert a horizontal rule
                     using a keyboard, IME, speech, or similar method, the
                     inputType MUST be <code>"insertHorizontalRule"</code>.
+                    </li>
+
+                    <li>If the user intends to replace the current selection
+                    with content stored in a <a>kill buffer</a>, the
+                    inputType MUST be <code>"insertFromYank"</code>.
                     </li>
 
                     <li>If the user intends to delete a character after the
@@ -354,6 +372,10 @@ var respecConfig = {
                     node.</div>
                     </li>
 
+                    <li>If the user intends to delete
+                    <code>"deleteLineForward"</code>.
+                    </li>
+
                     <li>If the user intends to undo the last editing action
                     using a keyboard, IME, speech, or similar method, the
                     inputType MUST be <code>"undo"</code>.
@@ -372,6 +394,11 @@ var respecConfig = {
                     <li>If the user intends to paste using a keyboard, context
                     menu, speech, or similar method, the inputType MUST be
                     <code>"paste"</code>.
+                    </li>
+
+                    <li>If the user intends to transpose the last two characters
+                    that were entered, the inputType MUST be
+                    <code>"transpose"</code>.
                     </li>
 
                     <li>If the user intends to initiate bold text using a
@@ -467,8 +494,8 @@ var respecConfig = {
 
                 <ol>
                     <li>If the inputType is <code>"cut"</code>, <code>"paste"</code>,
-                    <code>"drag"</code>, <code>"drop"</code>,
-                    or <code>"insertNonText"</code>, the dataTransfer attribute is a
+                    <code>"drag"</code>, <code>"drop"</code>, <code>"transpose"</code>,
+                    <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
                             <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
