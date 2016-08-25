@@ -197,18 +197,28 @@ var respecConfig = {
 
                 <table class="parameters">
                     <thead>
-                        <tr><th>inputType</th><th>data</th><th>dataTransfer</th>
+                        <tr><th>Editing container type</th><th>inputType</th><th>data</th><th>dataTransfer</th>
                         <th>getTargetRanges()</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><code>"insertText"</code></td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"insertFromPaste"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"insertFromDrop"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"insertNonText"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"insertFromYank"</code></td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
-                        <tr><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
-                        <tr><td><code>"redo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
-                        <tr><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td>Contenteditable</td>
+                            <td>
+                                <code>"insertText"</code>, <code>"insertFromPaste"</code>,
+                                <code>"insertFromDrop"</code>, <code>"insertNonText"</code>,
+                                <code>"insertFromYank"</code>
+                            </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
+                            <td>
+                                <code>"insertText"</code>, <code>"insertFromPaste"</code>,
+                                <code>"insertFromDrop"</code>, <code>"insertNonText"</code>,
+                                <code>"insertFromYank"</code>
+                            </td><td>Yes</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td>All</td><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td>All</td><td><code>"redo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td>Contenteditable</td><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
+                            <td>All Remaining</td><td>null</td><td>null</td><td>Empty Array</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -533,6 +543,7 @@ var respecConfig = {
                 <p><dfn><code>getTargetRanges()</code></dfn> returns an Array of
                 <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
                 affected by this event, unless the inputType is <code>"undo"</code> or <code>"redo"</code>
+                or the editing host is not a contenteditable element,
                 in which case it returns an empty Array.</p>
 
             </section><!-- interface-InputEvent-Methods -->
