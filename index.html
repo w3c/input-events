@@ -5,6 +5,18 @@
     <meta charset='utf-8'>
 
     <title>Input Events</title>
+
+    <style>
+    .invisible-table table{
+        border:0;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+    .invisible-table table td, .invisible-table table th{
+        padding: 6px;
+    }
+    </style>
+
     <script async="" class='remove' src=
     'https://www.w3.org/Tools/respec/respec-w3c-common'></script>
     <script class='remove'>
@@ -564,7 +576,7 @@ var respecConfig = {
                 "#event-type-beforeinput"><code>beforeinput</code></a></dfn></dt>
 
                 <dd>
-                    <table border="0" cellpadding="2" cellspacing="0" summary=
+                    <table class="invisible-table" data-summary=
                     "This table contains information about the semantics of the given event type">
                     <tr>
                             <th>Type</th>
@@ -669,7 +681,7 @@ var respecConfig = {
                 "#event-type-input"><code>input</code></a></dfn></dt>
 
                 <dd>
-                    <table border="0" cellpadding="2" cellspacing="0" summary=
+                    <table class="invisible-table" data-summary=
                     "This table contains information about the semantics of the given event type">
                     <tr>
                             <th>Type</th>
