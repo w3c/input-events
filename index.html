@@ -5,6 +5,18 @@
     <meta charset='utf-8'>
 
     <title>Input Events</title>
+
+    <style>
+    .invisible-table table{
+        border:0;
+        border-spacing: 0px;
+        border-collapse: collapse;
+    }
+    .invisible-table table td, .invisible-table table th{
+        padding: 6px;
+    }
+    </style>
+
     <script async="" class='remove' src=
     'https://www.w3.org/Tools/respec/respec-w3c-common'></script>
     <script class='remove'>
@@ -129,7 +141,7 @@ var respecConfig = {
             operations.</li>
             <li>Individual sites may have custom preferences for how they want
             to handle certain editing operations.</li>
-            <li>The development of hihg-level text editing features in browsers
+            <li>The development of high-level text editing features in browsers
             has not followed the principles laid out in the
             <a href="http://extensiblewebmanifesto.org/">Extensible Web
             Manifesto</a> in that development of these features has not always
@@ -137,7 +149,7 @@ var respecConfig = {
             </li>
         </ol>
         <p>This spec seeks to alleviate the problem by providing a simple way
-        for web developers to both override browser handeling of all user input
+        for web developers to both override browser handling of all user input
         related to text editing through the <a>beforeinput</a> event, and to
         monitor what browsers have changed in the DOM due to user input trough
         the <a>input</a> event.</p>
@@ -375,7 +387,7 @@ var respecConfig = {
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to delete the content directly before
                     the caret position and this intention is not covered by another
-                    inputType or the user itends to delete a non-collapsed selection
+                    inputType or the user intends to delete a non-collapsed selection
                     with the selection collapsing to its start after the deletion,
                     the inputType
                     MUST be <code>"deleteContentBackward"</code>.
@@ -584,7 +596,7 @@ var respecConfig = {
                 "#event-type-beforeinput"><code>beforeinput</code></a></dfn></dt>
 
                 <dd>
-                    <table border="0" cellpadding="2" cellspacing="0" summary=
+                    <table class="invisible-table" data-summary=
                     "This table contains information about the semantics of the given event type">
                     <tr>
                             <th>Type</th>
@@ -689,7 +701,7 @@ var respecConfig = {
                 "#event-type-input"><code>input</code></a></dfn></dt>
 
                 <dd>
-                    <table border="0" cellpadding="2" cellspacing="0" summary=
+                    <table class="invisible-table" data-summary=
                     "This table contains information about the semantics of the given event type">
                     <tr>
                             <th>Type</th>
