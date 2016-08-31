@@ -236,9 +236,11 @@ var respecConfig = {
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
                 <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
-                <code>"deleteWordForward"</code>,
-                <code>"deleteWordBackward"</code>, <code>"deleteLineForward"</code>,
-                <code>"deleteLineBackward"</code>, <code>"deleteComposedCharacterBackward"</code>,
+                <code>"deleteWordForward"</code>, <code>"deleteWordBackward"</code>,
+                <code>"deleteSoftLineForward"</code>, <code>"deleteSoftLineBackward"</code>,
+                <code>"deleteEntireSoftLine"</code>,
+                <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
+                <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
@@ -341,15 +343,33 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to delete a line directly before
+                    to delete from the caret to the nearest softline break before
                     the caret position and the selection is empty, the inputType MUST be
-                    <code>"deleteLineBackward"</code>.
+                    <code>"deleteSoftLineBackward"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to delete a line directly after
+                    to delete from the caret to the nearest softline break after
                     the caret position and the selection is empty, the inputType MUST be
-                    <code>"deleteLineForward"</code>.
+                    <code>"deleteSoftLineForward"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete from to the nearest softline break before the caret position
+                    to the nearest softline break after the caret position and the selection
+                    is empty, the inputType MUST be <code>"deleteEntireSoftLine"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete from the caret to the nearest hardline break before
+                    the caret position and the selection is empty, the inputType MUST be
+                    <code>"deleteHardlineBackward"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete from the caret to the nearest hardline break after
+                    the caret position and the selection is empty, the inputType MUST be
+                    <code>"deleteHardlineForward"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
