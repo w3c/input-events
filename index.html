@@ -254,9 +254,9 @@ var respecConfig = {
                 <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
                 <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
-                <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
-                <code>"deleteContent"</code>,
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
+                <code>"deleteContent"</code>,
+                <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
                 <code>"undo"</code>, <code>"redo"</code>,
                 <code>"transpose"</code>,
                 <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
@@ -386,8 +386,19 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to delete without specifying the direction of the deletion and the
-                    selection is not empty, the inputType MUST be
+                        to remove content from the DOM
+                        by means of drag, the inputType MUST be <code>"deleteByDrag"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to remove the current selection as part of a cut, the inputType MUST be
+                    <code>"deleteByCut"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete the current, non-collapsed selection without specifying the
+                    direction of the deletion and this intention is not covered by another
+                    inputType, the inputType MUST be
                     <code>"deleteContent"</code>.
                     </li>
 
@@ -447,11 +458,6 @@ var respecConfig = {
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to redo the last editing action, the
                     inputType MUST be <code>"redo"</code>.
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to remove the current selection as part of a cut, the inputType MUST be
-                    <code>"deleteByCut"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -527,11 +533,6 @@ var respecConfig = {
                     to remove all formatting from the
                     current selection, the inputType MUST be
                     <code>"removeFormat"</code>.
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                        to remove content from the DOM
-                        by means of drag, the inputType MUST be <code>"deleteByDrag"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
