@@ -255,6 +255,7 @@ var respecConfig = {
                 <code>"deleteComposedCharacterBackward"</code>,
                 <code>"deleteComposedCharacterForward"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
+                <code>"deleteContent"</code>,
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
                 <code>"undo"</code>, <code>"redo"</code>,
                 <code>"transpose"</code>,
@@ -383,6 +384,13 @@ var respecConfig = {
                     the caret position and the selection is empty, the inputType MUST be
                     <code>"deleteHardlineForward"</code>.
                     </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to delete without specifying the direction of the deletion and the
+                    selection is not empty, the inputType MUST be
+                    <code>"deleteContent"</code>.
+                    </li>
+
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to delete the content directly before
