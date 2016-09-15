@@ -218,10 +218,14 @@ var respecConfig = {
                     <tbody>
                         <tr><td>Contenteditable</td>
                             <td>
-                                <code>"insertText"</code>, <code>"insertFromPaste"</code>,
+                                <code>"insertText"</code>
+                            </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
+                        <tr><td>Contenteditable</td>
+                            <td>
+                                <code>"insertFromPaste"</code>,
                                 <code>"insertFromDrop"</code>, <code>"insertNonText"</code>,
                                 <code>"insertFromYank"</code>
-                            </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
+                            </td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                             <td>
                                 <code>"insertText"</code>, <code>"insertFromPaste"</code>,
@@ -549,6 +553,10 @@ var respecConfig = {
                 <ol>
                     <li>If the inputType is <code>"insertText"</code>, the value of data is to be
                     the plain text string to be inserted.</li>
+                    <li>If the editing host is not a contenteditable element and the inputType is
+                    <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"transpose"</code>,
+                    <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the value of data is to be
+                    the plain text string to be inserted.</li>
                     <li>Else, the value of data is to be null.</li>
                 </ol>
 
@@ -558,7 +566,8 @@ var respecConfig = {
                 </p>
 
                 <ol>
-                    <li>If the inputType is <code>"insertFromPaste"</code>,
+                    <li>If the editing host is a contenteditable element and the
+                        inputType is <code>"insertFromPaste"</code>,
                     <code>"insertFromDrop"</code>, <code>"transpose"</code>,
                     <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
