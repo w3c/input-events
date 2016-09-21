@@ -1,0 +1,15 @@
+language: node_js
+sudo: false
+branches:
+  only:
+  - gh-pages
+env:
+  global:
+  - URL="http://w3c.github.io/input-events/W3CTRMANIFEST"
+  - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
+  - secure: "YcaWBt/HZVM9Gqs5OiLUZk+bPteMt6fbgY81GXi07vYLRgB8B/uoifUp0bC/C/yc9U1/GuO7ZcDKZDawJxPuy5/vU7ma7Tyg1u8qFxm57ahK0dTvVuD/gPa3FVlk1OjSnuhHAljg/vyMjRkK9n3nLjYcmlAy1TLuV4L4mOQTRhWT5e8V6CEnXC1ohbsaP89N4CP+tTBpuudDf9oUVTozicJ5F0q6C4Uldgs1pb3MOvcRXyOGYhMLXr2kT5f0LcB8Rad8tN3u2Vi8DQegoidbaSY3BS0nvomEDL7jgnVPcza5qjlr2p2opltQ0ENMdRBORFp+2hkueJyAXh9x/VTYF1XKk88t1DHWf7d0iU5Z7t1BXHPii+v6UM1gnxsQKtUEYPnSEYeAYbtz3NgaORAdepwctthL/PGMa2A2OF2rhicbZ0azBOeCz9Pk7RfaiSXKK7zM5HLWhmsE8gGWhbWarcV9XQqPBtqLgFCdb69zPBm3fwR4JRplm4KHBImXQx7kP7CJE/Q5hGOHuyQj5EeiVKwAT5t2aoztTc8FJCWnvkwh8V3W28/li7xFTdPznJRPW5PM7qOm9bcbSOLO11vXxi6nnZvNBfPx3mmlQeHJvMKUFTr1OJ5zYa5xlImw8JiFHxPeumrvuR2VxHwfm5jnyU9em7IFBEKM9bJODK3SW+A="
+script:
+- echo "ok"
+after_success:
+- curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
+  --data "token=$TOKEN"
