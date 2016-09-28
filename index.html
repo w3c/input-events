@@ -220,7 +220,7 @@ var respecConfig = {
                     <tbody>
                         <tr><td>Contenteditable</td>
                             <td>
-                                <code>"insertText"</code>
+                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>
                             </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
                         <tr><td>Contenteditable</td>
                             <td>
@@ -255,12 +255,12 @@ var respecConfig = {
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
                 <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
+                <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
                 <code>"deleteWordForward"</code>, <code>"deleteWordBackward"</code>,
                 <code>"deleteSoftLineForward"</code>, <code>"deleteSoftLineBackward"</code>,
                 <code>"deleteEntireSoftLine"</code>,
                 <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
-                <code>"deleteComposedCharacterBackward"</code>,
-                <code>"deleteComposedCharacterForward"</code>,
+                <code>"deleteCompositionText"</code>, <code>"deleteByComposition"</code>,
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
                 <code>"deleteContent"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
@@ -328,25 +328,44 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to delete a character after the
-                    caret position during character composition using IME, the
-                    inputType MUST be
-                    <code>"deleteComposedCharacterForward"</code>.
+                    to paste, the inputType MUST be
+                    <code>"insertFromPaste"</code>.
+                    </li>
 
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to transpose the last two characters
+                    that were entered, the inputType MUST be
+                    <code>"insertTranspose"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    during a composition using IME to replace the current
+                    composition string, the inputType MUST be
+                    <code>"insertCompositionText"</code>.
                         <ol>
                             <li>Set the value of cancelable to <code>false</code>.</li>
                         </ol>
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to delete a character before
-                    the caret position during character composition using IME,
-                    the inputType MUST be
-                    <code>"deleteComposedCharacterBackward"</code>.
+                    during a composition using IME to insert into the DOM a finalized composed string
+                    that will not form part of the next composition string, the inputType MUST be
+                    <code>"insertFromComposition"</code>.
+                    </li>
 
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    during a composition using IME to delete the current composition string
+                    before commiting a finalized string to the DOM, the inputType MUST be
+                    <code>"deleteCompositionText"</code>.
                         <ol>
                             <li>Set the value of cancelable to <code>false</code>.</li>
                         </ol>
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to remove a part of the DOM in order to recompose this part using IME,
+                    the inputType MUST be
+                    <code>"deleteByComposition"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -418,7 +437,7 @@ var respecConfig = {
                     MUST be <code>"deleteContentBackward"</code>.
 
                     <div class="note">If the selection is collapsed,
-                    <code>deleteContentBackward</code> will be used both when
+                    <code>"deleteContentBackward"</code> will be used both when
                     the user asks for text deletion within a text node,
                     and when the user shows the intention to deletion of more
                     complex elements or merge paragraphs if the caret is at the
@@ -441,7 +460,7 @@ var respecConfig = {
                     the inputType MUST be <code>"deleteContentForward"</code>.
 
                     <div class="note">If the selection is collapsed,
-                    <code>deleteContentForward</code> will be used both when
+                    <code>"deleteContentForward"</code> will be used both when
                     the user asks for text deletion within a text node,
                     and when the user shows the intention to deletion of more
                     complex elements or merge paragraphs if the caret is at the
@@ -464,17 +483,6 @@ var respecConfig = {
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to redo the last editing action, the
                     inputType MUST be <code>"historyRedo"</code>.
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to paste, the inputType MUST be
-                    <code>"insertFromPaste"</code>.
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to transpose the last two characters
-                    that were entered, the inputType MUST be
-                    <code>"insertTranspose"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -548,13 +556,64 @@ var respecConfig = {
 
                 </ol>
 
+                <div class="note" title="beforeinput events during IME composition">
+
+                    <p><i>This section is not normative.</i></p>
+                    <p>An IME composition causes several beforeinput events, not all of which can be canceled.</p>
+
+                    <ol>
+                        <li>
+                            <p>If the composition recomposes existing ranges of the DOM,
+                            by default the contents of the associated ranges will first
+                            be removed from the DOM.</p>
+
+                            <p>The initial removal is preceded by a cancelable beforeinput event with the inputType
+                            <code>"deleteByComposition"</code> which is triggered before the IME composition
+                            takes place. Preventing the default action for this event will mean that the range
+                            will not be removed from the DOM by the user agent.</p>
+                            <p>If the composition is starting with an empty composition string, this step is skipped .</p>
+                        </li>
+                        <li>
+                            <p>If the composition recomposes an existing range of the DOM,
+                            a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
+                            is triggered with the data attribute set to the extracted contents of the range as they were
+                            at the time the beforeinput event of step 1 was triggered.</p>
+                            <p>If the composition is starting with an empty composition string, this step is skipped .</p>
+                        </li>
+                        <li>
+                            <p>During the composition process, which each DOM update of the composition string,
+                            a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
+                            is triggered with the data attribute set to the updated contents of the composition text.</p>
+                        </li>
+                        <li>
+                            <p>When either the entire composition string is to be leave the composition string to become
+                            part of the DOM outside the composition string, or a part of it does while another part of
+                            the composition string continues to be composed in the IME, a non-cancelable beforeinput
+                            event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
+                            for this event is that the entire composition string is removed from the DOM.</p>
+                        </li>
+                        <li>
+                            <p>Thereafter, a cancelable beforeinput event with the inputType <code>"inputFromComposition"</code>
+                            is triggered with the data attribute set to the part of the composition string that is to become part
+                            of the DOM outside the composition.
+                            </p>
+                        </li>
+                        <li>
+                            <p>If only a part of the composition string was removed from the composition to become part of the DOM
+                            outside the composition, so that another part continues to be part of the composition, the process
+                            starts over from step 2.</p>
+                        </li>
+                    </ol>
+                </div>
+
                 <p><dfn><code>data</code></dfn> holds information plaintext data
                 that is to be added to the document.
                 </p>
 
                 <ol>
-                    <li>If the inputType is <code>"insertText"</code>, the value of data is to be
-                    the plain text string to be inserted.</li>
+                    <li>If the inputType is <code>"insertText"</code>, <code>"insertCompositionText"</code>
+                    or <code>"insertFromComposition"</code>, the value of data is to be the plain text
+                    string to be inserted.</li>
                     <li>If the editing host is not a contenteditable element and the inputType is
                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
@@ -658,8 +717,8 @@ var respecConfig = {
                             <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
 
                             <td>Varies: 'Update the DOM' for contentEditable=typing
-                            editing hosts for inputTypes <code>"insertText"</code>
-                            and <code>"deleteComposedCharacter"</code>.
+                            editing hosts for inputTypes <code>"insertCompositionText"</code>
+                            and <code>"deleteCompositionText"</code>.
                             'Update the DOM element' for <code>contentEditable="true"</code>
                             editing hosts for all inputTypes. None otherwise.</td>
                         </tr>
