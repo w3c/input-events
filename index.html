@@ -234,8 +234,9 @@ var respecConfig = {
                                 <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                                 <code>"insertFromYank"</code>
                             </td><td>Yes</td><td>null</td><td>Empty Array</td></tr>
-                        <tr><td>All</td><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
-                        <tr><td>All</td><td><code>"redo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
+                        <tr><td>All</td><td>
+                            <code>"historyUndo"</code>, <code>"historyRedo"</code>
+                        </td><td>null</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td>Contenteditable</td><td>All Remaining</td><td>null</td><td>null</td><td>Non-empty Array</td></tr>
                         <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                             <td>All Remaining</td><td>null</td><td>null</td><td>Empty Array</td>
@@ -263,13 +264,13 @@ var respecConfig = {
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
                 <code>"deleteContent"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
-                <code>"undo"</code>, <code>"redo"</code>,
-                <code>"transpose"</code>,
-                <code>"bold"</code>, <code>"italic"</code>, <code>"underline"</code>,
-                <code>"strikeThrough"</code>, <code>"superscript"</code>,
-                <code>"subscript"</code>, <code>"justifyCenter"</code>, <code>"justifyRight"</code>,
-                <code>"justifyLeft"</code>, <code>"indent"</code>, <code>"outdent"</code>,
-                <code>"removeFormat"</code>.
+                <code>"historyUndo"</code>, <code>"historyRedo"</code>,
+                <code>"insertTranspose"</code>,
+                <code>"formatBold"</code>, <code>"formatItalic"</code>, <code>"formatUnderline"</code>,
+                <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
+                <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
+                <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
+                <code>"formatRemove"</code>.
                 During initialization, the
                 <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
                 is responsible for populating this field as follows:
@@ -457,12 +458,12 @@ var respecConfig = {
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to undo the last editing action, the
-                    inputType MUST be <code>"undo"</code>.
+                    inputType MUST be <code>"historyUndo"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to redo the last editing action, the
-                    inputType MUST be <code>"redo"</code>.
+                    inputType MUST be <code>"historyRedo"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -473,71 +474,71 @@ var respecConfig = {
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to transpose the last two characters
                     that were entered, the inputType MUST be
-                    <code>"transpose"</code>.
+                    <code>"insertTranspose"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate bold text, the
-                    inputType MUST be <code>"bold"</code>.
+                    inputType MUST be <code>"formatBold"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate italic text, the
-                    inputType MUST be <code>"italic"</code>.
+                    inputType MUST be <code>"formatItalic"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate underline text, the
-                    inputType MUST be <code>"underline"</code>.
+                    inputType MUST be <code>"formatUnderline"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate stricken through text,
-                    the inputType MUST be <code>"strikeThrough"</code>.
+                    the inputType MUST be <code>"formatStrikeThrough"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate superscript through text,
-                    the inputType MUST be <code>"superscript"</code>.
+                    the inputType MUST be <code>"formatSuperscript"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to initiate subscript through text,
-                    the inputType MUST be <code>"subscript"</code>.
+                    the inputType MUST be <code>"formatSubscript"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to justify center the current
                     selection, the inputType MUST be
-                    <code>"justifyCenter"</code>.
+                    <code>"formatJustifyCenter"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to justify right the current
                     selection, the inputType MUST be
-                    <code>"justifyRight"</code>.
+                    <code>"formatJustifyRight"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to justify left the current
                     selection, the inputType MUST be
-                    <code>"justifyLeft"</code>.
+                    <code>"formatJustifyLeft"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to indent the current
-                    selection, the inputType MUST be <code>"indent"</code>.
+                    selection, the inputType MUST be <code>"formatIndent"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to outdent the current
-                    selection, the inputType MUST be <code>"outdent"</code>.
+                    selection, the inputType MUST be <code>"formatOutdent"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to remove all formatting from the
                     current selection, the inputType MUST be
-                    <code>"removeFormat"</code>.
+                    <code>"formatRemove"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -555,7 +556,7 @@ var respecConfig = {
                     <li>If the inputType is <code>"insertText"</code>, the value of data is to be
                     the plain text string to be inserted.</li>
                     <li>If the editing host is not a contenteditable element and the inputType is
-                    <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"transpose"</code>,
+                    <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
                     the plain text string to be inserted.</li>
                     <li>Else, the value of data is to be null.</li>
@@ -569,7 +570,7 @@ var respecConfig = {
                 <ol>
                     <li>If the editing host is a contenteditable element and the
                         inputType is <code>"insertFromPaste"</code>,
-                    <code>"insertFromDrop"</code>, <code>"transpose"</code>,
+                    <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
@@ -596,7 +597,8 @@ var respecConfig = {
 
                 <p><dfn><code>getTargetRanges()</code></dfn> returns an Array of
                 <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
-                associated with this event, unless the inputType is <code>"undo"</code> or <code>"redo"</code>
+                associated with this event, unless the inputType is
+                <code>"historyUndo"</code> or <code>"historyRedo"</code>
                 or the editing host is not a contenteditable element,
                 in which case it returns an empty Array.</p>
 
