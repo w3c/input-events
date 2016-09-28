@@ -225,13 +225,13 @@ var respecConfig = {
                         <tr><td>Contenteditable</td>
                             <td>
                                 <code>"insertFromPaste"</code>,
-                                <code>"insertFromDrop"</code>, <code>"insertNonText"</code>,
+                                <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                                 <code>"insertFromYank"</code>
                             </td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                             <td>
                                 <code>"insertText"</code>, <code>"insertFromPaste"</code>,
-                                <code>"insertFromDrop"</code>, <code>"insertNonText"</code>,
+                                <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                                 <code>"insertFromYank"</code>
                             </td><td>Yes</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td>All</td><td><code>"undo"</code></td><td>null</td><td>null</td><td>Empty Array</td></tr>
@@ -249,7 +249,7 @@ var respecConfig = {
                 <h5>Attributes</h5>
 
                 <p><dfn>inputType</dfn> holds the type of input. Allowed
-                values are the following: <code>"insertText"</code>, <code>"insertNonText"</code>,
+                values are the following: <code>"insertText"</code>, <code>"insertReplacementText"</code>,
                 <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
@@ -290,9 +290,8 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to insert content potentially
-                    containing more than just plain text, the inputType MUST be
-                    <code>"insertNonText"</code>.
+                    to replace existing text by means of a spell checker, auto-correct or similar,
+                    the inputType MUST be <code>"insertReplacementText"</code>.
 
                     </li>
 
@@ -557,7 +556,7 @@ var respecConfig = {
                     the plain text string to be inserted.</li>
                     <li>If the editing host is not a contenteditable element and the inputType is
                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"transpose"</code>,
-                    <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the value of data is to be
+                    <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
                     the plain text string to be inserted.</li>
                     <li>Else, the value of data is to be null.</li>
                 </ol>
@@ -571,7 +570,7 @@ var respecConfig = {
                     <li>If the editing host is a contenteditable element and the
                         inputType is <code>"insertFromPaste"</code>,
                     <code>"insertFromDrop"</code>, <code>"transpose"</code>,
-                    <code>"insertNonText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
+                    <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
                     prepopulated <a>DataTransfer</a> object so that:
                         <ol>
                             <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
