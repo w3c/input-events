@@ -213,6 +213,7 @@ var respecConfig = {
                         <tr><td>Contenteditable</td>
                             <td>
                                 <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                                <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
                                 <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
                                 <code>"insertLink"</code>
                             </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
@@ -224,9 +225,11 @@ var respecConfig = {
                             </td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                             <td>
-                                <code>"insertText"</code>, <code>"insertFromPaste"</code>,
+                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                                <code>"insertFromPaste"</code>,
                                 <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                                 <code>"insertFromYank"</code>,
+                                <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
                                 <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
                                 <code>"insertLink"</code>
                             </td><td>Yes</td><td>null</td><td>Empty Array</td></tr>
@@ -267,6 +270,7 @@ var respecConfig = {
                 <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
                 <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
                 <code>"formatRemove"</code>,
+                <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
                 <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
                 <code>"insertLink"</code>
                 .
@@ -554,6 +558,16 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to set the text block direction, the inputType MUST be
+                    <code>"formatSetBlockTextDirection"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to set the text inline direction, the inputType MUST be
+                    <code>"formatSetInlineTextDirection"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
                     to change the background color,
                     the inputType MUST be <code>"formatBackColor"</code>.
                     </li>
@@ -637,6 +651,10 @@ var respecConfig = {
                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
                     the plain text string to be inserted.</li>
+                    <li>If the inputType is <code>"formatSetBlockTextDirection"</code>
+                    the value of data is to be one of <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>.</li>
+                    <li>If the inputType is <code>"formatSetInlineTextDirection"</code> or <code>"formatFontColor"</code>
+                    the value of data is to be one of <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>.</li>
                     <li>If the inputType is <code>"formatBackColor"</code> or <code>"formatFontColor"</code>
                     the value of data is to be the hex digit value of the proposed color.</li>
                     <li>If the inputType is <code>"formatFontName"</code>
