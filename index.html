@@ -212,7 +212,9 @@ var respecConfig = {
                     <tbody>
                         <tr><td>Contenteditable</td>
                             <td>
-                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>
+                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                                <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
+                                <code>"insertLink"</code>
                             </td><td>Yes</td><td>null</td><td>Non-empty Array</td></tr>
                         <tr><td>Contenteditable</td>
                             <td>
@@ -224,7 +226,9 @@ var respecConfig = {
                             <td>
                                 <code>"insertText"</code>, <code>"insertFromPaste"</code>,
                                 <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
-                                <code>"insertFromYank"</code>
+                                <code>"insertFromYank"</code>,
+                                <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
+                                <code>"insertLink"</code>
                             </td><td>Yes</td><td>null</td><td>Empty Array</td></tr>
                         <tr><td>All</td><td>
                             <code>"historyUndo"</code>, <code>"historyRedo"</code>
@@ -262,7 +266,10 @@ var respecConfig = {
                 <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
                 <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
                 <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
-                <code>"formatRemove"</code>.
+                <code>"formatRemove"</code>,
+                <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
+                <code>"insertLink"</code>
+                .
                 During initialization, the
                 <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
                 is responsible for populating this field as follows:
@@ -317,6 +324,11 @@ var respecConfig = {
                     to replace the current selection
                     with content stored in a <a>kill buffer</a>, the
                     inputType MUST be <code>"insertFromYank"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert content into the DOM by means of drop,
+                    the inputType MUST be <code>"insertFromDrop"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -542,8 +554,23 @@ var respecConfig = {
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to insert content into the DOM by means of drop,
-                    the inputType MUST be <code>"insertFromDrop"</code>.
+                    to change the background color,
+                    the inputType MUST be <code>"formatBackColor"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to change the font color,
+                    the inputType MUST be <code>"formatFontColor"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to insert a link,
+                    the inputType MUST be <code>"insertLink"</code>.
+                    </li>
+
+                    <li>If the user <a data-lt="express intention">expresses an intention</a>
+                    to change the font-family,
+                    the inputType MUST be .<code>"formatFontName"</code>.
                     </li>
 
                 </ol>
@@ -580,7 +607,7 @@ var respecConfig = {
                         <li>
                             <p>When either the entire composition string is to be leave the composition string to become
                             part of the DOM outside the composition string, or a part of the composition string does
-                            while another part of the composition string continues to be composed, a non-cancelable beforeinput
+                            while another part of the composition string is composed in a new IME composition, a non-cancelable beforeinput
                             event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
                             for this event is that the entire composition string is removed from the DOM.</p>
                         </li>
@@ -592,14 +619,14 @@ var respecConfig = {
                         </li>
                         <li>
                             <p>If only a part of the composition string was removed from the composition to become part of the DOM
-                            outside the composition, so that another part continues to be part of the composition, the process
+                            outside the composition, while another part enters a new IME composition, the process
                             starts over from step 2.</p>
                         </li>
                     </ol>
                 </div>
 
                 <p><dfn><code>data</code></dfn> holds information plaintext data
-                that is to be added to the document.
+                related to what is to be added to the document.
                 </p>
 
                 <ol>
@@ -610,6 +637,12 @@ var respecConfig = {
                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
                     the plain text string to be inserted.</li>
+                    <li>If the inputType is <code>"formatBackColor"</code> or <code>"formatFontColor"</code>
+                    the value of data is to be the hex digit value of the proposed color.</li>
+                    <li>If the inputType is <code>"formatFontName"</code>
+                    the value of data is to be the proposed value of the font-family CSS property.</li>
+                    <li>If the inputType is <code>"insertLink"</code>
+                    the value of data is to be the url of the proposed link.</li>
                     <li>Else, the value of data is to be null.</li>
                 </ol>
 
