@@ -57,15 +57,6 @@ var respecConfig = {
           ,   edDraftURI:   "https://w3c.github.io/input-events/index.html"
           ,   noLegacyStyle: true
           ,   localBiblio:  {
-                "STATIC-RANGE": {
-                    title:    "[Proposal] StaticRange (to be used instead of Range for new APIs)"
-                ,   href:     "https://discourse.wicg.io/t/proposal-staticrange-to-be-used-instead-of-range-for-new-apis/1472"
-                ,   authors:  [
-                        "Gary Kačmarčík"
-                    ]
-                ,   status:   "unofficial"
-                ,   publisher:  "W3C"
-                },
                 "DATA-TRANSFER": {
                     title:    "The DataTransfer interface"
                 ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html#the-datatransfer-interface"
@@ -200,6 +191,7 @@ var respecConfig = {
                   sequence&lt;StaticRange&gt; getTargetRanges();
                 };
             </pre>
+
 
             <section>
                 <h5>Overview</h5>
@@ -571,14 +563,14 @@ var respecConfig = {
                             <code>"deleteByComposition"</code> which is triggered before the IME composition
                             takes place. Preventing the default action for this event will mean that the range
                             will not be removed from the DOM by the user agent.</p>
-                            <p>If the composition is starting with an empty composition string, this step is skipped .</p>
+                            <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
                             <p>If the composition recomposes an existing range of the DOM,
                             a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
                             is triggered with the data attribute set to the extracted contents of the range as they were
                             at the time the beforeinput event of step 1 was triggered.</p>
-                            <p>If the composition is starting with an empty composition string, this step is skipped .</p>
+                            <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
                             <p>During the composition process, which each DOM update of the composition string,
@@ -587,8 +579,8 @@ var respecConfig = {
                         </li>
                         <li>
                             <p>When either the entire composition string is to be leave the composition string to become
-                            part of the DOM outside the composition string, or a part of it does while another part of
-                            the composition string continues to be composed in the IME, a non-cancelable beforeinput
+                            part of the DOM outside the composition string, or a part of the composition string does
+                            while another part of the composition string continues to be composed, a non-cancelable beforeinput
                             event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
                             for this event is that the entire composition string is removed from the DOM.</p>
                         </li>
@@ -655,11 +647,20 @@ var respecConfig = {
                 <h5>Methods</h5>
 
                 <p><dfn><code>getTargetRanges()</code></dfn> returns an Array of
-                <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
+                <dfn lt="StaticRange">StaticRanges</dfn>
                 associated with this event, unless the inputType is
                 <code>"historyUndo"</code> or <code>"historyRedo"</code>
                 or the editing host is not a contenteditable element,
                 in which case it returns an empty Array.</p>
+
+                <pre class="idl">
+                    dictionary StaticRange {
+                        Node startContainer;
+                        unsigned long startOffset;
+                        Node endContainer;
+                        unsigned long endOffset;
+                    };
+                </pre>
 
             </section><!-- interface-InputEvent-Methods -->
 
@@ -870,18 +871,22 @@ var respecConfig = {
         Oliver Buchtala,
         Robin Berjon,
         Enrica Casucci,
+        Bo Cupp,
         Domenic Denicola,
+        Emil Eklund,
         Olivier Forget,
         Aryeh Gregor,
         Marijn Haverbeke,
         Yoshifumi Inoue,
         Koji Ishii,
         Gary Kacmarcik,
+        Ian Kilpatrick,
         Frederico Caldeira Knabben,
         Takayoshi Kochi,
         Piotrek Koszuliński,
         Travis Leithead,
         Grisha Lyukshin,
+        Miles Maxfield,
         Chaals McCathie Nevile,
         Masayuki Nakano,
         Ryosuke Niwa,
