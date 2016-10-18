@@ -596,47 +596,57 @@ var respecConfig = {
 
                     <ol>
                         <li>
-                            <p>Before the IME composition starts, if the composition is to recompose an existing part of the DOM,
-                            this part is extracted and becomes the initial composition string, before a beforeinput event with the inputType
+                            <p>If the composition is starting with an empty initial composition string (i.e. the composition
+                            is not recomposing an existing range of the DOM), this step is skipped.</p>
+
+                            <p>The UA extracts the initial composition string from the DOM.</p>
+
+                            <p>A beforeinput event with the inputType
                             <code>"deleteByComposition"</code> is triggered. The targetRanges of this beforeinput event is an
-                            array of static ranges from which the initial composition string for the composition has been extracted.</p>
+                            array of static ranges covering the part of the DOm from which the initial composition string was extracted.</p>
 
-                            <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM; i.e. the
-                            initial composition string will be removed from the DOM.</p>
+                            <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM (i.e. the
+                            initial composition string will be removed from the DOM).</p>
 
-                            <p>The beforeinput event can be canceled. Canceling will prevent the browser from removing the initial
-                            composition string from the DOM, but it will not prevent the composition from taking place or influence
-                            the initial composition string.</p>
+                            <p>The beforeinput event can be canceled. Canceling the event will prevent the browser from removing the initial
+                            composition string from the DOM. Canceling or handling the event will not prevent the composition from taking
+                            place or influence the contents of the initial composition string.</p>
 
-                            <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
-                            <p>The composition process starts. If the composition starts with an initial composition string,
-                            a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
+                            <p>The composition starts.</p>
+                        </li>
+                        <li>
+                            <p>If the composition has an empty initial composition string, this step is skipped.</p>
+
+                            <p>A non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
                             is triggered with the data attribute set to the initial composition string.</p>
-
-                            <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
-                            <p>During the composition process, with each DOM update of the composition string,
-                            a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
-                            is triggered with the data attribute set to the updated contents of the composition text.</p>
+                            <p>With each DOM update of the composition string, a non-cancelable beforeinput event with the
+                            inputType <code>"insertCompositionText"</code> is triggered with the data attribute set to the
+                            updated contents of the composition text. The default action for this event is the modification of range
+                            of the DOM controlled by the composition to match the value of the data attribute.</p>
+                            <p>This step is repeated as long as no text is to be committed to the DOM (i.e. is made to be part of the DOM
+                            outside the part that is controlled by the composition).</p>
                         </li>
                         <li>
-                            <p>When the composition is about to end, either because the entire composition string is to be commited
-                            to the DOM, or because a part of the composition string is commited to the DOM while another part of
+                            <p>When the composition is about to end, either because the entire composition string is to be committed
+                            to the DOM, or because a part of the composition string is committed to the DOM while another part of
                             the composition string will be the initial composition string of a new composition, a non-cancelable beforeinput
                             event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
                             for this event is that the entire composition string is removed from the DOM.</p>
                         </li>
                         <li>
-                            <p>Thereafter, a cancelable beforeinput event with the inputType <code>"insertFromComposition"</code>
-                            is triggered with the data attribute set to the part of the composition string that is to be commited to the DOM.
+                            <p>A cancelable beforeinput event with the inputType <code>"insertFromComposition"</code>
+                            is triggered with the data attribute set to the part of the composition string that is to be committed to the DOM.
+                            The default action for this event is inserting the value of the data attribute into the DOM at the place of the
+                            selection.
                             </p>
                         </li>
                         <li>
-                            <p>If only a part of the composition string was commited to the DOM, while another part is to become the initial
-                            composition string of a new composition, the process starts over from step 2.</p>
+                            <p>If only a part of the composition string was committed to the DOM, while another part is to become the initial
+                            composition string of a new composition, the process starts over from step 3.</p>
                         </li>
                         <li>
                             <p>The composition ends.</p>
