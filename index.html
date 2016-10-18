@@ -596,45 +596,50 @@ var respecConfig = {
 
                     <ol>
                         <li>
-                            <p>If the composition recomposes existing ranges of the DOM,
-                            by default the contents of the associated ranges will first
-                            be removed from the DOM.</p>
+                            <p>Before the IME composition starts, if the composition is to recompose an existing part of the DOM,
+                            this part is extracted and becomes the initial composition string, before a beforeinput event with the inputType
+                            <code>"deleteByComposition"</code> is triggered. The targetRanges of this beforeinput event is an
+                            array of static ranges from which the initial composition string for the composition has been extracted.</p>
 
-                            <p>The initial removal is preceded by a cancelable beforeinput event with the inputType
-                            <code>"deleteByComposition"</code> which is triggered before the IME composition
-                            takes place. Preventing the default action for this event will mean that the range
-                            will not be removed from the DOM by the user agent.</p>
+                            <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM; i.e. the
+                            initial composition string will be removed from the DOM.</p>
+
+                            <p>The beforeinput event can be canceled. Canceling will prevent the browser from removing the initial
+                            composition string from the DOM, but it will not prevent the composition from taking place or influence
+                            the initial composition string.</p>
+
                             <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
-                            <p>If the composition recomposes an existing range of the DOM,
+                            <p>The composition process starts. If the composition starts with an initial composition string,
                             a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
-                            is triggered with the data attribute set to the extracted contents of the range as they were
-                            at the time the beforeinput event of step 1 was triggered.</p>
+                            is triggered with the data attribute set to the initial composition string.</p>
+
                             <p>If the composition is starting with an empty composition string, this step is skipped.</p>
                         </li>
                         <li>
-                            <p>During the composition process, which each DOM update of the composition string,
+                            <p>During the composition process, with each DOM update of the composition string,
                             a non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
                             is triggered with the data attribute set to the updated contents of the composition text.</p>
                         </li>
                         <li>
-                            <p>When either the entire composition string is to be leave the composition string to become
-                            part of the DOM outside the composition string, or a part of the composition string does
-                            while another part of the composition string is composed in a new IME composition, a non-cancelable beforeinput
+                            <p>When the composition is about to end, either because the entire composition string is to be commited
+                            to the DOM, or because a part of the composition string is commited to the DOM while another part of
+                            the composition string will be the initial composition string of a new composition, a non-cancelable beforeinput
                             event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
                             for this event is that the entire composition string is removed from the DOM.</p>
                         </li>
                         <li>
                             <p>Thereafter, a cancelable beforeinput event with the inputType <code>"insertFromComposition"</code>
-                            is triggered with the data attribute set to the part of the composition string that is to become part
-                            of the DOM outside the composition.
+                            is triggered with the data attribute set to the part of the composition string that is to be commited to the DOM.
                             </p>
                         </li>
                         <li>
-                            <p>If only a part of the composition string was removed from the composition to become part of the DOM
-                            outside the composition, while another part enters a new IME composition, the process
-                            starts over from step 2.</p>
+                            <p>If only a part of the composition string was commited to the DOM, while another part is to become the initial
+                            composition string of a new composition, the process starts over from step 2.</p>
+                        </li>
+                        <li>
+                            <p>The composition ends.</p>
                         </li>
                     </ol>
                 </div>
