@@ -603,7 +603,7 @@ var respecConfig = {
 
                             <p>A beforeinput event with the inputType
                             <code>"deleteByComposition"</code> is triggered. The targetRanges of this beforeinput event is an
-                            array of static ranges covering the part of the DOm from which the initial composition string was extracted.</p>
+                            array of static ranges covering the part of the DOM from which the initial composition string was extracted.</p>
 
                             <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM (i.e. the
                             initial composition string will be removed from the DOM).</p>
@@ -620,33 +620,36 @@ var respecConfig = {
                             <p>If the composition has an empty initial composition string, this step is skipped.</p>
 
                             <p>A non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
-                            is triggered with the data attribute set to the initial composition string.</p>
+                            is triggered with the data attribute set to the initial composition string. The default action
+                            for this event is the insertion of the initial composition string into the range of the DOM
+                            controlled by the composition process.</p>
                         </li>
                         <li>
                             <p>With each DOM update of the composition string, a non-cancelable beforeinput event with the
                             inputType <code>"insertCompositionText"</code> is triggered with the data attribute set to the
                             updated contents of the composition text. The default action for this event is the modification of range
-                            of the DOM controlled by the composition to match the value of the data attribute.</p>
+                            of the DOM controlled by the composition as well as the composition string so that both match the value of
+                            the data attribute of the beforeinput event.</p>
                             <p>This step is repeated as long as no text is to be committed to the DOM (i.e. is made to be part of the DOM
-                            outside the part that is controlled by the composition).</p>
+                            outside the range controlled by the composition).</p>
                         </li>
                         <li>
-                            <p>When the composition is about to end, either because the entire composition string is to be committed
-                            to the DOM, or because a part of the composition string is committed to the DOM while another part of
-                            the composition string will be the initial composition string of a new composition, a non-cancelable beforeinput
+                            <p>When the part or the entire composition string is to be committed to the DOM, a non-cancelable beforeinput
                             event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
-                            for this event is that the entire composition string is removed from the DOM.</p>
+                            for this event is that the range controlled by the composition process is remvoed from the DOM is removed
+                            from the DOM.</p>
                         </li>
                         <li>
                             <p>A cancelable beforeinput event with the inputType <code>"insertFromComposition"</code>
-                            is triggered with the data attribute set to the part of the composition string that is to be committed to the DOM.
-                            The default action for this event is inserting the value of the data attribute into the DOM at the place of the
-                            selection.
+                            is triggered with the data attribute set to the part of the final composition string that is to be committed
+                            to the DOM. The default action for this event is inserting the value of the data attribute into the DOM at the
+                            place of the selection.
                             </p>
                         </li>
                         <li>
-                            <p>If only a part of the composition string was committed to the DOM, while another part is to become the initial
-                            composition string of a new composition, the process starts over from step 3.</p>
+                            <p>If only a part of the composition string was committed to the DOM, while another part is not yet to be committed,
+                            the process starts over from step 3 with the non-committed part of the final composition string as the new initial
+                            composition string.</p>
                         </li>
                         <li>
                             <p>The composition ends.</p>
