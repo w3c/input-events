@@ -184,11 +184,15 @@ var respecConfig = {
             <p>The main part of the <b>InputEvent</b> is defined in [[!UI-EVENTS]]</p>
 
             <pre class="idl">
-                [Constructor(DOMString typeArg, optional InputEventInit inputEventInitDict)]
                 partial interface InputEvent {
-                  readonly attribute DOMString inputType;
-                  readonly attribute DataTransfer? dataTransfer;
-                  sequence&lt;StaticRange&gt; getTargetRanges();
+                    readonly attribute DOMString     inputType;
+                    readonly attribute DataTransfer? dataTransfer;
+                    sequence<StaticRange> getTargetRanges();
+                };
+
+                partial dictionary InputEventInit {
+                    DOMString inputType = "";
+                    DataTransfer? dataTransfer = null;
                 };
             </pre>
 
