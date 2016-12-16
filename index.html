@@ -187,12 +187,13 @@ var respecConfig = {
                 partial interface InputEvent {
                     readonly attribute DOMString     inputType;
                     readonly attribute DataTransfer? dataTransfer;
-                    sequence<StaticRange> getTargetRanges();
+                    sequence&lt;StaticRange&gt; getTargetRanges();
                 };
 
                 partial dictionary InputEventInit {
                     DOMString inputType = "";
                     DataTransfer? dataTransfer = null;
+                    sequence&lt;StaticRange&gt; targetRanges = [];
                 };
             </pre>
 
