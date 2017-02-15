@@ -250,6 +250,32 @@ var respecConfig = {
 
             </section>
 
+            <p>The following table provides a summary of when the <code>cancelable</code>
+                attribute is <code>true</code>, based on the inputType.</p>
+
+                <table class="parameters">
+                    <thead>
+                        <tr><th>inputType</th><th>cancelable</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>
+                                <code>"insertText"</code>, <code>"insertLineBreak"</code>,
+                                <code>"insertCompositionText"</code>, <code>"insertReplacementText"</code>,
+                                <code>"insertParagraph"</code>, <code>"deleteWordForward"</code>,
+                                <code>"deleteWordBackward"</code>, <code>"deleteSoftLineForward"</code>,
+                                <code>"deleteSoftLineBackward"</code>,<code>"deleteEntireSoftLine"</code>,
+                                <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
+                                <code>"deleteCompositionText"</code>, <code>"deleteContent"</code>,
+                                <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>
+                            </td><td>No</td></tr>
+                        <tr><td>
+                                Others
+                            </td><td>Yes</td></tr>
+                    </tbody>
+                </table>
+
+            </section>
+
             <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
                 <h5>Attributes</h5>
 
@@ -355,18 +381,12 @@ var respecConfig = {
                     during a composition using IME to replace the current
                     composition string, the inputType MUST be
                     <code>"insertCompositionText"</code>.
-                        <ol>
-                            <li>Set the value of cancelable to <code>false</code>.</li>
-                        </ol>
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
                     during a composition using IME where IME sent an explicit command
                     to delete text without replacement, the inputType MUST be
                     <code>"deleteCompositionText"</code>.
-                        <ol>
-                            <li>Set the value of cancelable to <code>false</code>.</li>
-                        </ol>
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
