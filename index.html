@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
 
-    <title>Input Events</title>
+    <title>Input Events V1</title>
 
     <style>
     .invisible-table table{
@@ -217,7 +217,7 @@ var respecConfig = {
                     <tbody>
                         <tr><td>Contenteditable</td>
                             <td>
-                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                                <code>"insertText"</code>, <code>"insertCompositionText"</code>,
                                 <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
                                 <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
                                 <code>"insertLink"</code>
@@ -230,7 +230,7 @@ var respecConfig = {
                             </td><td>null</td><td>Yes</td><td>Non-empty Array</td></tr>
                         <tr><td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                             <td>
-                                <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                                <code>"insertText"</code>, <code>"insertCompositionText"</code>,
                                 <code>"insertFromPaste"</code>,
                                 <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                                 <code>"insertFromYank"</code>,
@@ -250,6 +250,23 @@ var respecConfig = {
 
             </section>
 
+             <p>The <code>beforeinput</code> event MUST be <code>cancelable</code> if the <code>inputType</code> is
+                <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
+                <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
+                <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
+                <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
+                <code>"historyUndo"</code>, <code>"historyRedo"</code>,
+                <code>"insertTranspose"</code>,
+                <code>"formatBold"</code>, <code>"formatItalic"</code>, <code>"formatUnderline"</code>,
+                <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
+                <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
+                <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
+                <code>"formatRemove"</code>,
+                <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
+                <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
+                <code>"insertLink"</code>.
+                </p>
+
             <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
                 <h5>Attributes</h5>
 
@@ -259,12 +276,12 @@ var respecConfig = {
                 <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
                 <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
                 <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
-                <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
+                <code>"insertCompositionText"</code>,
                 <code>"deleteWordForward"</code>, <code>"deleteWordBackward"</code>,
                 <code>"deleteSoftLineForward"</code>, <code>"deleteSoftLineBackward"</code>,
                 <code>"deleteEntireSoftLine"</code>,
                 <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
-                <code>"deleteCompositionText"</code>, <code>"deleteByComposition"</code>,
+                <code>"deleteCompositionText"</code>,
                 <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
                 <code>"deleteContent"</code>,
                 <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
@@ -355,30 +372,12 @@ var respecConfig = {
                     during a composition using IME to replace the current
                     composition string, the inputType MUST be
                     <code>"insertCompositionText"</code>.
-                        <ol>
-                            <li>Set the value of cancelable to <code>false</code>.</li>
-                        </ol>
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    during a composition using IME to insert into the DOM a finalized composed string
-                    that will not form part of the next composition string, the inputType MUST be
-                    <code>"insertFromComposition"</code>.
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    during a composition using IME to delete the current composition string
-                    before commiting a finalized string to the DOM, the inputType MUST be
+                    during a composition using IME where IME sent an explicit command
+                    to delete text without replacement, the inputType MUST be
                     <code>"deleteCompositionText"</code>.
-                        <ol>
-                            <li>Set the value of cancelable to <code>false</code>.</li>
-                        </ol>
-                    </li>
-
-                    <li>If the user <a data-lt="express intention">expresses an intention</a>
-                    to remove a part of the DOM in order to recompose this part using IME,
-                    the inputType MUST be
-                    <code>"deleteByComposition"</code>.
                     </li>
 
                     <li>If the user <a data-lt="express intention">expresses an intention</a>
@@ -594,81 +593,12 @@ var respecConfig = {
 
                 </ol>
 
-                <div class="note" title="beforeinput events during IME composition">
-
-                    <p><i>This section is not normative.</i></p>
-                    <p>An IME composition causes several beforeinput events, not all of which can be canceled.</p>
-
-                    <ol>
-                        <li>
-                            <p>If the composition is starting with an empty initial composition string (i.e. the composition
-                            is not recomposing an existing range of the DOM), this step is skipped.</p>
-
-                            <p>The UA extracts the initial composition string from the DOM.</p>
-
-                            <p>A beforeinput event with the inputType
-                            <code>"deleteByComposition"</code> is triggered. The targetRanges of this beforeinput event is an
-                            array of static ranges covering the part of the DOM from which the initial composition string was extracted.</p>
-
-                            <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM (i.e. the
-                            initial composition string will be removed from the DOM).</p>
-
-                            <p>The beforeinput event can be canceled. Canceling the event will prevent the browser from removing the initial
-                            composition string from the DOM. Canceling or handling the event will not prevent the composition from taking
-                            place or influence the contents of the initial composition string.</p>
-
-                        </li>
-                        <li>
-                            <p>The composition starts.</p>
-                        </li>
-                        <li>
-                            <p>If the composition has an empty initial composition string, this step is skipped.</p>
-
-                            <p>A non-cancelable beforeinput event with the inputType <code>"insertCompositionText"</code>
-                            is triggered with the data attribute set to the initial composition string. The default action
-                            for this event is the insertion of the initial composition string into the range of the DOM
-                            controlled by the composition process.</p>
-                        </li>
-                        <li>
-                            <p>With each DOM update of the composition string, a non-cancelable beforeinput event with the
-                            inputType <code>"insertCompositionText"</code> is triggered with the data attribute set to the
-                            updated contents of the composition text. The default action for this event is the modification of range
-                            of the DOM controlled by the composition as well as the composition string so that both match the value of
-                            the data attribute of the beforeinput event.</p>
-                            <p>This step is repeated as long as no text is to be committed to the DOM (i.e. is made to be part of the DOM
-                            outside the range controlled by the composition).</p>
-                        </li>
-                        <li>
-                            <p>When the part or the entire composition string is to be committed to the DOM, a non-cancelable beforeinput
-                            event with the inputType <code>"deleteCompositionText"</code> is triggered. The default action
-                            for this event is that the range controlled by the composition process is remvoed from the DOM is removed
-                            from the DOM.</p>
-                        </li>
-                        <li>
-                            <p>A cancelable beforeinput event with the inputType <code>"insertFromComposition"</code>
-                            is triggered with the data attribute set to the part of the final composition string that is to be committed
-                            to the DOM. The default action for this event is inserting the value of the data attribute into the DOM at the
-                            place of the selection.
-                            </p>
-                        </li>
-                        <li>
-                            <p>If only a part of the composition string was committed to the DOM, while another part is not yet to be committed,
-                            the process starts over from step 3 with the non-committed part of the final composition string as the new initial
-                            composition string.</p>
-                        </li>
-                        <li>
-                            <p>The composition ends.</p>
-                        </li>
-                    </ol>
-                </div>
-
                 <p><dfn><code>data</code></dfn> holds information plaintext data
                 related to what is to be added to the document.
                 </p>
 
                 <ol>
-                    <li>If the inputType is <code>"insertText"</code>, <code>"insertCompositionText"</code>
-                    or <code>"insertFromComposition"</code>, the value of data is to be the plain text
+                    <li>If the inputType is <code>"insertText"</code> or <code>"insertCompositionText"</code> the value of data is to be the plain text
                     string to be inserted.</li>
                     <li>If the editing host is not a contenteditable element and the inputType is
                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
