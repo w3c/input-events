@@ -250,31 +250,22 @@ var respecConfig = {
 
             </section>
 
-            <p>The following table provides a summary of when the <code>cancelable</code>
-                attribute is <code>true</code>, based on the inputType.</p>
-
-                <table class="parameters">
-                    <thead>
-                        <tr><th>inputType</th><th>cancelable</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>
-                                <code>"insertText"</code>, <code>"insertLineBreak"</code>,
-                                <code>"insertCompositionText"</code>, <code>"insertReplacementText"</code>,
-                                <code>"insertParagraph"</code>, <code>"deleteWordForward"</code>,
-                                <code>"deleteWordBackward"</code>, <code>"deleteSoftLineForward"</code>,
-                                <code>"deleteSoftLineBackward"</code>,<code>"deleteEntireSoftLine"</code>,
-                                <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
-                                <code>"deleteCompositionText"</code>, <code>"deleteContent"</code>,
-                                <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>
-                            </td><td>No</td></tr>
-                        <tr><td>
-                                Others
-                            </td><td>Yes</td></tr>
-                    </tbody>
-                </table>
-
-            </section>
+             <p>The <code>beforeinput</code> event MUST be <code>cancelable</code> if the <code>inputType</code> is
+                <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
+                <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
+                <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
+                <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
+                <code>"historyUndo"</code>, <code>"historyRedo"</code>,
+                <code>"insertTranspose"</code>,
+                <code>"formatBold"</code>, <code>"formatItalic"</code>, <code>"formatUnderline"</code>,
+                <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
+                <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
+                <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
+                <code>"formatRemove"</code>,
+                <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
+                <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
+                <code>"insertLink"</code>.
+                </p>
 
             <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
                 <h5>Attributes</h5>
