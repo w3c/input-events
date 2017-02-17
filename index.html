@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
 
-    <title>Input Events</title>
+    <title>Input Events Level 2</title>
 
     <style>
     .invisible-table table{
@@ -82,8 +82,14 @@ var respecConfig = {
     </section>
 
     <section id='sotd'>
-        <p>The group expects to produce another working draft by October 31st, 2016.
-        The <a href="https://github.com/w3c/web-platform-tests/tree/master/input-events">test suite</a>
+        <p>Input Events Level 2 replaces the first version of Input Events [[INPUT-EVENTS]] and includes:<p>
+        <ul>
+            <li>Inputtypes for beforeinput events for the start and end of IME compositions that allow isolation of the
+            IME composition process.</li>
+            <li>More requirements for cancelability of beforeinput events, so that all beforeinput events apart from
+            those beign emited within an IME composition process are cancelable.</li>
+        </ul>
+        <p>The <a href="https://github.com/w3c/web-platform-tests/tree/master/input-events">test suite</a>
         and <a href="https://w3c.github.io/test-results/input-events/">implementation reports</a>
         for the Input Events specification are still work in progress.</p>
     </section>
