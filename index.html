@@ -34,7 +34,7 @@ var respecConfig = {
                                note: "until 23 February 2015",
                                w3cid: "69167" }]
           ,   wg:           "Web Platform Working Group"
-          ,   wgURI:        "http://www.w3.org/WebPlatform/WG/"
+          ,   wgURI:        "https://www.w3.org/WebPlatform/WG/"
       ,   otherLinks: [{
                   key: 'Participate',
                   data: [{
@@ -57,6 +57,15 @@ var respecConfig = {
           ,   edDraftURI:   "https://w3c.github.io/input-events/index.html"
           ,   noLegacyStyle: true
           ,   localBiblio:  {
+                "STATIC-RANGE": {
+                    title:    "[Proposal] StaticRange (to be used instead of Range for new APIs)"
+                ,   href:     "https://discourse.wicg.io/t/proposal-staticrange-to-be-used-instead-of-range-for-new-apis/1472"
+                ,   authors:  [
+                        "Gary Kačmarčík"
+                    ]
+                ,   status:   "unofficial"
+                ,   publisher:  "W3C"
+                },
                 "DATA-TRANSFER": {
                     title:    "The DataTransfer interface"
                 ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html#the-datatransfer-interface"
@@ -187,8 +196,6 @@ var respecConfig = {
         <section id="interface-InputEvent">
             <h4>Interface InputEvent</h4>
 
-            <p>The main part of the <b>InputEvent</b> is defined in [[!UI-EVENTS]]</p>
-
             <pre class="idl">
                 partial interface InputEvent {
                     readonly attribute DOMString     inputType;
@@ -202,6 +209,16 @@ var respecConfig = {
                     sequence&lt;StaticRange&gt; targetRanges = [];
                 };
             </pre>
+            <p>
+                The <code><dfn data-cite="!UI-EVENTS#interface-inputevent">InputEvent</dfn></code>
+                and <code><dfn data-cite="!UI-EVENTS#interface-inputevent">InputEventInit</dfn></code>
+                objects are defined in [[!UI-EVENTS]].
+            </p>
+            <p data-dfn-for="InputEventInit">
+                The attributes <dfn>inputType</dfn>, <dfn>dataTransfer</dfn> and
+                <dfn>targetRanges</dfn> of <a> InputEventInit</a> initialize the
+                corresponding attributes of the <a>InputEvent</a> object.
+            </p>
 
 
             <section>
@@ -209,7 +226,7 @@ var respecConfig = {
 
                 <p><i>This section is not normative.</i></p>
 
-                <p>The following table provides a summary of when the <a>data</a>
+                <p data-link-for="InputEvent">The following table provides a summary of when the <a>data</a>
                 and <a>dataTransfer</a> attributes contain contents and when they
                 are null as well as when the <a>getTargetRanges()</a> method
                 returns an empty or non-empty Array, based on the inputType.</p>
@@ -455,7 +472,7 @@ var respecConfig = {
                     the inputType
                     MUST be <code>"deleteContentBackward"</code>.
 
-                    <div class="note">If the selection is collapsed,
+                    <div class="note" data-link-for="InputEvent">If the selection is collapsed,
                     <code>"deleteContentBackward"</code> will be used both when
                     the user asks for text deletion within a text node,
                     and when the user shows the intention to deletion of more
@@ -478,12 +495,12 @@ var respecConfig = {
                     with the selection collapsing to its end after the deletion,
                     the inputType MUST be <code>"deleteContentForward"</code>.
 
-                    <div class="note">If the selection is collapsed,
-                    <code>"deleteContentForward"</code> will be used both when
-                    the user asks for text deletion within a text node,
-                    and when the user shows the intention to deletion of more
-                    complex elements or merge paragraphs if the caret is at the
-                    end of a text node. In some scripts, forward
+                    <div class="note" data-link-for="InputEvent">If the selection
+                    is collapsed, <code>"deleteContentForward"</code> will be
+                    used both when the user asks for text deletion within a text
+                    node, and when the user shows the intention to deletion of
+                    more complex elements or merge paragraphs if the caret is at
+                    the end of a text node. In some scripts, forward
                     deletion within a text node with a collapsed selection
                     will delete a grapheme rather than a code point. A grapheme
                     can consist of several characters, where each character
@@ -726,21 +743,12 @@ var respecConfig = {
             <section id="interface-InputEvent-Methods" dfn-for="InputEvent">
                 <h5>Methods</h5>
 
-                <p><dfn><code>getTargetRanges()</code></dfn> returns an Array of
-                <dfn lt="StaticRange">StaticRanges</dfn>
+                <p><code><dfn>getTargetRanges()</dfn></code> returns an Array of
+                <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
                 associated with this event, unless the inputType is
                 <code>"historyUndo"</code> or <code>"historyRedo"</code>
                 or the editing host is not a contenteditable element,
                 in which case it returns an empty Array.</p>
-
-                <pre class="idl">
-                    dictionary StaticRange {
-                        Node startContainer;
-                        unsigned long startOffset;
-                        Node endContainer;
-                        unsigned long endOffset;
-                    };
-                </pre>
 
             </section><!-- interface-InputEvent-Methods -->
 
