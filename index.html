@@ -68,12 +68,7 @@ var respecConfig = {
                 },
                 "DATA-TRANSFER": {
                     title:    "The DataTransfer interface"
-                ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html#the-datatransfer-interface"
-                ,   publisher: "WHATWG"
-                },
-                "HTML-LIVING": {
-                    title:    "HTML Living Standard"
-                ,   href:     "https://html.spec.whatwg.org/multipage/interaction.html"
+                ,   href:     "https://html.spec.whatwg.org/#the-datatransfer-interface"
                 ,   publisher: "WHATWG"
                 }
         }
@@ -651,13 +646,13 @@ var respecConfig = {
                             <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                             is <i>Plain Unicode string</i>, and whose data is a HTML representation
                             of the content that is in the clipboard, or in the <a>kill buffer</a>,
-                            to be dropped or otherwise the content that is to be added. [[!HTML-LIVING]]</li>
+                            to be dropped or otherwise the content that is to be added. [[!HTML]]</li>
                             <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
                             contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
                             <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                             is <i>Plain Unicode string</i>, and whose data is a plain text
                             representation of the content that is to be pasted,
-                            dropped or otherwise added. [[!HTML-LIVING]]</li>
+                            dropped or otherwise added. [[!HTML]]</li>
                         </ol>
                     </li>
                     <li>Else, the dataTransfer attribute is null.</li>
@@ -866,8 +861,9 @@ var respecConfig = {
                         </tr>
                     </table>
 
-                    <p>A <a class="def" href="#glossary-user-agent">user
-                    agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event immediately after the
+                    <p>A <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#glossary-user-agent">user
+                    agent</a> [[!UI-EVENTS]] MUST <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
+                    [[!UI-EVENTS]] this event immediately after the
                     DOM has been updated due to a user expressed intention to change
                     the document contents which the browser has handled.</p>
                 </dd>
@@ -878,7 +874,20 @@ var respecConfig = {
     <section>
         <h2>Privacy and security considerations</h2>
 
-        <p>There are no known security or privacy impacts of this feature.</p>
+        <p><i>This section is not normative.</i></p>
+
+        <p>There are no known security or privacy impacts of this feature beyond
+        <a data-link-type="dfn" href="https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques that already are available through existing events, such as the
+        <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#keydown"><code>keydown</code></a> and
+        <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#keypress"><code>keypress</code></a>
+        [[UI-EVENTS]] events.</p>
+
+        <p>If this feature replaces existing events, it MAY lead to a decline in available
+        <a data-link-type="dfn" href="https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques, as users' intentions are recorded,
+        and not the particular type of hardware they used to <a data-lt="express intention">express</a>
+        this intention.</p>
 
     </section><!-- Privacy/security considerations -->
 
