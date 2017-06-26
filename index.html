@@ -121,7 +121,7 @@
          <h2>Definitions</h2>
          <dl>
             <dt><code><dfn>DataTransfer</dfn></code></dt>
-            <dd>An <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
+            <dd>A <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
                object contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]
             </dd>
             <dt><dfn>express intention</dfn></dt>
@@ -201,7 +201,8 @@
             (input event) a user attempts to edit the markup. This
             includes insertion and deletion of content, and formatting changes.
          </p>
-         <p>Input events are dispatched on elements that act as editing hosts, including
+         <p>Input events are <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[!UI-EVENTS]] on elements that act as editing hosts, including
             elements with the contenteditable attribute set,
             <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code> elements, and
             <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code> elements that permit text input.
@@ -314,54 +315,688 @@
                   </tbody>
                </table>
             </section>
-            <p>The <code>beforeinput</code> event MUST be <code>cancelable</code> if the <code>inputType</code> is
-               <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
-               <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
-               <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
-               <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
-               <code>"historyUndo"</code>, <code>"historyRedo"</code>,
-               <code>"insertTranspose"</code>,
-               <code>"formatBold"</code>, <code>"formatItalic"</code>, <code>"formatUnderline"</code>,
-               <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
-               <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
-               <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
-               <code>"formatRemove"</code>,
-               <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
-               <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
-               <code>"insertLink"</code>.
-            </p>
             <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
                <h5>Attributes</h5>
-               <p><dfn>inputType</dfn> holds the type of input. Allowed
-                  values are the following: <code>"insertText"</code>, <code>"insertReplacementText"</code>,
-                  <code>"insertLineBreak"</code>, <code>"insertParagraph"</code>,
-                  <code>"insertOrderedList"</code>, <code>"insertUnorderedList"</code>,
-                  <code>"insertHorizontalRule"</code>, <code>"insertFromYank"</code>,
-                  <code>"insertFromDrop"</code>, <code>"insertFromPaste"</code>,
-                  <code>"insertCompositionText"</code>,
-                  <code>"deleteWordForward"</code>, <code>"deleteWordBackward"</code>,
-                  <code>"deleteSoftLineForward"</code>, <code>"deleteSoftLineBackward"</code>,
-                  <code>"deleteEntireSoftLine"</code>,
-                  <code>"deleteHardLineForward"</code>, <code>"deleteHardLineBackward"</code>,
-                  <code>"deleteCompositionText"</code>,
-                  <code>"deleteByDrag"</code>, <code>"deleteByCut"</code>,
-                  <code>"deleteContent"</code>,
-                  <code>"deleteContentBackward"</code>, <code>"deleteContentForward"</code>,
-                  <code>"historyUndo"</code>, <code>"historyRedo"</code>,
-                  <code>"insertTranspose"</code>,
-                  <code>"formatBold"</code>, <code>"formatItalic"</code>, <code>"formatUnderline"</code>,
-                  <code>"formatStrikeThrough"</code>, <code>"formatSuperscript"</code>,
-                  <code>"formatSubscript"</code>, <code>"formatJustifyCenter"</code>, <code>"formatJustifyRight"</code>,
-                  <code>"formatJustifyLeft"</code>, <code>"formatIndent"</code>, <code>"formatOutdent"</code>,
-                  <code>"formatRemove"</code>,
-                  <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
-                  <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
-                  <code>"insertLink"</code>
-                  .
-                  During initialization, the
+               <p><dfn>inputType</dfn> holds the type of input. During initialization, the
                   <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
                   is responsible for populating this field as follows:
                </p>
+               <p>The inputType MUST follow the user's <a data-lt="express intention">expression of intention</a>
+                  and whether or not the editing takes place during an IME composition.
+                  The cancelability if the beforeinput event depends on the inputType. The following table shows allowed
+                  values for the inputType field.
+               </p>
+               <table class="parameters">
+                  <thead>
+                     <tr>
+                        <th>inputType</th>
+                        <th>User's expression of intention</th>
+                        <th>Part of IME composition</th>
+                        <th>beforeinput cancelable</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <code>"insertText"</code>
+                        </td>
+                        <td>
+                           insert typed plain text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertReplacementText"</code>
+                        </td>
+                        <td>
+                           replace existing text by means of a spell checker, auto-correct or similar
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertLineBreak"</code>
+                        </td>
+                        <td>
+                           insert a line break
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertParagraph"</code>
+                        </td>
+                        <td>
+                           insert a paragraph break
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertOrderedList"</code>
+                        </td>
+                        <td>
+                           insert a numbered list
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertUnorderedList"</code>
+                        </td>
+                        <td>
+                           insert a bulleted list
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertHorizontalRule"</code>
+                        </td>
+                        <td>
+                           insert a horizontal rule
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertFromYank"</code>
+                        </td>
+                        <td>
+                           replace the current selection with content stored in a <a>kill buffer</a>
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertFromDrop"</code>
+                        </td>
+                        <td>
+                           insert content into the DOM by means of drop
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertFromPaste"</code>
+                        </td>
+                        <td>
+                           paste
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertTranspose"</code>
+                        </td>
+                        <td>
+                           transpose the last two characters that were entered
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertCompositionText"</code>
+                        </td>
+                        <td>
+                           replace the current composition string
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                        <td>
+                           No
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertLink"</code>
+                        </td>
+                        <td>
+                           insert a link
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteCompositionText"</code>
+                        </td>
+                        <td>
+                           delete the current composition string
+                           before commiting a finalized string to the DOM
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                        <td>
+                           No
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteWordBackward"</code>
+                        </td>
+                        <td>
+                           delete a word directly before
+                           the caret position with a collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteWordForward"</code>
+                        </td>
+                        <td>
+                           delete a word directly after
+                           the caret position with a collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteSoftLineBackward"</code>
+                        </td>
+                        <td>
+                           delete from the caret to the nearest visual line break before
+                           the caret position with a collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteSoftLineForward"</code>
+                        </td>
+                        <td>
+                           delete from the caret to the nearest visual line break after
+                           the caret position with a collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteEntireSoftLine"</code>
+                        </td>
+                        <td>
+                           delete from to the nearest visual line break before the caret position
+                           to the nearest visual line break after the caret position with a
+                           collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteHardLineBackward"</code>
+                        </td>
+                        <td>
+                           delete from the caret to the nearest beginning of a
+                           block element or
+                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
+                           element before the caret position with a collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteHardLineForward"</code>
+                        </td>
+                        <td>
+                           delete from the caret to the nearest end of a
+                           block element or
+                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
+                           element after the caret position with a
+                           collapsed selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteByDrag"</code>
+                        </td>
+                        <td>
+                           remove content from the DOM
+                           by means of drag
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteByCut"</code>
+                        </td>
+                        <td>
+                           remove the current selection as part of a cut
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteContent"</code>
+                        </td>
+                        <td>
+                           delete the current, non-collapsed selection without specifying the
+                           direction of the deletion and this intention is not covered by another
+                           inputType
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteContentBackward"</code>
+                        </td>
+                        <td>
+                           delete the content directly before
+                           the caret position and this intention is not covered by another
+                           inputType or delete a non-collapsed selection
+                           with the selection collapsing to its start after the deletion
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"deleteContentForward"</code>
+                        </td>
+                        <td>
+                           delete the content directly after
+                           the caret position and this intention is not covered by another
+                           inputType or delete a non-collapsed selection
+                           with the selection collapsing to its end after the deletion
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Undefined
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"historyUndo"</code>
+                        </td>
+                        <td>
+                           undo the last editing action
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"historyRedo"</code>
+                        </td>
+                        <td>
+                           to redo the last undone editing action
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatBold"</code>
+                        </td>
+                        <td>
+                           initiate bold text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatItalic"</code>
+                        </td>
+                        <td>
+                           initiate italic text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatUnderline"</code>
+                        </td>
+                        <td>
+                           initiate underline text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatStrikeThrough"</code>
+                        </td>
+                        <td>
+                           initiate stricken through text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSuperscript"</code>
+                        </td>
+                        <td>
+                           initiate superscript text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSubscript"</code>
+                        </td>
+                        <td>
+                           initiate subscript text
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatJustifyCenter"</code>
+                        </td>
+                        <td>
+                           justify center the current
+                           selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatJustifyRight"</code>
+                        </td>
+                        <td>
+                           justify right the current
+                           selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatJustifyLeft"</code>
+                        </td>
+                        <td>
+                           justify left the current
+                           selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatIndent"</code>
+                        </td>
+                        <td>
+                           indent the current
+                           selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatOutdent"</code>
+                        </td>
+                        <td>
+                           outdent the current
+                           selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatRemove"</code>
+                        </td>
+                        <td>
+                           remove all formatting from the
+                           current selection
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSetBlockTextDirection"</code>
+                        </td>
+                        <td>
+                           set the text block direction
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSetInlineTextDirection"</code>
+                        </td>
+                        <td>
+                           set the text inline direction
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatBackColor"</code>
+                        </td>
+                        <td>
+                           change the background color
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatFontColor"</code>
+                        </td>
+                        <td>
+                           change the font color
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatFontName"</code>
+                        </td>
+                        <td>
+                           change the font-family
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
                <div class="note">The existence of the above mentioned <code>inputTypes</code>
                   does not mean that any given implementation will support all of these.
                   But if a given browser supports an editing operation which potentially leads to
@@ -369,309 +1004,222 @@
                   [[!UI-EVENTS]] the corresponding <code>beforeinput</code>
                   and <code>input</code> events.
                </div>
-               <ol>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert typed plain text, the inputType
-                     MUST be <code>"insertText"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to replace existing text by means of a spell checker, auto-correct or similar,
-                     the inputType MUST be <code>"insertReplacementText"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a line break, the inputType
-                     MUST be <code>"insertLineBreak"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a paragraph break, the
-                     inputType MUST be <code>"insertParagraph"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a numbered list, the
-                     inputType MUST be <code>"insertOrderedList"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a bulleted list, the
-                     inputType MUST be <code>"insertUnorderedList"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a horizontal rule, the
-                     inputType MUST be <code>"insertHorizontalRule"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to replace the current selection
-                     with content stored in a <a>kill buffer</a>, the
-                     inputType MUST be <code>"insertFromYank"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert content into the DOM by means of drop,
-                     the inputType MUST be <code>"insertFromDrop"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to paste, the inputType MUST be
-                     <code>"insertFromPaste"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to transpose the last two characters
-                     that were entered, the inputType MUST be
-                     <code>"insertTranspose"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     during a composition using IME to replace the current
-                     composition string, the inputType MUST be
-                     <code>"insertCompositionText"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     during a composition using IME where IME sent an explicit command
-                     to delete text without replacement, the inputType MUST be
-                     <code>"deleteCompositionText"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete a word directly before
-                     the caret position, the inputType MUST be
-                     <code>"deleteWordBackward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete a word directly after
-                     the caret position, and the selection is empty, the inputType MUST be
-                     <code>"deleteWordForward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete from the caret to the nearest softline break before
-                     the caret position and the selection is empty, the inputType MUST be
-                     <code>"deleteSoftLineBackward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete from the caret to the nearest softline break after
-                     the caret position and the selection is empty, the inputType MUST be
-                     <code>"deleteSoftLineForward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete from to the nearest softline break before the caret position
-                     to the nearest softline break after the caret position and the selection
-                     is empty, the inputType MUST be <code>"deleteEntireSoftLine"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete from the caret to the nearest hardline break before
-                     the caret position and the selection is empty, the inputType MUST be
-                     <code>"deleteHardlineBackward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete from the caret to the nearest hardline break after
-                     the caret position and the selection is empty, the inputType MUST be
-                     <code>"deleteHardlineForward"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to remove content from the DOM
-                     by means of drag, the inputType MUST be <code>"deleteByDrag"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to remove the current selection as part of a cut, the inputType MUST be
-                     <code>"deleteByCut"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete the current, non-collapsed selection without specifying the
-                     direction of the deletion and this intention is not covered by another
-                     inputType, the inputType MUST be
-                     <code>"deleteContent"</code>.
-                  </li>
-                  <li>
-                     If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete the content directly before
-                     the caret position and this intention is not covered by another
-                     inputType or the user intends to delete a non-collapsed selection
-                     with the selection collapsing to its start after the deletion,
-                     the inputType
-                     MUST be <code>"deleteContentBackward"</code>.
-                     <div class="note" data-link-for="InputEvent">If the selection is collapsed,
-                        <code>"deleteContentBackward"</code> will be used both when
-                        the user asks for text deletion within a text node,
-                        and when the user shows the intention to deletion of more
-                        complex elements or merge paragraphs if the caret is at the
-                        start of a text node. In some scripts, backward
-                        deletion within a text node with a collapsed selection
-                        will delete a code point rather than a grapheme. A grapheme
-                        can consist of several characters, where each character
-                        corresponds to a code point. The <a>getTargetRanges()</a>
-                        method can be used to find out how many characters the
-                        browser will remove by default if deleting within a text
-                        node.
-                     </div>
-                  </li>
-                  <li>
-                     If the user <a data-lt="express intention">expresses an intention</a>
-                     to delete the content directly after
-                     the caret position and this intention is not covered by another
-                     inputType or the user <a data-lt="express intention">expresses an intention</a>
-                     to delete a non-collapsed selection
-                     with the selection collapsing to its end after the deletion,
-                     the inputType MUST be <code>"deleteContentForward"</code>.
-                     <div class="note" data-link-for="InputEvent">If the selection
-                        is collapsed, <code>"deleteContentForward"</code> will be
-                        used both when the user asks for text deletion within a text
-                        node, and when the user shows the intention to deletion of
-                        more complex elements or merge paragraphs if the caret is at
-                        the end of a text node. In some scripts, forward
-                        deletion within a text node with a collapsed selection
-                        will delete a grapheme rather than a code point. A grapheme
-                        can consist of several characters, where each character
-                        corresponds to a code point. The <a>getTargetRanges()</a>
-                        method can be used to find out how many characters the
-                        browser will remove by default if deleting within a text
-                        node.
-                     </div>
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to undo the last editing action, the
-                     inputType MUST be <code>"historyUndo"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to redo the last editing action, the
-                     inputType MUST be <code>"historyRedo"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate bold text, the
-                     inputType MUST be <code>"formatBold"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate italic text, the
-                     inputType MUST be <code>"formatItalic"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate underline text, the
-                     inputType MUST be <code>"formatUnderline"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate stricken through text,
-                     the inputType MUST be <code>"formatStrikeThrough"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate superscript through text,
-                     the inputType MUST be <code>"formatSuperscript"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to initiate subscript through text,
-                     the inputType MUST be <code>"formatSubscript"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to justify center the current
-                     selection, the inputType MUST be
-                     <code>"formatJustifyCenter"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to justify right the current
-                     selection, the inputType MUST be
-                     <code>"formatJustifyRight"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to justify left the current
-                     selection, the inputType MUST be
-                     <code>"formatJustifyLeft"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to indent the current
-                     selection, the inputType MUST be <code>"formatIndent"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to outdent the current
-                     selection, the inputType MUST be <code>"formatOutdent"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to remove all formatting from the
-                     current selection, the inputType MUST be
-                     <code>"formatRemove"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to set the text block direction, the inputType MUST be
-                     <code>"formatSetBlockTextDirection"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to set the text inline direction, the inputType MUST be
-                     <code>"formatSetInlineTextDirection"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to change the background color,
-                     the inputType MUST be <code>"formatBackColor"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to change the font color,
-                     the inputType MUST be <code>"formatFontColor"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to insert a link,
-                     the inputType MUST be <code>"insertLink"</code>.
-                  </li>
-                  <li>If the user <a data-lt="express intention">expresses an intention</a>
-                     to change the font-family,
-                     the inputType MUST be .<code>"formatFontName"</code>.
-                  </li>
-               </ol>
+               <div class="note" data-link-for="InputEvent">If the selection is collapsed,
+                  <code>"deleteContentBackward"</code> will be used both when
+                  the user asks for text deletion within a text node,
+                  and when the user shows the intention to deletion of more
+                  complex elements or merge paragraphs if the caret is at the
+                  start of a text node. In some scripts, backward
+                  deletion within a text node with a collapsed selection
+                  will delete a code point rather than a grapheme. A grapheme
+                  can consist of several characters, where each character
+                  corresponds to a code point. The <a>getTargetRanges()</a>
+                  method can be used to find out how many characters the
+                  browser will remove by default if deleting within a text
+                  node.
+               </div>
+               <div class="note" data-link-for="InputEvent">If the selection
+                  is collapsed, <code>"deleteContentForward"</code> will be
+                  used both when the user asks for text deletion within a text
+                  node, and when the user shows the intention to deletion of
+                  more complex elements or merge paragraphs if the caret is at
+                  the end of a text node. In some scripts, forward
+                  deletion within a text node with a collapsed selection
+                  will delete a grapheme rather than a code point. A grapheme
+                  can consist of several characters, where each character
+                  corresponds to a code point. The <a>getTargetRanges()</a>
+                  method can be used to find out how many characters the
+                  browser will remove by default if deleting within a text
+                  node.
+               </div>
                <p><dfn><code>data</code></dfn> holds information plaintext data
                   related to what is to be added to the document.
                </p>
-               <ol>
-                  <li>If the inputType is <code>"insertText"</code> or <code>"insertCompositionText"</code> the value of data is to be the plain text
-                     string to be inserted.
-                  </li>
-                  <li>If the editing host is not a contenteditable element and the inputType is
-                     <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
-                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the value of data is to be
-                     the plain text string to be inserted.
-                  </li>
-                  <li>If the inputType is <code>"formatSetBlockTextDirection"</code>
-                     the value of data is to be one of <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>.
-                  </li>
-                  <li>If the inputType is <code>"formatSetInlineTextDirection"</code> or <code>"formatFontColor"</code>
-                     the value of data is to be one of <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>.
-                  </li>
-                  <li>If the inputType is <code>"formatBackColor"</code> or <code>"formatFontColor"</code>
-                     the value of data is to be the hex digit value of the proposed color.
-                  </li>
-                  <li>If the inputType is <code>"formatFontName"</code>
-                     the value of data is to be the proposed value of the font-family CSS property.
-                  </li>
-                  <li>If the inputType is <code>"insertLink"</code>
-                     the value of data is to be the url of the proposed link.
-                  </li>
-                  <li>Else, the value of data is to be null.</li>
-               </ol>
+               <table class="parameters">
+                  <thead>
+                     <tr>
+                        <th>inputType</th>
+                        <th>Editing host</th>
+                        <th>data</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <code>"insertText"</code> or <code>"insertCompositionText"</code>
+                        </td>
+                        <td>
+                           Any
+                        </td>
+                        <td>
+                           the plain text string to be inserted
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
+                           <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
+                        </td>
+                        <td><code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
+                           or
+                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the--element">textarea</a></code>
+                        </td>
+                        <td>
+                           the plain text string to be inserted
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSetBlockTextDirection"</code>
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatSetInlineTextDirection"</code> or <code>"formatFontColor"</code>
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           the hex digit value of the proposed color
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"formatFontName"</code>
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           the proposed value of the font-family CSS property
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertLink"</code>
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           the url of the proposed link
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           All remaining
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           null
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
                <p><dfn data-dfn-for=InputEvent>dataTransfer</dfn> holds information about richtext and
                   plaintext data that is to be taken from or added to the document
                   in a <a>DataTransfer</a> object if there is relevant data.
                </p>
-               <ol>
-                  <li>
-                     If the editing host is a contenteditable element and the
-                     inputType is <code>"insertFromPaste"</code>,
-                     <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
-                     <code>"insertReplacementText"</code>, or <code>"insertFromYank"</code> the dataTransfer attribute is a
-                     prepopulated <a>DataTransfer</a> object so that:
-                     <ol>
-                        <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
-                           contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
-                           <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
-                           is <i>Plain Unicode string</i>, and whose data is a HTML representation
-                           of the content that is in the clipboard, or in the <a>kill buffer</a>,
-                           to be dropped or otherwise the content that is to be added. [[!HTML]]
-                        </li>
-                        <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
-                           contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">draf data item type string</a>
-                           <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
-                           is <i>Plain Unicode string</i>, and whose data is a plain text
-                           representation of the content that is to be pasted,
-                           dropped or otherwise added. [[!HTML]]
-                        </li>
-                     </ol>
-                  </li>
-                  <li>Else, the dataTransfer attribute is null.</li>
-               </ol>
+               <table class="parameters">
+                  <thead>
+                     <tr>
+                        <th>inputType</th>
+                        <th>Editing host</th>
+                        <th>dataTransfer</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <code>"insertFromPaste"</code>,
+                           <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
+                           <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
+                        </td>
+                        <td>
+                           <code>contenteditable</code>
+                        </td>
+                        <td>
+                           A prepopulated <a>DataTransfer</a> object so that:
+                           <ol>
+                              <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                                 contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
+                                 <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
+                                 is <i>Plain Unicode string</i>, and whose data is a HTML representation
+                                 of the content that is in the clipboard, or in the <a>kill buffer</a>,
+                                 to be dropped or otherwise the content that is to be added. [[!HTML]]
+                              </li>
+                              <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                                 contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
+                                 <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
+                                 is <i>Plain Unicode string</i>, and whose data is a plain text
+                                 representation of the content that is to be pasted,
+                                 dropped or otherwise added. [[!HTML]]
+                              </li>
+                           </ol>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           All remaining
+                        </td>
+                        <td>Any</td>
+                        <td>
+                           null
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </section>
             <!-- interface-InputEvent-Attributes -->
             <section id="interface-InputEvent-Methods" dfn-for="InputEvent">
                <h5>Methods</h5>
-               <p><code><dfn>getTargetRanges()</dfn></code> returns an Array of
-                  <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
-                  associated with this event, unless the inputType is
+               <table class="parameters">
+                  <thead>
+                     <tr>
+                        <th>inputType</th>
+                        <th>Editing host</th>
+                        <th>Response of <code><dfn>getTargetRanges()</dfn></code></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <code>"historyUndo"</code> or
+                           <code>"historyRedo"</code>
+                        </td>
+                        <td>
+                           Any
+                        </td>
+                        <td>
+                           empty Array
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           All remaining
+                        </td>
+                        <td><code>contenteditable</code></td>
+                        <td>
+                           an Array of
+                           <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
+                           associated with event
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           All remaining
+                        </td>
+                        <td>
+                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
+                           or
+                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the--element">textarea</a></code>
+                        </td>
+                        <td>
+                           an empty Array
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <p> returns , unless the inputType is
                   <code>"historyUndo"</code> or <code>"historyRedo"</code>
                   or the editing host is not a contenteditable element,
                   in which case it returns an empty Array.
