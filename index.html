@@ -1498,12 +1498,12 @@
             <li>
                <p>With each DOM update of the composition string:</p>
                <ol>
+                  <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
+                     event is dispatched. [[!UI-EVENTS]].
+                  </li>
                   <li>A beforeinput event with the
                      inputType <code>"insertCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
                      [[!UI-EVENTS]] with the data attribute set to the updated contents of the composition text.
-                  </li>
-                  <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
-                     event is dispatched. [[!UI-EVENTS]].
                   </li>
                   <li>The DOM is updated.</li>
                   <li>An input event with the
