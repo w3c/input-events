@@ -180,7 +180,12 @@ var respecConfig = {
 
         <p>Input events are sent before (beforeinput event) and after
         (input event) a user attempts to edit the markup. This
-        includes characters, deletions, and other related edits.</p>
+        includes insertion and deletion of content, and formatting changes.</p>
+
+        <p>Input events are dispatched on elements that act as editing hosts, including
+        elements with the contenteditable attribute set,
+        <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code> elements, and
+        <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code> elements that permit text input.</p>
 
         <section id="interface-InputEvent">
             <h4>Interface InputEvent</h4>
