@@ -5,7 +5,7 @@ branches:
   - v1
 env:
   global:
-  - URL="https://raw.githubusercontent.com/w3c/input-events/v1/W3CTRMANIFEST"
+  - URL="https://rawgit.com/w3c/input-events/v1/W3CTRMANIFEST"
   - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
 script:
 - echo "ok"
