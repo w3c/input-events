@@ -2,7 +2,7 @@ language: node_js
 sudo: false
 branches:
   only:
-  - gh-pages
+  - v1
 env:
   global:
   - URL="https://raw.githubusercontent.com/w3c/input-events/v1/W3CTRMANIFEST"
