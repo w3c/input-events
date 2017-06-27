@@ -7,8 +7,7 @@ env:
   global:
   - URL="http://w3c.github.io/input-events/W3CTRMANIFEST"
   - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
-  - secure: "whYdivbX4p3rhIzHbTQ52nnGOlqlD9NekEfrFpJtQxdIJ/u+eWV0vuUJ+mOdKM/8aYrbvIlmNXpBVQm+0kk5EBrLd91uRmOKkShio0Zrxcc9o6bWBISw0c3EZ0p5T6XoFu+HaZ763nP88DOG0x5DanDje91J6HdMZR/swsX1xbIEcfZ45roHcNaCbzq3XgRCEuK0QmN/sUybgIk0LbWoGtRYN7eqURbZkjy/yanxp6gpeG/RrJg6wTM9+5WCzcE50j4TTkLqAxAytzRBQBs930+VVOfRxqaiah+mWOEZCITa81+aeZ0SGoTQYkPItRacV8D/fAJzP3q2DrCBB2CHbE/IcWbz7m9K73I5WYNLdC51LK65vBDcAWaL4WJs+WKfjFP7r8fCSS5bdywKpkzYcbM0DPss7QXMmz7LMaHtP8VdXgxtEe0lABqmi9gWYVgRLiHkukQUMMoSusNtGQTcJ21YxzW+fADkz5fG09fSK4DDH4fxbup9gmAkDm7dcrv9AkBN2p7BXR5UXtIqlzGwHiB1wQAv74dKCuVUdCacqo7N+dtrn/P3PCuYk1tzjOGWArsaUyZSFNG3ZQQocCKaArneOkrY5O1ikl9Xwp96TLZ0WUGTYNa+zT88fd3vwL/RAomKdlxORmt6nYbELdXPu+6RtCGNfa7Dxs24zlyux9U="
 script:
 - echo "ok"
 after_success:
-- curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN"
+- curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKENV2"
