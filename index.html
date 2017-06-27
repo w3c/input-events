@@ -332,10 +332,19 @@
                   <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
                   is responsible for populating this field as follows:
                </p>
-               <p>The inputType MUST follow the user's <a data-lt="express intention">expression of intention</a>
-                  and whether or not the editing takes place during an IME composition.
-                  The cancelability if the beforeinput event depends on the inputType. The following table shows allowed
-                  values for the inputType field.
+               <p>
+                  The cancelability if the beforeinput event depends on the inputType.
+                  The inputType MUST be one of the <a>inputType values</a>.
+               </p>
+               <p>
+                   The inputType to be picked depends on the user's
+                   <a data-lt="express intention">expression of intention</a>,
+                   whether or not the editing takes place during an IME composition
+                   and the state of the selection.
+               </p>
+               <p>
+                  This specification defines the <dfn>inputType values</dfn> as
+                  the values in the inputType column of the following table.
                </p>
                <table class="parameters">
                   <thead>
@@ -344,6 +353,7 @@
                         <th>User's expression of intention</th>
                         <th>Part of IME composition</th>
                         <th>beforeinput cancelable</th>
+                        <th>State of selection</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -360,6 +370,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -373,6 +386,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -388,6 +404,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -401,6 +420,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -416,6 +438,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -429,6 +454,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -444,6 +472,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -457,6 +488,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -472,6 +506,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -485,6 +522,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -500,6 +540,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -513,6 +556,9 @@
                         </td>
                         <td>
                            No
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -529,6 +575,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -543,6 +592,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -556,6 +608,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -572,6 +627,9 @@
                         <td>
                            No
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -579,13 +637,16 @@
                         </td>
                         <td>
                            delete a word directly before
-                           the caret position with a collapsed selection
+                           the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -594,13 +655,16 @@
                         </td>
                         <td>
                            delete a word directly after
-                           the caret position with a collapsed selection
+                           the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -609,13 +673,16 @@
                         </td>
                         <td>
                            delete from the caret to the nearest visual line break before
-                           the caret position with a collapsed selection
+                           the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -624,13 +691,16 @@
                         </td>
                         <td>
                            delete from the caret to the nearest visual line break after
-                           the caret position with a collapsed selection
+                           the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -639,14 +709,16 @@
                         </td>
                         <td>
                            delete from to the nearest visual line break before the caret position
-                           to the nearest visual line break after the caret position with a
-                           collapsed selection
+                           to the nearest visual line break after the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -657,13 +729,16 @@
                            delete from the caret to the nearest beginning of a
                            block element or
                            <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
-                           element before the caret position with a collapsed selection
+                           element before the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -674,14 +749,16 @@
                            delete from the caret to the nearest end of a
                            block element or
                            <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
-                           element after the caret position with a
-                           collapsed selection
+                           element after the caret position
                         </td>
                         <td>
                            No
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Collapsed
                         </td>
                      </tr>
                      <tr>
@@ -698,6 +775,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -712,13 +792,16 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
                            <code>"deleteContent"</code>
                         </td>
                         <td>
-                           delete the current, non-collapsed selection without specifying the
+                           delete the selection without specifying the
                            direction of the deletion and this intention is not covered by another
                            inputType
                         </td>
@@ -728,6 +811,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Non-collapsed
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -736,7 +822,7 @@
                         <td>
                            delete the content directly before
                            the caret position and this intention is not covered by another
-                           inputType or delete a non-collapsed selection
+                           inputType or delete the selection
                            with the selection collapsing to its start after the deletion
                         </td>
                         <td>
@@ -744,6 +830,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Non-collapsed
                         </td>
                      </tr>
                      <tr>
@@ -753,7 +842,7 @@
                         <td>
                            delete the content directly after
                            the caret position and this intention is not covered by another
-                           inputType or delete a non-collapsed selection
+                           inputType or delete the selection
                            with the selection collapsing to its end after the deletion
                         </td>
                         <td>
@@ -761,6 +850,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Non-collapsed
                         </td>
                      </tr>
                      <tr>
@@ -776,6 +868,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -789,6 +884,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -804,6 +902,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -817,6 +918,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -832,6 +936,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -845,6 +952,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -860,6 +970,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -873,6 +986,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -889,6 +1005,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -903,6 +1022,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -919,6 +1041,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -933,6 +1058,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -949,6 +1077,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -964,6 +1095,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -977,6 +1111,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -992,6 +1129,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -1005,6 +1145,9 @@
                         </td>
                         <td>
                            Yes
+                        </td>
+                        <td>
+                           Any
                         </td>
                      </tr>
                      <tr>
@@ -1020,6 +1163,9 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                      <tr>
                         <td>
@@ -1034,9 +1180,15 @@
                         <td>
                            Yes
                         </td>
+                        <td>
+                           Any
+                        </td>
                      </tr>
                   </tbody>
                </table>
+               <div class="note">
+                   Other specifications may expand on this definition.
+               </div>
                <div class="note">The existence of the above mentioned <code>inputTypes</code>
                   does not mean that any given implementation will support all of these.
                   But if a given browser supports an editing operation which potentially leads to
