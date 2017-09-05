@@ -993,10 +993,28 @@
                      </tr>
                      <tr>
                         <td>
+                           <code>"formatJustifyFull"</code>
+                        </td>
+                        <td>
+                           make the current selection
+                           fully justified
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                        <td>
+                           Any
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
                            <code>"formatJustifyCenter"</code>
                         </td>
                         <td>
-                           justify center the current
+                           center align the current
                            selection
                         </td>
                         <td>
@@ -1014,7 +1032,7 @@
                            <code>"formatJustifyRight"</code>
                         </td>
                         <td>
-                           justify right the current
+                           right align the current
                            selection
                         </td>
                         <td>
@@ -1032,7 +1050,7 @@
                            <code>"formatJustifyLeft"</code>
                         </td>
                         <td>
-                           justify left the current
+                           left align the current
                            selection
                         </td>
                         <td>
@@ -1263,7 +1281,7 @@
                      </tr>
                      <tr>
                         <td>
-                           <code>"formatSetBlockTextDirection"</code>
+                           <code>"formatSetInlineTextDirection"</code> or <code>"formatSetBlockTextDirection"</code>
                         </td>
                         <td>Any</td>
                         <td>
@@ -1272,11 +1290,11 @@
                      </tr>
                      <tr>
                         <td>
-                           <code>"formatSetInlineTextDirection"</code> or <code>"formatFontColor"</code>
+                            <code>"formatBackColor"</code> or <code>"formatFontColor"</code>
                         </td>
                         <td>Any</td>
                         <td>
-                           the <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#colours">simple color value</a> [[!HTML]] of the proposed color
+                           a string containing an <a href="https://www.w3.org/TR/css-color-4/#rgb-functions">RGB function call</a> [[!CSS-COLOR-4]] corresponding to the proposed color
                         </td>
                      </tr>
                      <tr>
