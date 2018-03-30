@@ -72,21 +72,12 @@
                    ,   edDraftURI:   "https://w3c.github.io/input-events/index.html"
                    ,   noLegacyStyle: true
                    ,   localBiblio:  {
-                         "STATIC-RANGE": {
-                             title:    "Static Range"
-                         ,   href:     "https://w3c.github.io/staticrange/index.html"
-                         ,   authors:  [
-                                 "Gary Kačmarčík"
-                             ]
-                         ,   status:   "Editor's Draft"
-                         ,   publisher:  "W3C"
-                         },
                          "DATA-TRANSFER": {
                              title:    "The DataTransfer interface"
                          ,   href:     "https://html.spec.whatwg.org/#the-datatransfer-interface"
                          ,   publisher: "WHATWG"
                          }
-                 }
+                     }
                  };
 
       </script>
@@ -1411,7 +1402,7 @@
                         <td><code>contenteditable</code></td>
                         <td>
                            an Array of
-                           <dfn lt="StaticRange">StaticRanges</dfn> [[!STATIC-RANGE]]
+                           <dfn lt="StaticRange" data-cite="DOM#interface-staticrange">StaticRanges</dfn> [[!DOM]]
                            associated with event
                         </td>
                      </tr>
@@ -1507,7 +1498,7 @@
                                  <li>
                                     <a href="#dfn-gettargetranges"><code class=
                                        "methods-name">InputEvent.getTargetRanges()</code></a>:
-                                    returns an arrays of Static Cranges which will be affected
+                                    returns an arrays of <a>StaticRanges</a> which will be affected
                                     by the change to the DOM if it is not canceled.
                                  </li>
                               </ul>
