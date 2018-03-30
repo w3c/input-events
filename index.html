@@ -71,13 +71,6 @@
                    ,   wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status"
                    ,   edDraftURI:   "https://w3c.github.io/input-events/index.html"
                    ,   noLegacyStyle: true
-                   ,   localBiblio:  {
-                         "DATA-TRANSFER": {
-                             title:    "The DataTransfer interface"
-                         ,   href:     "https://html.spec.whatwg.org/#the-datatransfer-interface"
-                         ,   publisher: "WHATWG"
-                         }
-                     }
                  };
 
       </script>
@@ -120,9 +113,9 @@
       <section>
          <h2>Definitions</h2>
          <dl>
-            <dt><code><dfn>DataTransfer</dfn></code></dt>
+            <dt><code><dfn data-cite="HTML#datatransfer">DataTransfer</dfn></code></dt>
             <dd>A <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
-               object contains richtext and plaintext data for some inputtypes. [[!DATA-TRANSFER]]
+               object contains richtext and plaintext data for some inputtypes. [[!HTML]]
             </dd>
             <dt><dfn>express intention</dfn></dt>
             <dd>A user can <a data-lt="express intention">express an intention</a> to execute a specific editing
@@ -1342,14 +1335,14 @@
                         <td>
                            A prepopulated <a>DataTransfer</a> object so that:
                            <ol>
-                              <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                              <li>The <a>DataTransfer</a> object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
                                  contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
                                  <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                                  is <i>Plain Unicode string</i>, and whose data is a HTML representation
                                  of the content that is in the clipboard, or in the <a>kill buffer</a>,
                                  to be dropped or otherwise the content that is to be added. [[!HTML]]
                               </li>
-                              <li>The DataTransfer object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
+                              <li>The <a>DataTransfer</a> object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
                                  contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
                                  <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                                  is <i>Plain Unicode string</i>, and whose data is a plain text
@@ -1402,7 +1395,7 @@
                         <td><code>contenteditable</code></td>
                         <td>
                            an Array of
-                           <dfn lt="StaticRange" data-cite="DOM#interface-staticrange">StaticRanges</dfn> [[!DOM]]
+                           <dfn lt="StaticRange" data-cite="!DOM#interface-staticrange">StaticRanges</dfn> [[!DOM]]
                            associated with event
                         </td>
                      </tr>
