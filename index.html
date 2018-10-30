@@ -122,6 +122,11 @@
                replace the current selection with the content held in the kill buffer
                by indicating an intention to <dfn>yank</dfn> the kill buffer.
             </dd>
+            <dt><dfn>character</dfn></dt>
+            <dd>
+                A <a>character</a> is an
+                <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended grapheme cluster</a>
+                . [[!UAX29]]
          </dl>
       </section>
       <section>
@@ -507,7 +512,7 @@
                            <code>"insertTranspose"</code>
                         </td>
                         <td>
-                           transpose the last two characters that were entered
+                           transpose the last two <a data-lt="character">characters</a> that were entered
                         </td>
                         <td>
                            No
@@ -1136,33 +1141,47 @@
                   [[!UI-EVENTS]] the corresponding <code>beforeinput</code>
                   and <code>input</code> events.
                </div>
-               <div class="note" data-link-for="InputEvent">If the selection is collapsed,
+               <div class="note">
+                   If the selection is collapsed,
                   <code>"deleteContentBackward"</code> will be used both when
                   the user asks for text deletion within a text node,
                   and when the user shows the intention to deletion of more
                   complex elements or merge paragraphs if the caret is at the
-                  start of a text node. In some scripts, backward
-                  deletion within a text node with a collapsed selection
-                  will delete a code point rather than a grapheme. A grapheme
-                  can consist of several characters, where each character
-                  corresponds to a code point. The <a>getTargetRanges()</a>
-                  method can be used to find out how many characters the
-                  browser will remove by default if deleting within a text
-                  node.
+                  start of a text node.
                </div>
-               <div class="note" data-link-for="InputEvent">If the selection
-                  is collapsed, <code>"deleteContentForward"</code> will be
-                  used both when the user asks for text deletion within a text
-                  node, and when the user shows the intention to deletion of
-                  more complex elements or merge paragraphs if the caret is at
-                  the end of a text node. In some scripts, forward
-                  deletion within a text node with a collapsed selection
-                  will delete a grapheme rather than a code point. A grapheme
-                  can consist of several characters, where each character
-                  corresponds to a code point. The <a>getTargetRanges()</a>
-                  method can be used to find out how many characters the
-                  browser will remove by default if deleting within a text
-                  node.
+               <div class="note">
+                   If the selection is collapsed, <code>"deleteContentForward"</code>
+                   will be used both when the user asks for text deletion within
+                   a text node, and when the user shows the intention to deletion
+                   of more complex elements or merge paragraphs if the caret is
+                   at the end of a text node.
+               </div>
+               <div class="note" data-link-for="InputEvent">
+                   <p><i>This note is not normative.</i></p>
+                  In some scripts on some platforms,
+                  backward deletion within a text node with a collapsed
+                  selection will delete a single
+                  <a href="https://infra.spec.whatwg.org/#code-points">code point</a>
+                  [[INFRA]] rather than a entire
+                  <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme cluster</a>
+                  [[UAX29]]. The <a>getTargetRanges()</a> method can be used to
+                  find out how many
+                  <a href="https://infra.spec.whatwg.org/#code-points">code points</a>
+                  [[INFRA]] the browser will remove by default if deleting
+                  within a text node.
+               </div>
+               <div class="note" data-link-for="InputEvent">
+                  <p><i>This note is not normative.</i></p>
+                  In some scripts on some platforms, forward deletion within a
+                  text node with a collapsed selection will delete an entire
+                  <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme cluster</a>
+                  [[UAX29]] rather than a single
+                  <a href="https://infra.spec.whatwg.org/#code-points">code point</a>
+                  [[INFRA]]. The <a>getTargetRanges()</a> method can be used to
+                  find out how many
+                  <a href="https://infra.spec.whatwg.org/#code-points">code points</a>
+                  [[INFRA]] the browser will remove by
+                  default if deleting within a text node.
                </div>
                <p><dfn><code>data</code></dfn> holds information plaintext data
                   related to what is to be added to the document.
