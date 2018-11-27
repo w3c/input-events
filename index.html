@@ -211,13 +211,11 @@
             <h4>Interface InputEvent</h4>
             <pre class="idl">
                 partial interface InputEvent {
-                    readonly attribute DOMString     inputType;
                     readonly attribute DataTransfer? dataTransfer;
                     sequence&lt;StaticRange&gt; getTargetRanges();
                 };
 
                 partial dictionary InputEventInit {
-                    DOMString inputType = "";
                     DataTransfer? dataTransfer = null;
                     sequence&lt;StaticRange&gt; targetRanges = [];
                 };
@@ -317,13 +315,8 @@
             </section>
             <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
                <h5>Attributes</h5>
-               <p><dfn>inputType</dfn> holds the type of input. During initialization, the
-                  <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a> [[!UI-EVENTS]]
-                  is responsible for populating this field as follows:
-               </p>
                <p>
-                  The cancelability if the beforeinput event depends on the inputType.
-                  The inputType MUST be one of the <a>inputType values</a>.
+                  The cancelability of the beforeinput event depends on the inputType.
                </p>
                <p>
                    The inputType to be picked depends on the user's
@@ -1333,6 +1326,10 @@
                   plaintext data that is to be taken from or added to the document
                   in a <a>DataTransfer</a> object if there is relevant data.
                </p>
+               <p><dfn data-dfn-for=InputEvent>getTargetRanges()</dfn>
+                  returns an arrays <a>StaticRanges</a> that will be affected
+                  by the event if it is not cancelled.
+               </p>
                <table class="parameters">
                   <thead>
                      <tr>
@@ -1391,7 +1388,7 @@
                      <tr>
                         <th>inputType</th>
                         <th>Editing host</th>
-                        <th>Response of <code><dfn>getTargetRanges()</dfn></code></th>
+                        <th>Response of <code>getTargetRanges()</code></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -1508,7 +1505,7 @@
                                     which MAY be null if it doesn't apply.
                                  </li>
                                  <li>
-                                    <a href="#dfn-gettargetranges"><code class=
+                                    <a><code class=
                                        "methods-name">InputEvent.getTargetRanges()</code></a>:
                                     returns an arrays of <a>StaticRanges</a> which will be affected
                                     by the change to the DOM if it is not canceled.
