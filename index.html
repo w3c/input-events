@@ -255,7 +255,7 @@
                      <tr>
                         <td>Contenteditable</td>
                         <td>
-                           <code>"insertFromPaste"</code>,
+                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
                            <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                            <code>"insertFromYank"</code>
                         </td>
@@ -267,7 +267,7 @@
                         <td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
                         <td>
                            <code>"insertText"</code>, <code>"insertCompositionText"</code>,
-                           <code>"insertFromPaste"</code>,
+                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
                            <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
                            <code>"insertFromYank"</code>,
                            <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
@@ -489,6 +489,23 @@
                         </td>
                         <td>
                            paste
+                        </td>
+                        <td>
+                           No
+                        </td>
+                        <td>
+                           Yes
+                        </td>
+                        <td>
+                           Any
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <code>"insertFromPasteAsQuotation"</code>
+                        </td>
+                        <td>
+                           paste content as a quotation
                         </td>
                         <td>
                            No
@@ -1201,8 +1218,8 @@
                      </tr>
                      <tr>
                         <td>
-                           <code>"insertFromPaste"</code>, <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
-                           <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
+                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>, <code>"insertFromDrop"</code>,
+                           <code>"insertTranspose"</code>, <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
                         </td>
                         <td><code><a href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
                            or
@@ -1278,7 +1295,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <code>"insertFromPaste"</code>,
+                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
                            <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
                            <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
                         </td>
