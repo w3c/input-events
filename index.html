@@ -81,7 +81,7 @@
             input to allow for the monitoring and manipulation of default browser
             behavior in the context of text editor applications and other applications
             that deal with text input and text formatting. This specification builds
-            on the UI events spec [[!UI-EVENTS]].
+            on the UI events spec [[UI-EVENTS]].
          </p>
       </section>
       <section id='sotd'>
@@ -105,7 +105,7 @@
          <p>This document describes editing related additions to 2 events -
             <a href="https://w3c.github.io/uievents/#event-type-input">input</a>
             and <a href="https://w3c.github.io/uievents/#beforeinput">beforeinput</a>
-            which are described in the UI events spec [[!UI-EVENTS]]. The goal
+            which are described in the UI events spec [[UI-EVENTS]]. The goal
             of these events is to allow authors to understand and/or override
             default edit behavior both before and after editing occurs.
          </p>
@@ -115,7 +115,7 @@
          <dl>
             <dt><code><dfn data-cite="HTML#datatransfer">DataTransfer</dfn></code></dt>
             <dd>A <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
-               object contains richtext and plaintext data for some inputtypes. [[!HTML]]
+               object contains richtext and plaintext data for some inputtypes. [[HTML]]
             </dd>
             <dt><dfn>express intention</dfn></dt>
             <dd>A user can <a data-lt="express intention">express an intention</a> to execute a specific editing
@@ -135,7 +135,7 @@
             <dd>
                 A <a>character</a> is an
                 <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended grapheme cluster</a>
-                . [[!UAX29]]
+                . [[UAX29]]
          </dl>
       </section>
       <section>
@@ -200,7 +200,7 @@
             includes insertion and deletion of content, and formatting changes.
          </p>
          <p>Input events are <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[!UI-EVENTS]] on elements that act as editing hosts, including
+            [[UI-EVENTS]] on elements that act as editing hosts, including
             elements with the contenteditable attribute set,
             <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code>
             elements, and
@@ -221,9 +221,9 @@
                 };
             </pre>
             <p>
-               The <code><dfn data-cite="!UI-EVENTS#interface-inputevent">InputEvent</dfn></code>
-               and <code><dfn data-cite="!UI-EVENTS#interface-inputevent">InputEventInit</dfn></code>
-               objects are defined in [[!UI-EVENTS]].
+               The <code><dfn data-cite="UI-EVENTS#interface-inputevent">InputEvent</dfn></code>
+               and <code><dfn data-cite="UI-EVENTS#interface-inputevent">InputEventInit</dfn></code>
+               objects are defined in [[UI-EVENTS]].
             </p>
             <p data-dfn-for="InputEventInit">
                The attributes <dfn>inputType</dfn>, <dfn>dataTransfer</dfn> and
@@ -1210,7 +1210,7 @@
                   does not mean that any given implementation will support all of these.
                   But if a given browser supports an editing operation which potentially leads to
                   a change of the DOM, it MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                  [[!UI-EVENTS]] the corresponding <code>beforeinput</code>
+                  [[UI-EVENTS]] the corresponding <code>beforeinput</code>
                   and <code>input</code> events.
                </div>
                <div class="note">
@@ -1307,7 +1307,7 @@
                         </td>
                         <td>Any</td>
                         <td>
-                           a string containing an <a href="https://www.w3.org/TR/css-color-4/#rgb-functions">RGB function call</a> [[!CSS-COLOR-4]] corresponding to the proposed color
+                           a string containing a <a href="https://www.w3.org/TR/cssom-1/#serialize-a-css-component-value">serialized CSS component value</a> [[CSSOM]] of the proposed color
                         </td>
                      </tr>
                      <tr>
@@ -1373,14 +1373,14 @@
                                  <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                                  is <i>Plain Unicode string</i>, and whose data is a HTML representation
                                  of the content that is in the clipboard, or in the <a>kill buffer</a>,
-                                 to be dropped or otherwise the content that is to be added. [[!HTML]]
+                                 to be dropped or otherwise the content that is to be added. [[HTML]]
                               </li>
                               <li>The <a>DataTransfer</a> object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
                                  contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
                                  <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
                                  is <i>Plain Unicode string</i>, and whose data is a plain text
                                  representation of the content that is to be pasted,
-                                 dropped or otherwise added. [[!HTML]]
+                                 dropped or otherwise added. [[HTML]]
                               </li>
                            </ol>
                         </td>
@@ -1428,7 +1428,7 @@
                         <td><code>contenteditable</code></td>
                         <td>
                            an Array of
-                           <dfn lt="StaticRange" data-cite="!DOM#interface-staticrange">StaticRanges</dfn> [[!DOM]]
+                           <dfn lt="StaticRange" data-cite="DOM#interface-staticrange">StaticRanges</dfn> [[DOM]]
                            associated with event
                         </td>
                      </tr>
@@ -1492,7 +1492,7 @@
                            </td>
                         </tr>
                         <tr>
-                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
+                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[UI-EVENTS]]</th>
                            <td>Varies: 'Update the DOM' for contentEditable=typing
                               editing hosts for inputTypes <code>"insertCompositionText"</code>
                               and <code>"deleteCompositionText"</code>.
@@ -1532,15 +1532,15 @@
                         </tr>
                      </table>
                      <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                        agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event when the user has
+                        agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[UI-EVENTS]] this event when the user has
                         attempted to input in a contenteditable element. It does
                         not necessarily mean the
                         <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a>
-                        [[!UI-EVENTS]] will then update the
+                        [[UI-EVENTS]] will then update the
                         DOM.
                      </p>
                      <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                        agent</a> MUST NOT <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[!UI-EVENTS]] this event due to events that
+                        agent</a> MUST NOT <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[UI-EVENTS]] this event due to events that
                         are not caused by attempted user input, such as system
                         events.
                      </p>
@@ -1583,7 +1583,7 @@
                            </td>
                         </tr>
                         <tr>
-                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[!UI-EVENTS]]</th>
+                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[UI-EVENTS]]</th>
                            <td>None</td>
                         </tr>
                         <tr>
@@ -1612,8 +1612,8 @@
                         </tr>
                      </table>
                      <p>A <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#glossary-user-agent">user
-                        agent</a> [[!UI-EVENTS]] MUST <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                        [[!UI-EVENTS]] this event immediately after the
+                        agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
+                        [[UI-EVENTS]] this event immediately after the
                         DOM has been updated due to a user expressed intention to change
                         the document contents which the browser has handled.
                      </p>
