@@ -1636,13 +1636,13 @@
                   <li>The UA extracts the initial composition string from the DOM.</li>
                   <li>A beforeinput event with the inputType
                      <code>"deleteByComposition"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]].
+                     [[UI-EVENTS]].
                   </li>
                   <li>Unless the beforeinput event has been canceled, the initial composition
                      string is removed from the DOM.
                   <li>Unless the beforeinput event has been canceled, an input event with the
                      inputType <code>"deleteByComposition"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]].
+                     [[UI-EVENTS]].
                   </li>
                </ol>
                <div class="note">
@@ -1658,7 +1658,7 @@
             </li>
             <li>
                <p>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionstart">compositionstart</a></code>
-                  event is dispatched. [[!UI-EVENTS]].
+                  event is dispatched. [[UI-EVENTS]].
                </p>
             </li>
             <li>
@@ -1666,13 +1666,13 @@
                <ol>
                   <li>A beforeinput event with the inputType <code>"insertCompositionText"</code>
                      is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]] with the data attribute set to the initial composition string.
+                     [[UI-EVENTS]] with the data attribute set to the initial composition string.
                   </li>
                   <li>The DOM is updated with the insertion of the initial composition string at the
                      start of the selection.
                   </li>
                   <li>An input event with the inputType <code>"insertCompositionText"</code>
-                     is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a> [[!UI-EVENTS]]
+                     is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a> [[UI-EVENTS]]
                   </li>
                </ol>
                <div class="note">
@@ -1685,15 +1685,15 @@
                <ol>
                   <li>A beforeinput event with the
                      inputType <code>"insertCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]] with the data attribute set to the updated contents of the composition text.
+                     [[UI-EVENTS]] with the data attribute set to the updated contents of the composition text.
                   </li>
                   <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
-                     event is dispatched. [[!UI-EVENTS]].
+                     event is dispatched. [[UI-EVENTS]].
                   </li>
                   <li>The DOM is updated.</li>
                   <li>An input event with the
                      inputType <code>"insertCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]].
+                     [[UI-EVENTS]].
                   </li>
                </ol>
                <div class="note">
@@ -1708,14 +1708,14 @@
                   <li>
                      A beforeinput
                      event with the inputType <code>"deleteCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]].
+                     [[UI-EVENTS]].
                   </li>
                   <li>
                      The contents of the range controlled by the composition process is removed from the DOM.
                   </li>
                   <li>A beforeinput event with the inputType <code>"insertFromComposition"</code>
                      is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[!UI-EVENTS]] with the data attribute set to the part of the final composition string that is to be committed
+                     [[UI-EVENTS]] with the data attribute set to the part of the final composition string that is to be committed
                      to the DOM.
                   </li>
                   <li>
@@ -1724,7 +1724,7 @@
                      at the start of the selection.
                   </li>
                   <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionend">compositionend</a></code>
-                     event is dispatched. [[!UI-EVENTS]].
+                     event is dispatched. [[UI-EVENTS]].
                   </li>
                   <li>Unless the beforeinput event with the inputType <code>"insertFromComposition"</code> has been canceled,
                      a input event with the inputType <code>"insertFromComposition"</code> is
