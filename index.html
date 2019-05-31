@@ -1,1811 +1,2083 @@
 <!DOCTYPE html>
-<html lang='en'>
-   <head>
-      <meta charset='utf-8'>
-      <title>Input Events Level 2</title>
-      <style>
-         .invisible-table table{
-         border:0;
-         border-spacing: 0px;
-         border-collapse: collapse;
-         }
-         .invisible-table table td, .invisible-table table th{
-         padding: 6px;
-         }
-      </style>
-      <script async="" class='remove' src=
-         'https://www.w3.org/Tools/respec/respec-w3c-common'></script>
-      <script class='remove'>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      Input Events Level 2
+    </title>
+    <style>
+      .invisible-table table {
+        border: 0;
+        border-spacing: 0px;
+        border-collapse: collapse;
+      }
+      .invisible-table table td,
+      .invisible-table table th {
+        padding: 6px;
+      }
+    </style>
+    <script async class="remove" src=
+    "https://www.w3.org/Tools/respec/respec-w3c"></script>
+    <script class="remove">
       var respecConfig = {
-         specStatus: "ED",
-         shortName: "input-events-2",
-         editors: [
-            {
-               name: "Johannes Wilm",
-               mailto: "johannes@fiduswriter.org",
-               company: "Invited Expert",
-               w3cid: "75083",
-            },
-         ],
-         formerEditors: [
-            {
-               name: "Ben Peters",
-               mailto: "BenjamP@microsoft.com",
-               company: "Microsoft",
-               companyURL: "https://www.microsoft.com",
-               note: "until 23 February 2015",
-               w3cid: "69167",
-            },
-         ],
-         wg: "Web Applications Working Group",
-         wgURI: "https://www.w3.org/2019/webapps/",
-         github: "w3c/input-events",
-         otherLinks: [
-            {
-               key: "Latest published version by level",
-               data: [
-               {
-                  value: "Level 1",
-                  href: "https://www.w3.org/TR/input-events-1/",
-               },
-               {
-                  value: "Level 2",
-                  href: "https://www.w3.org/TR/input-events-2/",
-               },
-               ],
-            },
-            {
-               key: "Latest editor's draft by level",
-               data: [
-               {
-                  value: "Level 1",
-                  href: "https://rawgit.com/w3c/input-events/v1/index.html",
-               },
-               {
-                  value: "Level 2",
-                  href: "https://w3c.github.io/input-events/",
-               },
-               ],
-            },
-         ],
-         wgPublicList: "public-editing-tf",
-         wgPatentURI: "https://www.w3.org/2004/01/pp-impl/114929/status",
+        specStatus: "ED",
+        shortName: "input-events-2",
+        editors: [
+          {
+            name: "Johannes Wilm",
+            mailto: "johannes@fiduswriter.org",
+            company: "Invited Expert",
+            w3cid: "75083",
+          },
+        ],
+        formerEditors: [
+          {
+            name: "Ben Peters",
+            mailto: "BenjamP@microsoft.com",
+            company: "Microsoft",
+            companyURL: "https://www.microsoft.com",
+            note: "until 23 February 2015",
+            w3cid: "69167",
+          },
+        ],
+        wg: "Web Applications Working Group",
+        wgURI: "https://www.w3.org/2019/webapps/",
+        github: "w3c/input-events",
+        otherLinks: [
+          {
+            key: "Latest published version by level",
+            data: [
+              {
+                value: "Level 1",
+                href: "https://www.w3.org/TR/input-events-1/",
+              },
+              {
+                value: "Level 2",
+                href: "https://www.w3.org/TR/input-events-2/",
+              },
+            ],
+          },
+          {
+            key: "Latest editor's draft by level",
+            data: [
+              {
+                value: "Level 1",
+                href: "https://rawgit.com/w3c/input-events/v1/index.html",
+              },
+              {
+                value: "Level 2",
+                href: "https://w3c.github.io/input-events/",
+              },
+            ],
+          },
+        ],
+        wgPublicList: "public-editing-tf",
+        wgPatentURI: "https://www.w3.org/2004/01/pp-impl/114929/status",
+        xref: ["HTML"]
       };
-      </script>
-   </head>
-   <body>
-      <section id='abstract'>
-         <p>This specification defines additions to events for text and related
-            input to allow for the monitoring and manipulation of default browser
-            behavior in the context of text editor applications and other applications
-            that deal with text input and text formatting. This specification builds
-            on the UI events spec [[UI-EVENTS]].
-         </p>
-      </section>
-      <section id='sotd'>
-         <p>Input Events Level 2 replaces the first version of Input Events [[INPUT-EVENTS]] and includes:
-         <p>
-         <ul>
-            <li>Inputtypes for beforeinput events for the start and end of IME compositions that allow isolation of the
-               IME composition process.
-            </li>
-            <li>More requirements for cancelability of beforeinput events, so that all beforeinput events apart from
-               those being emited within an IME composition process are cancelable.
-            </li>
-         </ul>
-         <p>The <a href="https://github.com/web-platform-tests/wpt/tree/master/input-events">test suite</a>
-            and <a href="https://w3c.github.io/test-results/input-events/">implementation reports</a>
-            for the Input Events specification are still work in progress.
-         </p>
-      </section>
-      <section>
-         <h2>Introduction</h2>
-         <p>This document describes editing related additions to 2 events -
-            <a href="https://w3c.github.io/uievents/#event-type-input">input</a>
-            and <a href="https://w3c.github.io/uievents/#beforeinput">beforeinput</a>
-            which are described in the UI events spec [[UI-EVENTS]]. The goal
-            of these events is to allow authors to understand and/or override
-            default edit behavior both before and after editing occurs.
-         </p>
-      </section>
-      <section>
-         <h2>Definitions</h2>
-         <dl>
-            <dt><code><dfn data-cite="HTML#datatransfer">DataTransfer</dfn></code></dt>
-            <dd>A <a href="https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">DataTransfer</a>
-               object contains richtext and plaintext data for some inputtypes. [[HTML]]
-            </dd>
-            <dt><dfn>express intention</dfn></dt>
-            <dd>A user can <a data-lt="express intention">express an intention</a> to execute a specific editing
-               operation by means of keyboard, IME, speech, or similar method. Specific
-               input actions are mapped to intentions following platform-specific conventions.
-            </dd>
-            <dt><dfn>kill buffer</dfn></dt>
-            <dd>
-               <p><i>This definition is not normative.</i></p>
-               A <a>kill buffer</a> is a in-memory store of richtext content that
-               is separate from the clipboard which allows for the temporal storage of
-               content that was deleted using specific deletion commands. The user can
-               replace the current selection with the content held in the kill buffer
-               by indicating an intention to <dfn>yank</dfn> the kill buffer.
-            </dd>
-            <dt><dfn>character</dfn></dt>
-            <dd>
-                A <a>character</a> is an
-                <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended grapheme cluster</a>
-                . [[UAX29]]
-         </dl>
-      </section>
-      <section>
-         <h2>Problems solved</h2>
-         <p><i>This section is not normative.</i></p>
-         <p>Creating a webbased texteditor requires a considerable amount of
-            JavaScript on top of the browser code, among other things because:
-         </p>
-         <ol>
-            <li>Browsers do not handle all editing operations the same way.</li>
-            <li>Browsers are often buggy in the way they handle certain editing
-               operations.
-            </li>
-            <li>Individual sites may have custom preferences for how they want
-               to handle certain editing operations.
-            </li>
-            <li>The development of high-level text editing features in browsers
-               has not followed the principles laid out in the
-               <a href="https://extensiblewebmanifesto.org/">Extensible Web
-               Manifesto</a> in that development of these features has not always
-               been in coordination with the needs of the web developer community.
-            </li>
-         </ol>
-         <p>This spec seeks to alleviate the problem by providing a simple way
-            for web developers to both override browser handling of all user input
-            related to text editing through the <a>beforeinput</a> event, and to
-            monitor what browsers have changed in the DOM due to user input
-            through the <a>input</a> event.
-         </p>
-      </section>
-      <section>
-         <h2>Use cases</h2>
-         <p><i>This section is not normative.</i></p>
-         <ol>
-            <li>Creating a JavaScript text editor in which the &lt;strong&gt;-tag
-               is used instead of the &lt;b&gt;-tag to mark text that the user marks
-               as bold, using any browser-builtin way to mark a text as bold,
-               without having access to all existing browsers.
-            </li>
-            <li>Creating a JavaScript text editor which works with a data model
-               in the background where JavaScript takes care of rendering changes to
-               the edited text to the DOM.
-            </li>
-            <li>Creating a JavaScript editor which only allows a subset of richtext
-               editing (for example: bold is allowed, but italic not).
-            </li>
-            <li>Creating a collaborative editor in which JavaScript is used to
-               render changes to the DOM, based on user intentions with users using
-               different browsers with different ways of expressing specific
-               intentions.
-            </li>
-            <li>Creating a JavaScript editor with different user access options,
-               where some users only can add or delete text and other users only can
-               add or remove certain types of formatting.
-            </li>
-         </ol>
-      </section>
-      <section id="events-inputevents">
-         <h3>Input Event Types</h3>
-         <p>Input events are sent before (beforeinput event) and after
-            (input event) a user attempts to edit the markup. This
-            includes insertion and deletion of content, and formatting changes.
-         </p>
-         <p>Input events are <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]] on elements that act as editing hosts, including
-            elements with the contenteditable attribute set,
-            <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code>
-            elements, and
-            <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
-            elements that permit text input.
-         </p>
-         <section id="interface-InputEvent">
-            <h4>Interface InputEvent</h4>
-            <pre class="idl">
-                partial interface InputEvent {
-                    readonly attribute DataTransfer? dataTransfer;
-                    sequence&lt;StaticRange&gt; getTargetRanges();
-                };
+    </script>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This specification defines additions to events for text and related
+        input to allow for the monitoring and manipulation of default browser
+        behavior in the context of text editor applications and other
+        applications that deal with text input and text formatting. This
+        specification builds on the UI events spec [[UI-EVENTS]].
+      </p>
+    </section>
+    <section id="sotd">
+      <p>
+        Input Events Level 2 replaces the first version of Input Events
+        [[INPUT-EVENTS]] and includes:
+      </p>
+      <ul>
+        <li>Inputtypes for beforeinput events for the start and end of IME
+        compositions that allow isolation of the IME composition process.
+        </li>
+        <li>More requirements for cancelability of beforeinput events, so that
+        all beforeinput events apart from those being emited within an IME
+        composition process are cancelable.
+        </li>
+      </ul>
+      <p>
+        The <a href=
+        "https://github.com/web-platform-tests/wpt/tree/master/input-events">test
+        suite</a> and <a href=
+        "https://w3c.github.io/test-results/input-events/">implementation
+        reports</a> for the Input Events specification are still work in
+        progress.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Introduction
+      </h2>
+      <p>
+        This document describes editing related additions to 2 events -
+        <a href="https://w3c.github.io/uievents/#event-type-input">input</a>
+        and <a href=
+        "https://w3c.github.io/uievents/#beforeinput">beforeinput</a> which are
+        described in the UI events spec [[UI-EVENTS]]. The goal of these events
+        is to allow authors to understand and/or override default edit behavior
+        both before and after editing occurs.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Definitions
+      </h2>
+      <dl>
+        <dt>
+          <dfn>express intention</dfn>
+        </dt>
+        <dd>
+          A user can <a data-lt="express intention">express an intention</a> to
+          execute a specific editing operation by means of keyboard, IME,
+          speech, or similar method. Specific input actions are mapped to
+          intentions following platform-specific conventions.
+        </dd>
+        <dt>
+          <dfn>kill buffer</dfn>
+        </dt>
+        <dd>
+          <p>
+            <i>This definition is not normative.</i>
+          </p>A <a>kill buffer</a> is a in-memory store of richtext content
+          that is separate from the clipboard which allows for the temporal
+          storage of content that was deleted using specific deletion commands.
+          The user can replace the current selection with the content held in
+          the kill buffer by indicating an intention to <dfn>yank</dfn> the
+          kill buffer.
+        </dd>
+        <dt>
+          <dfn>character</dfn>
+        </dt>
+        <dd>
+          A <a>character</a> is an <a href=
+          "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended
+          grapheme cluster</a> . [[UAX29]]
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h2>
+        Problems solved
+      </h2>
+      <p>
+        <i>This section is not normative.</i>
+      </p>
+      <p>
+        Creating a webbased texteditor requires a considerable amount of
+        JavaScript on top of the browser code, among other things because:
+      </p>
+      <ol>
+        <li>Browsers do not handle all editing operations the same way.
+        </li>
+        <li>Browsers are often buggy in the way they handle certain editing
+        operations.
+        </li>
+        <li>Individual sites may have custom preferences for how they want to
+        handle certain editing operations.
+        </li>
+        <li>The development of high-level text editing features in browsers has
+        not followed the principles laid out in the <a href=
+        "https://extensiblewebmanifesto.org/">Extensible Web Manifesto</a> in
+        that development of these features has not always been in coordination
+        with the needs of the web developer community.
+        </li>
+      </ol>
+      <p>
+        This spec seeks to alleviate the problem by providing a simple way for
+        web developers to both override browser handling of all user input
+        related to text editing through the <a>beforeinput</a> event, and to
+        monitor what browsers have changed in the DOM due to user input through
+        the <a>input</a> event.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Use cases
+      </h2>
+      <p>
+        <i>This section is not normative.</i>
+      </p>
+      <ol>
+        <li>Creating a JavaScript text editor in which the &lt;strong&gt;-tag
+        is used instead of the &lt;b&gt;-tag to mark text that the user marks
+        as bold, using any browser-builtin way to mark a text as bold, without
+        having access to all existing browsers.
+        </li>
+        <li>Creating a JavaScript text editor which works with a data model in
+        the background where JavaScript takes care of rendering changes to the
+        edited text to the DOM.
+        </li>
+        <li>Creating a JavaScript editor which only allows a subset of richtext
+        editing (for example: bold is allowed, but italic not).
+        </li>
+        <li>Creating a collaborative editor in which JavaScript is used to
+        render changes to the DOM, based on user intentions with users using
+        different browsers with different ways of expressing specific
+        intentions.
+        </li>
+        <li>Creating a JavaScript editor with different user access options,
+        where some users only can add or delete text and other users only can
+        add or remove certain types of formatting.
+        </li>
+      </ol>
+    </section>
+    <section id="events-inputevents">
+      <h3>
+        Input Event Types
+      </h3>
+      <p>
+        Input events are sent before (beforeinput event) and after (input
+        event) a user attempts to edit the markup. This includes insertion and
+        deletion of content, and formatting changes.
+      </p>
+      <p>
+        Input events are <a data-cite="uievents#dispatch">dispatched</a>
+        [[UI-EVENTS]] on elements that act as editing hosts, including elements
+        with the contenteditable attribute set, <a data-link-type="element"
+        data-cite="html/form-elements.html#the-textarea-element">`textarea`</a>
+        elements, and <code><a data-link-type="element" data-cite=
+        "html/input.html#the-input-element">input</a></code> elements that
+        permit text input.
+      </p>
+      <section id="interface-InputEvent">
+        <h4>
+          Interface InputEvent
+        </h4>
+        <pre class="idl" data-cite="HTML">
+            partial interface InputEvent {
+               readonly attribute DataTransfer? dataTransfer;
+               sequence&lt;StaticRange&gt; getTargetRanges();
+            };
 
-                partial dictionary InputEventInit {
-                    DataTransfer? dataTransfer = null;
-                    sequence&lt;StaticRange&gt; targetRanges = [];
-                };
-            </pre>
+            partial dictionary InputEventInit {
+               DataTransfer? dataTransfer = null;
+               sequence&lt;StaticRange&gt; targetRanges = [];
+            };
+         </pre>
+        <p>
+          The <code><dfn data-cite=
+          "UI-EVENTS#interface-inputevent">InputEvent</dfn></code> and
+          <code><dfn data-cite=
+          "UI-EVENTS#interface-inputevent">InputEventInit</dfn></code> objects
+          are defined in [[UI-EVENTS]].
+        </p>
+        <p data-dfn-for="InputEventInit">
+          The attributes <dfn>inputType</dfn>, <dfn>dataTransfer</dfn> and
+          <dfn>targetRanges</dfn> of <a>InputEventInit</a> initialize the
+          corresponding attributes of the <a>InputEvent</a> object.
+        </p>
+        <section>
+          <h5>
+            Overview
+          </h5>
+          <p>
+            <i>This section is not normative.</i>
+          </p>
+          <p data-link-for="InputEvent">
+            The following table provides a summary of when the <a>data</a> and
+            <a>dataTransfer</a> attributes contain contents and when they are
+            null as well as when the <a>getTargetRanges()</a> method returns an
+            empty or non-empty Array, based on the inputType.
+          </p>
+          <table class="parameters simple">
+            <thead>
+              <tr>
+                <th>
+                  Editing host
+                </th>
+                <th>
+                  inputType
+                </th>
+                <th>
+                  data
+                </th>
+                <th>
+                  dataTransfer
+                </th>
+                <th>
+                  getTargetRanges()
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Contenteditable
+                </td>
+                <td>
+                  <code>"insertText"</code>,
+                  <code>"insertCompositionText"</code>,
+                  <code>"insertFromComposition"</code>,
+                  <code>"formatSetBlockTextDirection"</code>,
+                  <code>"formatSetInlineTextDirection"</code>,
+                  <code>"formatBackColor"</code>,
+                  <code>"formatFontColor"</code>,
+                  <code>"formatFontName"</code>, <code>"insertLink"</code>
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Non-empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Contenteditable
+                </td>
+                <td>
+                  <code>"insertFromPaste"</code>,
+                  <code>"insertFromPasteAsQuotation"</code>,
+                  <code>"insertFromDrop"</code>,
+                  <code>"insertReplacementText"</code>,
+                  <code>"insertFromYank"</code>
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Non-empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>&lt;textarea&gt;</code>, <code>&lt;input
+                  type="text"&gt;</code>
+                </td>
+                <td>
+                  <code>"insertText"</code>,
+                  <code>"insertCompositionText"</code>,
+                  <code>"insertFromComposition"</code>,
+                  <code>"insertFromPaste"</code>,
+                  <code>"insertFromPasteAsQuotation"</code>,
+                  <code>"insertFromDrop"</code>,
+                  <code>"insertReplacementText"</code>,
+                  <code>"insertFromYank"</code>,
+                  <code>"formatSetBlockTextDirection"</code>,
+                  <code>"formatSetInlineTextDirection"</code>,
+                  <code>"formatBackColor"</code>,
+                  <code>"formatFontColor"</code>,
+                  <code>"formatFontName"</code>, <code>"insertLink"</code>
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  All
+                </td>
+                <td>
+                  <code>"historyUndo"</code>, <code>"historyRedo"</code>
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Contenteditable
+                </td>
+                <td>
+                  All Remaining
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Non-empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>&lt;textarea&gt;</code>, <code>&lt;input
+                  type="text"&gt;</code>
+                </td>
+                <td>
+                  All Remaining
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  null
+                </td>
+                <td>
+                  Empty Array
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section id="interface-InputEvent-Attributes" data-dfn-for=
+        "InputEvent">
+          <h5>
+            Attributes
+          </h5>
+          <p>
+            The cancelability of the beforeinput event depends on the
+            inputType.
+          </p>
+          <p>
+            The inputType to be picked depends on the user's <a data-lt=
+            "express intention">expression of intention</a>, whether or not the
+            editing takes place during an IME composition and the state of the
+            selection.
+          </p>
+          <p>
+            This specification defines the <dfn>inputType values</dfn> as the
+            values in the inputType column of the following table.
+          </p>
+          <table class="parameters simple">
+            <thead>
+              <tr>
+                <th>
+                  inputType
+                </th>
+                <th>
+                  User's expression of intention
+                </th>
+                <th>
+                  Part of IME composition
+                </th>
+                <th>
+                  beforeinput cancelable
+                </th>
+                <th>
+                  State of selection
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <code>"insertText"</code>
+                </td>
+                <td>
+                  insert typed plain text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertReplacementText"</code>
+                </td>
+                <td>
+                  replace existing text by means of a spell checker,
+                  auto-correct or similar
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertLineBreak"</code>
+                </td>
+                <td>
+                  insert a line break
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertParagraph"</code>
+                </td>
+                <td>
+                  insert a paragraph break
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertOrderedList"</code>
+                </td>
+                <td>
+                  insert a numbered list
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertUnorderedList"</code>
+                </td>
+                <td>
+                  insert a bulleted list
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertHorizontalRule"</code>
+                </td>
+                <td>
+                  insert a horizontal rule
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromYank"</code>
+                </td>
+                <td>
+                  replace the current selection with content stored in a
+                  <a>kill buffer</a>
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromDrop"</code>
+                </td>
+                <td>
+                  insert content into the DOM by means of drop
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromPaste"</code>
+                </td>
+                <td>
+                  paste
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromPasteAsQuotation"</code>
+                </td>
+                <td>
+                  paste content as a quotation
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertTranspose"</code>
+                </td>
+                <td>
+                  transpose the last two <a data-lt="character">characters</a>
+                  that were entered
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertCompositionText"</code>
+                </td>
+                <td>
+                  replace the current composition string
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromComposition"</code>
+                </td>
+                <td>
+                  insert into the DOM a finalized composed string that will not
+                  form part of the next composition string
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertLink"</code>
+                </td>
+                <td>
+                  insert a link
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteByComposition"</code>
+                </td>
+                <td>
+                  remove a part of the DOM in order to recompose this part
+                  using IME
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteCompositionText"</code>
+                </td>
+                <td>
+                  delete the current composition string before commiting a
+                  finalized string to the DOM
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteWordBackward"</code>
+                </td>
+                <td>
+                  delete a word directly before the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteWordForward"</code>
+                </td>
+                <td>
+                  delete a word directly after the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteSoftLineBackward"</code>
+                </td>
+                <td>
+                  delete from the caret to the nearest visual line break before
+                  the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteSoftLineForward"</code>
+                </td>
+                <td>
+                  delete from the caret to the nearest visual line break after
+                  the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteEntireSoftLine"</code>
+                </td>
+                <td>
+                  delete from to the nearest visual line break before the caret
+                  position to the nearest visual line break after the caret
+                  position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteHardLineBackward"</code>
+                </td>
+                <td>
+                  delete from the caret to the nearest beginning of a block
+                  element or <code><a data-link-type="element" href=
+                  "https://html.spec.whatwg.org/#the-br-element">br</a></code>
+                  element before the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteHardLineForward"</code>
+                </td>
+                <td>
+                  delete from the caret to the nearest end of a block element
+                  or <code><a data-link-type="element" href=
+                  "https://html.spec.whatwg.org/#the-br-element">br</a></code>
+                  element after the caret position
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteByDrag"</code>
+                </td>
+                <td>
+                  remove content from the DOM by means of drag
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteByCut"</code>
+                </td>
+                <td>
+                  remove the current selection as part of a cut
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteContent"</code>
+                </td>
+                <td>
+                  delete the selection without specifying the direction of the
+                  deletion and this intention is not covered by another
+                  inputType
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Non-collapsed
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteContentBackward"</code>
+                </td>
+                <td>
+                  delete the content directly before the caret position and
+                  this intention is not covered by another inputType or delete
+                  the selection with the selection collapsing to its start
+                  after the deletion
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"deleteContentForward"</code>
+                </td>
+                <td>
+                  delete the content directly after the caret position and this
+                  intention is not covered by another inputType or delete the
+                  selection with the selection collapsing to its end after the
+                  deletion
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"historyUndo"</code>
+                </td>
+                <td>
+                  undo the last editing action
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"historyRedo"</code>
+                </td>
+                <td>
+                  to redo the last undone editing action
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatBold"</code>
+                </td>
+                <td>
+                  initiate bold text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatItalic"</code>
+                </td>
+                <td>
+                  initiate italic text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatUnderline"</code>
+                </td>
+                <td>
+                  initiate underline text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatStrikeThrough"</code>
+                </td>
+                <td>
+                  initiate stricken through text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatSuperscript"</code>
+                </td>
+                <td>
+                  initiate superscript text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatSubscript"</code>
+                </td>
+                <td>
+                  initiate subscript text
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatJustifyFull"</code>
+                </td>
+                <td>
+                  make the current selection fully justified
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatJustifyCenter"</code>
+                </td>
+                <td>
+                  center align the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatJustifyRight"</code>
+                </td>
+                <td>
+                  right align the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatJustifyLeft"</code>
+                </td>
+                <td>
+                  left align the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatIndent"</code>
+                </td>
+                <td>
+                  indent the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatOutdent"</code>
+                </td>
+                <td>
+                  outdent the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatRemove"</code>
+                </td>
+                <td>
+                  remove all formatting from the current selection
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatSetBlockTextDirection"</code>
+                </td>
+                <td>
+                  set the text block direction
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatSetInlineTextDirection"</code>
+                </td>
+                <td>
+                  set the text inline direction
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatBackColor"</code>
+                </td>
+                <td>
+                  change the background color
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatFontColor"</code>
+                </td>
+                <td>
+                  change the font color
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatFontName"</code>
+                </td>
+                <td>
+                  change the font-family
+                </td>
+                <td>
+                  No
+                </td>
+                <td>
+                  Yes
+                </td>
+                <td>
+                  Any
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            Other specifications may expand on this definition.
+          </div>
+          <div class="note">
+            The existence of the above mentioned <code>inputTypes</code> does
+            not mean that any given implementation will support all of these.
+            But if a given browser supports an editing operation which
+            potentially leads to a change of the DOM, it MUST <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
+            [[UI-EVENTS]] the corresponding <code>beforeinput</code> and
+            <code>input</code> events.
+          </div>
+          <div class="note">
+            If the selection is collapsed, <code>"deleteContentBackward"</code>
+            will be used both when the user asks for text deletion within a
+            text node, and when the user shows the intention to deletion of
+            more complex elements or merge paragraphs if the caret is at the
+            start of a text node.
+          </div>
+          <div class="note">
+            If the selection is collapsed, <code>"deleteContentForward"</code>
+            will be used both when the user asks for text deletion within a
+            text node, and when the user shows the intention to deletion of
+            more complex elements or merge paragraphs if the caret is at the
+            end of a text node.
+          </div>
+          <div class="note" data-link-for="InputEvent">
             <p>
-               The <code><dfn data-cite="UI-EVENTS#interface-inputevent">InputEvent</dfn></code>
-               and <code><dfn data-cite="UI-EVENTS#interface-inputevent">InputEventInit</dfn></code>
-               objects are defined in [[UI-EVENTS]].
-            </p>
-            <p data-dfn-for="InputEventInit">
-               The attributes <dfn>inputType</dfn>, <dfn>dataTransfer</dfn> and
-               <dfn>targetRanges</dfn> of <a> InputEventInit</a> initialize the
-               corresponding attributes of the <a>InputEvent</a> object.
-            </p>
-            <section>
-               <h5>Overview</h5>
-               <p><i>This section is not normative.</i></p>
-               <p data-link-for="InputEvent">The following table provides a summary of when the <a>data</a>
-                  and <a>dataTransfer</a> attributes contain contents and when they
-                  are null as well as when the <a>getTargetRanges()</a> method
-                  returns an empty or non-empty Array, based on the inputType.
-               </p>
-               <table class="parameters simple">
-                  <thead>
-                     <tr>
-                        <th>Editing host</th>
-                        <th>inputType</th>
-                        <th>data</th>
-                        <th>dataTransfer</th>
-                        <th>getTargetRanges()</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>Contenteditable</td>
-                        <td>
-                           <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
-                           <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
-                           <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
-                           <code>"insertLink"</code>
-                        </td>
-                        <td>Yes</td>
-                        <td>null</td>
-                        <td>Non-empty Array</td>
-                     </tr>
-                     <tr>
-                        <td>Contenteditable</td>
-                        <td>
-                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
-                           <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
-                           <code>"insertFromYank"</code>
-                        </td>
-                        <td>null</td>
-                        <td>Yes</td>
-                        <td>Non-empty Array</td>
-                     </tr>
-                     <tr>
-                        <td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
-                        <td>
-                           <code>"insertText"</code>, <code>"insertCompositionText"</code>, <code>"insertFromComposition"</code>,
-                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
-                           <code>"insertFromDrop"</code>, <code>"insertReplacementText"</code>,
-                           <code>"insertFromYank"</code>,
-                           <code>"formatSetBlockTextDirection"</code>, <code>"formatSetInlineTextDirection"</code>,
-                           <code>"formatBackColor"</code>, <code>"formatFontColor"</code>, <code>"formatFontName"</code>,
-                           <code>"insertLink"</code>
-                        </td>
-                        <td>Yes</td>
-                        <td>null</td>
-                        <td>Empty Array</td>
-                     </tr>
-                     <tr>
-                        <td>All</td>
-                        <td>
-                           <code>"historyUndo"</code>, <code>"historyRedo"</code>
-                        </td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>Empty Array</td>
-                     </tr>
-                     <tr>
-                        <td>Contenteditable</td>
-                        <td>All Remaining</td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>Non-empty Array</td>
-                     </tr>
-                     <tr>
-                        <td><code>&lt;textarea&gt;</code>, <code>&lt;input type="text"&gt;</code></td>
-                        <td>All Remaining</td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>Empty Array</td>
-                     </tr>
-                  </tbody>
-               </table>
-            </section>
-            <section id="interface-InputEvent-Attributes" dfn-for="InputEvent">
-               <h5>Attributes</h5>
-               <p>
-                  The cancelability of the beforeinput event depends on the inputType.
-               </p>
-               <p>
-                   The inputType to be picked depends on the user's
-                   <a data-lt="express intention">expression of intention</a>,
-                   whether or not the editing takes place during an IME composition
-                   and the state of the selection.
-               </p>
-               <p>
-                  This specification defines the <dfn>inputType values</dfn> as
-                  the values in the inputType column of the following table.
-               </p>
-               <table class="parameters simple">
-                  <thead>
-                     <tr>
-                        <th>inputType</th>
-                        <th>User's expression of intention</th>
-                        <th>Part of IME composition</th>
-                        <th>beforeinput cancelable</th>
-                        <th>State of selection</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <code>"insertText"</code>
-                        </td>
-                        <td>
-                           insert typed plain text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertReplacementText"</code>
-                        </td>
-                        <td>
-                           replace existing text by means of a spell checker, auto-correct or similar
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertLineBreak"</code>
-                        </td>
-                        <td>
-                           insert a line break
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertParagraph"</code>
-                        </td>
-                        <td>
-                           insert a paragraph break
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertOrderedList"</code>
-                        </td>
-                        <td>
-                           insert a numbered list
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertUnorderedList"</code>
-                        </td>
-                        <td>
-                           insert a bulleted list
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertHorizontalRule"</code>
-                        </td>
-                        <td>
-                           insert a horizontal rule
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromYank"</code>
-                        </td>
-                        <td>
-                           replace the current selection with content stored in a <a>kill buffer</a>
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromDrop"</code>
-                        </td>
-                        <td>
-                           insert content into the DOM by means of drop
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromPaste"</code>
-                        </td>
-                        <td>
-                           paste
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromPasteAsQuotation"</code>
-                        </td>
-                        <td>
-                           paste content as a quotation
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertTranspose"</code>
-                        </td>
-                        <td>
-                           transpose the last two <a data-lt="character">characters</a> that were entered
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertCompositionText"</code>
-                        </td>
-                        <td>
-                           replace the current composition string
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromComposition"</code>
-                        </td>
-                        <td>
-                           insert into the DOM a finalized composed string
-                           that will not form part of the next composition string
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertLink"</code>
-                        </td>
-                        <td>
-                           insert a link
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteByComposition"</code>
-                        </td>
-                        <td>
-                           remove a part of the DOM in order to recompose this part using IME
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteCompositionText"</code>
-                        </td>
-                        <td>
-                           delete the current composition string
-                           before commiting a finalized string to the DOM
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteWordBackward"</code>
-                        </td>
-                        <td>
-                           delete a word directly before
-                           the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteWordForward"</code>
-                        </td>
-                        <td>
-                           delete a word directly after
-                           the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteSoftLineBackward"</code>
-                        </td>
-                        <td>
-                           delete from the caret to the nearest visual line break before
-                           the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteSoftLineForward"</code>
-                        </td>
-                        <td>
-                           delete from the caret to the nearest visual line break after
-                           the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteEntireSoftLine"</code>
-                        </td>
-                        <td>
-                           delete from to the nearest visual line break before the caret position
-                           to the nearest visual line break after the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteHardLineBackward"</code>
-                        </td>
-                        <td>
-                           delete from the caret to the nearest beginning of a
-                           block element or
-                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
-                           element before the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteHardLineForward"</code>
-                        </td>
-                        <td>
-                           delete from the caret to the nearest end of a
-                           block element or
-                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/#the-br-element">br</a></code>
-                           element after the caret position
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteByDrag"</code>
-                        </td>
-                        <td>
-                           remove content from the DOM
-                           by means of drag
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteByCut"</code>
-                        </td>
-                        <td>
-                           remove the current selection as part of a cut
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteContent"</code>
-                        </td>
-                        <td>
-                           delete the selection without specifying the
-                           direction of the deletion and this intention is not covered by another
-                           inputType
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Non-collapsed
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteContentBackward"</code>
-                        </td>
-                        <td>
-                           delete the content directly before
-                           the caret position and this intention is not covered by another
-                           inputType or delete the selection
-                           with the selection collapsing to its start after the deletion
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"deleteContentForward"</code>
-                        </td>
-                        <td>
-                           delete the content directly after
-                           the caret position and this intention is not covered by another
-                           inputType or delete the selection
-                           with the selection collapsing to its end after the deletion
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"historyUndo"</code>
-                        </td>
-                        <td>
-                           undo the last editing action
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"historyRedo"</code>
-                        </td>
-                        <td>
-                           to redo the last undone editing action
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatBold"</code>
-                        </td>
-                        <td>
-                           initiate bold text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatItalic"</code>
-                        </td>
-                        <td>
-                           initiate italic text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatUnderline"</code>
-                        </td>
-                        <td>
-                           initiate underline text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatStrikeThrough"</code>
-                        </td>
-                        <td>
-                           initiate stricken through text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatSuperscript"</code>
-                        </td>
-                        <td>
-                           initiate superscript text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatSubscript"</code>
-                        </td>
-                        <td>
-                           initiate subscript text
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatJustifyFull"</code>
-                        </td>
-                        <td>
-                           make the current selection
-                           fully justified
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatJustifyCenter"</code>
-                        </td>
-                        <td>
-                           center align the current
-                           selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatJustifyRight"</code>
-                        </td>
-                        <td>
-                           right align the current
-                           selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatJustifyLeft"</code>
-                        </td>
-                        <td>
-                           left align the current
-                           selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatIndent"</code>
-                        </td>
-                        <td>
-                           indent the current
-                           selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatOutdent"</code>
-                        </td>
-                        <td>
-                           outdent the current
-                           selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatRemove"</code>
-                        </td>
-                        <td>
-                           remove all formatting from the
-                           current selection
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatSetBlockTextDirection"</code>
-                        </td>
-                        <td>
-                           set the text block direction
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatSetInlineTextDirection"</code>
-                        </td>
-                        <td>
-                           set the text inline direction
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatBackColor"</code>
-                        </td>
-                        <td>
-                           change the background color
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatFontColor"</code>
-                        </td>
-                        <td>
-                           change the font color
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatFontName"</code>
-                        </td>
-                        <td>
-                           change the font-family
-                        </td>
-                        <td>
-                           No
-                        </td>
-                        <td>
-                           Yes
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <div class="note">
-                   Other specifications may expand on this definition.
-               </div>
-               <div class="note">The existence of the above mentioned <code>inputTypes</code>
-                  does not mean that any given implementation will support all of these.
-                  But if a given browser supports an editing operation which potentially leads to
-                  a change of the DOM, it MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                  [[UI-EVENTS]] the corresponding <code>beforeinput</code>
-                  and <code>input</code> events.
-               </div>
-               <div class="note">
-                   If the selection is collapsed,
-                  <code>"deleteContentBackward"</code> will be used both when
-                  the user asks for text deletion within a text node,
-                  and when the user shows the intention to deletion of more
-                  complex elements or merge paragraphs if the caret is at the
-                  start of a text node.
-               </div>
-               <div class="note">
-                   If the selection is collapsed, <code>"deleteContentForward"</code>
-                   will be used both when the user asks for text deletion within
-                   a text node, and when the user shows the intention to deletion
-                   of more complex elements or merge paragraphs if the caret is
-                   at the end of a text node.
-               </div>
-               <div class="note" data-link-for="InputEvent">
-                   <p><i>This note is not normative.</i></p>
-                  In some scripts on some platforms,
-                  backward deletion within a text node with a collapsed
-                  selection will delete a single
-                  <a href="https://infra.spec.whatwg.org/#code-points">code point</a>
-                  [[INFRA]] rather than a entire
-                  <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme cluster</a>
-                  [[UAX29]]. The <a>getTargetRanges()</a> method can be used to
-                  find out how many
-                  <a href="https://infra.spec.whatwg.org/#code-points">code points</a>
-                  [[INFRA]] the browser will remove by default if deleting
-                  within a text node.
-               </div>
-               <div class="note" data-link-for="InputEvent">
-                  <p><i>This note is not normative.</i></p>
-                  In some scripts on some platforms, forward deletion within a
-                  text node with a collapsed selection will delete an entire
-                  <a href="http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme cluster</a>
-                  [[UAX29]] rather than a single
-                  <a href="https://infra.spec.whatwg.org/#code-points">code point</a>
-                  [[INFRA]]. The <a>getTargetRanges()</a> method can be used to
-                  find out how many
-                  <a href="https://infra.spec.whatwg.org/#code-points">code points</a>
-                  [[INFRA]] the browser will remove by
-                  default if deleting within a text node.
-               </div>
-               <p><dfn><code>data</code></dfn> holds information plaintext data
-                  related to what is to be added to the document.
-               </p>
-               <table class="parameters simple">
-                  <thead>
-                     <tr>
-                        <th>inputType</th>
-                        <th>Editing host</th>
-                        <th>data</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <code>"insertText"</code>, <code>"insertCompositionText"</code>
-                           or <code>"insertFromComposition"</code>
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                        <td>
-                           the plain text string to be inserted
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>, <code>"insertFromDrop"</code>,
-                           <code>"insertTranspose"</code>, <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
-                        </td>
-                        <td><code><a href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
-                           or
-                           <code><a href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code>
-                        </td>
-                        <td>
-                           the plain text string to be inserted
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatSetInlineTextDirection"</code> or <code>"formatSetBlockTextDirection"</code>
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code> or <code>"null"</code>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                            <code>"formatBackColor"</code> or <code>"formatFontColor"</code>
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           a string containing a <a href="https://www.w3.org/TR/cssom-1/#serialize-a-css-component-value">serialized CSS component value</a> [[CSSOM]] of the proposed color
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"formatFontName"</code>
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           the proposed value of the font-family CSS property
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <code>"insertLink"</code>
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           the url of the proposed link
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           All remaining
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           null
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <p><dfn data-dfn-for=InputEvent>dataTransfer</dfn> holds information about richtext and
-                  plaintext data that is to be taken from or added to the document
-                  in a <a>DataTransfer</a> object if there is relevant data.
-               </p>
-               <p><dfn data-dfn-for=InputEvent>getTargetRanges()</dfn>
-                  returns an arrays <a>StaticRanges</a> that will be affected
-                  by the event if it is not cancelled.
-               </p>
-               <table class="parameters simple">
-                  <thead>
-                     <tr>
-                        <th>inputType</th>
-                        <th>Editing host</th>
-                        <th>dataTransfer</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <code>"insertFromPaste"</code>, <code>"insertFromPasteAsQuotation"</code>,
-                           <code>"insertFromDrop"</code>, <code>"insertTranspose"</code>,
-                           <code>"insertReplacementText"</code> or <code>"insertFromYank"</code>
-                        </td>
-                        <td>
-                           <code>contenteditable</code>
-                        </td>
-                        <td>
-                           A prepopulated <a>DataTransfer</a> object so that:
-                           <ol>
-                              <li>The <a>DataTransfer</a> object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
-                                 contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
-                                 <code>"text/html"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
-                                 is <i>Plain Unicode string</i>, and whose data is a HTML representation
-                                 of the content that is in the clipboard, or in the <a>kill buffer</a>,
-                                 to be dropped or otherwise the content that is to be added. [[HTML]]
-                              </li>
-                              <li>The <a>DataTransfer</a> object's <a href="https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">drag data store item list</a>
-                                 contains one entry with the <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">drag data item type string</a>
-                                 <code>"text/plain"</code>, whose <a href="https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">kind</a>
-                                 is <i>Plain Unicode string</i>, and whose data is a plain text
-                                 representation of the content that is to be pasted,
-                                 dropped or otherwise added. [[HTML]]
-                              </li>
-                           </ol>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           All remaining
-                        </td>
-                        <td>Any</td>
-                        <td>
-                           null
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </section>
-            <!-- interface-InputEvent-Attributes -->
-            <section id="interface-InputEvent-Methods" dfn-for="InputEvent">
-               <h5>Methods</h5>
-               <table class="parameters simple">
-                  <thead>
-                     <tr>
-                        <th>inputType</th>
-                        <th>Editing host</th>
-                        <th>Response of <code>getTargetRanges()</code></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <code>"historyUndo"</code> or
-                           <code>"historyRedo"</code>
-                        </td>
-                        <td>
-                           Any
-                        </td>
-                        <td>
-                           empty Array
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           All remaining
-                        </td>
-                        <td><code>contenteditable</code></td>
-                        <td>
-                           an Array of
-                           <dfn lt="StaticRange" data-cite="DOM#interface-staticrange">StaticRanges</dfn> [[DOM]]
-                           associated with event
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           All remaining
-                        </td>
-                        <td>
-                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
-                           or
-                           <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a></code>
-                        </td>
-                        <td>
-                           an empty Array
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <p> returns , unless the inputType is
+              <i>This note is not normative.</i>
+            </p>In some scripts on some platforms, backward deletion within a
+            text node with a collapsed selection will delete a single <a href=
+            "https://infra.spec.whatwg.org/#code-points">code point</a>
+            [[INFRA]] rather than a entire <a href=
+            "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme
+            cluster</a> [[UAX29]]. The <a>getTargetRanges()</a> method can be
+            used to find out how many <a href=
+            "https://infra.spec.whatwg.org/#code-points">code points</a>
+            [[INFRA]] the browser will remove by default if deleting within a
+            text node.
+          </div>
+          <div class="note" data-link-for="InputEvent">
+            <p>
+              <i>This note is not normative.</i>
+            </p>In some scripts on some platforms, forward deletion within a
+            text node with a collapsed selection will delete an entire <a href=
+            "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme
+            cluster</a> [[UAX29]] rather than a single <a href=
+            "https://infra.spec.whatwg.org/#code-points">code point</a>
+            [[INFRA]]. The <a>getTargetRanges()</a> method can be used to find
+            out how many <a href=
+            "https://infra.spec.whatwg.org/#code-points">code points</a>
+            [[INFRA]] the browser will remove by default if deleting within a
+            text node.
+          </div>
+          <p>
+            <dfn><code>data</code></dfn> holds information plaintext data
+            related to what is to be added to the document.
+          </p>
+          <table class="parameters simple">
+            <thead>
+              <tr>
+                <th>
+                  inputType
+                </th>
+                <th>
+                  Editing host
+                </th>
+                <th>
+                  data
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <code>"insertText"</code>,
+                  <code>"insertCompositionText"</code> or
+                  <code>"insertFromComposition"</code>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  the plain text string to be inserted
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertFromPaste"</code>,
+                  <code>"insertFromPasteAsQuotation"</code>,
+                  <code>"insertFromDrop"</code>,
+                  <code>"insertTranspose"</code>,
+                  <code>"insertReplacementText"</code> or
+                  <code>"insertFromYank"</code>
+                </td>
+                <td>
+                  <code><a data-cite=
+                  "html/input.html#the-input-element">input</a></code> or
+                  <code><a data-cite=
+                  "html/form-elements.html#the-textarea-element">textarea</a></code>
+                </td>
+                <td>
+                  the plain text string to be inserted
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatSetInlineTextDirection"</code> or
+                  <code>"formatSetBlockTextDirection"</code>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  <code>"ltr"</code>, <code>"rtl"</code>, <code>"auto"</code>
+                  or <code>"null"</code>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatBackColor"</code> or
+                  <code>"formatFontColor"</code>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  a string containing a <a data-cite=
+                  "cssom-1#serialize-a-css-component-value">serialized CSS
+                  component value</a> [[CSSOM]] of the proposed color
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"formatFontName"</code>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  the proposed value of the font-family CSS property
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>"insertLink"</code>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  the url of the proposed link
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  All remaining
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  null
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <dfn data-dfn-for="InputEvent">dataTransfer</dfn> holds information
+            about richtext and plaintext data that is to be taken from or added
+            to the document in a {{DataTransfer}} object if there is relevant
+            data.
+          </p>
+          <p>
+            <dfn data-dfn-for="InputEvent">getTargetRanges()</dfn> returns an
+            arrays <a>StaticRanges</a> that will be affected by the event if it
+            is not cancelled.
+          </p>
+          <table class="parameters simple">
+            <thead>
+              <tr>
+                <th>
+                  inputType
+                </th>
+                <th>
+                  Editing host
+                </th>
+                <th>
+                  dataTransfer
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <code>"insertFromPaste"</code>,
+                  <code>"insertFromPasteAsQuotation"</code>,
+                  <code>"insertFromDrop"</code>,
+                  <code>"insertTranspose"</code>,
+                  <code>"insertReplacementText"</code> or
+                  <code>"insertFromYank"</code>
+                </td>
+                <td>
+                  <code>contenteditable</code>
+                </td>
+                <td>
+                  A prepopulated {{DataTransfer}} object so that:
+                  <ol>
+                    <li>The {{DataTransfer}} object's <a data-cite=
+                    "html/dnd.html#drag-data-store-item-list">drag data store
+                    item list</a> contains one entry with the <a data-cite=
+                    "html/dnd.html#the-drag-data-item-type-string">drag data
+                    item type string</a> <code>"text/html"</code>, whose
+                    <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">kind</a> is
+                    <i>Plain Unicode string</i>, and whose data is a HTML
+                    representation of the content that is in the clipboard, or
+                    in the <a>kill buffer</a>, to be dropped or otherwise the
+                    content that is to be added. [[HTML]]
+                    </li>
+                    <li>The {{DataTransfer}} object's <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">drag data store
+                    item list</a> contains one entry with the <a data-cite=
+                    "html/dnd.html#the-drag-data-item-type-string">drag data
+                    item type string</a> <code>"text/plain"</code>, whose
+                    <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">kind</a> is
+                    <i>Plain Unicode string</i>, and whose data is a plain text
+                    representation of the content that is to be pasted, dropped
+                    or otherwise added. [[HTML]]
+                    </li>
+                  </ol>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  All remaining
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  null
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section><!-- interface-InputEvent-Attributes -->
+        <section id="interface-InputEvent-Methods" data-dfn-for="InputEvent">
+          <h5>
+            Methods
+          </h5>
+          <table class="parameters simple">
+            <thead>
+              <tr>
+                <th>
+                  inputType
+                </th>
+                <th>
+                  Editing host
+                </th>
+                <th>
+                  Response of <code>getTargetRanges()</code>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
                   <code>"historyUndo"</code> or <code>"historyRedo"</code>
-                  or the editing host is not a contenteditable element,
-                  in which case it returns an empty Array.
-               </p>
-            </section>
-            <!-- interface-InputEvent-Methods -->
-         </section>
-         <!-- interface-InputEvent -->
-         <section id="event-definitions">
-            <h4>Event definitions</h4>
-            <div class="event-definition">
-               <dl>
-                  <dt id="event-type-beforeinput"><dfn><a class="eventtype" href=
-                     "#event-type-beforeinput"><code>beforeinput</code></a></dfn></dt>
-                  <dd>
-                     <table class="invisible-table" data-summary=
-                        "This table contains information about the semantics of the given event type">
-                        <tr>
-                           <th>Type</th>
-                           <td><strong><code>beforeinput</code></strong></td>
-                        </tr>
-                        <tr>
-                           <th>Interface</th>
-                           <td>
-                              <a href=
-                                 "#interface-InputEvent"><code>InputEvent</code></a>
-                           </td>
-                        </tr>
-                        <tr>
-                           <th>Sync / Async</th>
-                           <td>Sync</td>
-                        </tr>
-                        <tr>
-                           <th>Bubbles</th>
-                           <td>Yes</td>
-                        </tr>
-                        <tr>
-                           <th>Trusted Targets</th>
-                           <td>Any <code>Element</code> with
-                              <code>contenteditable</code> attribute
-                              enabled.
-                           </td>
-                        </tr>
-                        <tr>
-                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[UI-EVENTS]]</th>
-                           <td>Varies: 'Update the DOM' for contentEditable=typing
-                              editing hosts for inputTypes <code>"insertCompositionText"</code>
-                              and <code>"deleteCompositionText"</code>.
-                              'Update the DOM element' for <code>contentEditable="true"</code>
-                              editing hosts for all inputTypes. None otherwise.
-                           </td>
-                        </tr>
-                        <tr>
-                           <th>Context<br>
-                              (trusted events)
-                           </th>
-                           <td>
-                              <ul>
-                                 <li>
-                                    <a href=
-                                       "#dfn-data"><code class=
-                                       "attribute-name">InputEvent.data</code></a>:
-                                    the string containing the data that was
-                                    added to the element, which MAY be
-                                    null if it doesn't apply.
-                                 </li>
-                                 <li>
-                                    <a href=
-                                       "#dom-inputevent-datatransfer"><code class=
-                                       "attribute-name">InputEvent.dataTransfer</code></a>:
-                                    richtext data added or removed from element,
-                                    which MAY be null if it doesn't apply.
-                                 </li>
-                                 <li>
-                                    <a><code class=
-                                       "methods-name">InputEvent.getTargetRanges()</code></a>:
-                                    returns an arrays of <a>StaticRanges</a> which will be affected
-                                    by the change to the DOM if it is not canceled.
-                                 </li>
-                              </ul>
-                           </td>
-                        </tr>
-                     </table>
-                     <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                        agent</a> MUST <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[UI-EVENTS]] this event when the user has
-                        attempted to input in a contenteditable element. It does
-                        not necessarily mean the
-                        <a href="https://www.w3.org/TR/uievents/#user-agent">user agent</a>
-                        [[UI-EVENTS]] will then update the
-                        DOM.
-                     </p>
-                     <p>A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                        agent</a> MUST NOT <a href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a> [[UI-EVENTS]] this event due to events that
-                        are not caused by attempted user input, such as system
-                        events.
-                     </p>
-                  </dd>
-               </dl>
-            </div>
-            <!-- beforeinput -->
-            <!-- input -->
-            <div class="event-definition">
-               <dl>
-                  <dt id="event-type-input"><dfn><a class="eventtype" href=
-                     "#event-type-input"><code>input</code></a></dfn></dt>
-                  <dd>
-                     <table class="invisible-table" data-summary=
-                        "This table contains information about the semantics of the given event type">
-                        <tr>
-                           <th>Type</th>
-                           <td><strong><code>input</code></strong></td>
-                        </tr>
-                        <tr>
-                           <th>Interface</th>
-                           <td>
-                              <a href=
-                                 "#interface-InputEvent"><code>InputEvent</code></a>
-                           </td>
-                        </tr>
-                        <tr>
-                           <th>Sync / Async</th>
-                           <td>Sync</td>
-                        </tr>
-                        <tr>
-                           <th>Bubbles</th>
-                           <td>Yes</td>
-                        </tr>
-                        <tr>
-                           <th>Trusted Targets</th>
-                           <td>Any <code>Element</code> with
-                              <code>contenteditable</code> attribute
-                              enabled.
-                           </td>
-                        </tr>
-                        <tr>
-                           <th><a href="https://www.w3.org/TR/uievents/#default-action">Default action</a> [[UI-EVENTS]]</th>
-                           <td>None</td>
-                        </tr>
-                        <tr>
-                           <th>Context<br>
-                              (trusted events)
-                           </th>
-                           <td>
-                              <ul>
-                                 <li>
-                                    <a href=
-                                       "#dfn-data"><code class=
-                                       "attribute-name">InputEvent.data</code></a>:
-                                    the string containing the data that was
-                                    added to the element, which MAY be
-                                    null if it doesn't apply.
-                                 </li>
-                                 <li>
-                                    <a href=
-                                       "#dom-inputevent-datatransfer"><code class=
-                                       "attribute-name">InputEvent.dataTransfer</code></a>:
-                                    richtext data added or removed from element,
-                                    which MAY be null if it doesn't apply.
-                                 </li>
-                              </ul>
-                           </td>
-                        </tr>
-                     </table>
-                     <p>A <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#glossary-user-agent">user
-                        agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                        [[UI-EVENTS]] this event immediately after the
-                        DOM has been updated due to a user expressed intention to change
-                        the document contents which the browser has handled.
-                     </p>
-                  </dd>
-               </dl>
-            </div>
-            <!-- input -->
-         </section>
-         <!-- event definitions -->
-      </section>
-      <section>
-         <h2>Event order during IME composition</h2>
-         <p>An IME composition causes several beforeinput events, not
-            all of which can be canceled.
-         </p>
-         <ol>
-            <li>
-               <p>If the composition is starting with an empty initial composition string (i.e. the composition
-                  is not recomposing an existing range of the DOM), this step is skipped.
-               </p>
-               <ol>
-                  <li>The UA extracts the initial composition string from the DOM.</li>
-                  <li>A beforeinput event with the inputType
-                     <code>"deleteByComposition"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]].
-                  </li>
-                  <li>Unless the beforeinput event has been canceled, the initial composition
-                     string is removed from the DOM.
-                  <li>Unless the beforeinput event has been canceled, an input event with the
-                     inputType <code>"deleteByComposition"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]].
-                  </li>
-               </ol>
-               <div class="note">
-                  <p><i>This note is not normative.</i></p>
-                  <p>The default action for this beforeinput event is the removal of the targetRanges from the DOM (i.e. the
-                     initial composition string will be removed from the DOM).
-                  </p>
-                  <p>The beforeinput event can be canceled. Canceling the event will prevent the browser from removing the initial
-                     composition string from the DOM. Canceling or handling the event will not prevent the composition from taking
-                     place or influence the contents of the initial composition string.
-                  </p>
-               </div>
+                </td>
+                <td>
+                  Any
+                </td>
+                <td>
+                  empty Array
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  All remaining
+                </td>
+                <td>
+                  <code>contenteditable</code>
+                </td>
+                <td>
+                  an Array of <dfn data-lt="StaticRange" data-cite=
+                  "DOM#interface-staticrange">StaticRanges</dfn> [[DOM]]
+                  associated with event
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  All remaining
+                </td>
+                <td>
+                  <code><a data-link-type="element" data-cite=
+                  "html/input.html#the-input-element">input</a></code> or
+                  <code><a data-link-type="element" data-cite=
+                  "html/form-elements.html#the-textarea-element">textarea</a></code>
+                </td>
+                <td>
+                  an empty Array
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            returns , unless the inputType is <code>"historyUndo"</code> or
+            <code>"historyRedo"</code> or the editing host is not a
+            contenteditable element, in which case it returns an empty Array.
+          </p>
+        </section><!-- interface-InputEvent-Methods -->
+      </section><!-- interface-InputEvent -->
+      <section id="event-definitions">
+        <h4>
+          Event definitions
+        </h4>
+        <div class="event-definition">
+          <dl>
+            <dt id="event-type-beforeinput">
+              <dfn><a class="eventtype" href=
+              "#event-type-beforeinput"><code>beforeinput</code></a></dfn>
+            </dt>
+            <dd>
+              <table class="invisible-table" data-summary=
+              "This table contains information about the semantics of the given event type">
+                <tr>
+                  <th>
+                    Type
+                  </th>
+                  <td>
+                    <strong><code>beforeinput</code></strong>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Interface
+                  </th>
+                  <td>
+                    <a href="#interface-InputEvent"><code>InputEvent</code></a>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Sync / Async
+                  </th>
+                  <td>
+                    Sync
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Bubbles
+                  </th>
+                  <td>
+                    Yes
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Trusted Targets
+                  </th>
+                  <td>
+                    Any <code>Element</code> with <code>contenteditable</code>
+                    attribute enabled.
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <a href=
+                    "https://www.w3.org/TR/uievents/#default-action">Default
+                    action</a> [[UI-EVENTS]]
+                  </th>
+                  <td>
+                    Varies: 'Update the DOM' for contentEditable=typing editing
+                    hosts for inputTypes <code>"insertCompositionText"</code>
+                    and <code>"deleteCompositionText"</code>. 'Update the DOM
+                    element' for <code>contentEditable="true"</code> editing
+                    hosts for all inputTypes. None otherwise.
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Context<br>
+                    (trusted events)
+                  </th>
+                  <td>
+                    <ul>
+                      <li>
+                        <a href="#dfn-data"><code class=
+                        "attribute-name">InputEvent.data</code></a>: the string
+                        containing the data that was added to the element,
+                        which MAY be null if it doesn't apply.
+                      </li>
+                      <li>
+                        <a href="#dom-inputevent-datatransfer"><code class=
+                        "attribute-name">InputEvent.dataTransfer</code></a>:
+                        richtext data added or removed from element, which MAY
+                        be null if it doesn't apply.
+                      </li>
+                      <li>
+                        <a><code class=
+                        "methods-name">InputEvent.getTargetRanges()</code></a>:
+                        returns an arrays of <a>StaticRanges</a> which will be
+                        affected by the change to the DOM if it is not
+                        canceled.
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+              <p>
+                A <a href="https://www.w3.org/TR/uievents/#user-agent">user
+                agent</a> MUST <a data-cite="uievents#dispatch">dispatch</a>
+                [[UI-EVENTS]] this event when the user has attempted to input
+                in a contenteditable element. It does not necessarily mean the
+                <a href="https://www.w3.org/TR/uievents/#user-agent">user
+                agent</a> [[UI-EVENTS]] will then update the DOM.
+              </p>
+              <p>
+                A <a href="https://www.w3.org/TR/uievents/#user-agent">user
+                agent</a> MUST NOT <a data-cite=
+                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event due
+                to events that are not caused by attempted user input, such as
+                system events.
+              </p>
+            </dd>
+          </dl>
+        </div><!-- beforeinput -->
+        <!-- input -->
+        <div class="event-definition">
+          <dl>
+            <dt id="event-type-input">
+              <dfn><a class="eventtype" href=
+              "#event-type-input"><code>input</code></a></dfn>
+            </dt>
+            <dd>
+              <table class="invisible-table" data-summary=
+              "This table contains information about the semantics of the given event type">
+                <tr>
+                  <th>
+                    Type
+                  </th>
+                  <td>
+                    <strong><code>input</code></strong>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Interface
+                  </th>
+                  <td>
+                    <a href="#interface-InputEvent"><code>InputEvent</code></a>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Sync / Async
+                  </th>
+                  <td>
+                    Sync
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Bubbles
+                  </th>
+                  <td>
+                    Yes
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Trusted Targets
+                  </th>
+                  <td>
+                    Any <code>Element</code> with <code>contenteditable</code>
+                    attribute enabled.
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <a href=
+                    "https://www.w3.org/TR/uievents/#default-action">Default
+                    action</a> [[UI-EVENTS]]
+                  </th>
+                  <td>
+                    None
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    Context<br>
+                    (trusted events)
+                  </th>
+                  <td>
+                    <ul>
+                      <li>
+                        <a href="#dfn-data"><code class=
+                        "attribute-name">InputEvent.data</code></a>: the string
+                        containing the data that was added to the element,
+                        which MAY be null if it doesn't apply.
+                      </li>
+                      <li>
+                        <a href="#dom-inputevent-datatransfer"><code class=
+                        "attribute-name">InputEvent.dataTransfer</code></a>:
+                        richtext data added or removed from element, which MAY
+                        be null if it doesn't apply.
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+              <p>
+                A <a data-link-type="dfn" data-cite="uievents#user-agent">user
+                agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" data-cite=
+                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event
+                immediately after the DOM has been updated due to a user
+                expressed intention to change the document contents which the
+                browser has handled.
+              </p>
+            </dd>
+          </dl>
+        </div><!-- input -->
+      </section><!-- event definitions -->
+    </section>
+    <section>
+      <h2>
+        Event order during IME composition
+      </h2>
+      <p>
+        An IME composition causes several beforeinput events, not all of which
+        can be canceled.
+      </p>
+      <ol>
+        <li>
+          <p>
+            If the composition is starting with an empty initial composition
+            string (i.e. the composition is not recomposing an existing range
+            of the DOM), this step is skipped.
+          </p>
+          <ol>
+            <li>The UA extracts the initial composition string from the DOM.
             </li>
-            <li>
-               <p>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionstart">compositionstart</a></code>
-                  event is dispatched. [[UI-EVENTS]].
-               </p>
+            <li>A beforeinput event with the inputType
+            <code>"deleteByComposition"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]].
             </li>
-            <li>
-               <p>If the composition has an empty initial composition string, this step is skipped.</p>
-               <ol>
-                  <li>A beforeinput event with the inputType <code>"insertCompositionText"</code>
-                     is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]] with the data attribute set to the initial composition string.
-                  </li>
-                  <li>The DOM is updated with the insertion of the initial composition string at the
-                     start of the selection.
-                  </li>
-                  <li>An input event with the inputType <code>"insertCompositionText"</code>
-                     is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a> [[UI-EVENTS]]
-                  </li>
-               </ol>
-               <div class="note">
-                  <p><i>This note is not normative.</i></p>
-                  <p>Notice that the beforeinput event cannot be canceled.</p>
-               </div>
+            <li>Unless the beforeinput event has been canceled, the initial
+            composition string is removed from the DOM.
             </li>
-            <li>
-               <p>With each DOM update of the composition string:</p>
-               <ol>
-                  <li>A beforeinput event with the
-                     inputType <code>"insertCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]] with the data attribute set to the updated contents of the composition text.
-                  </li>
-                  <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
-                     event is dispatched. [[UI-EVENTS]].
-                  </li>
-                  <li>The DOM is updated.</li>
-                  <li>An input event with the
-                     inputType <code>"insertCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]].
-                  </li>
-               </ol>
-               <div class="note">
-                  <p>This step is repeated as long as no text is to be committed to the DOM (i.e. is made to be part of the DOM
-                     outside the range controlled by the composition).
-                  </p>
-               </div>
+            <li>Unless the beforeinput event has been canceled, an input event
+            with the inputType <code>"deleteByComposition"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]].
             </li>
-            <li>
-               <p>When a part or the entire composition string is to be committed to the DOM:</p>
-               <ol>
-                  <li>
-                     A beforeinput
-                     event with the inputType <code>"deleteCompositionText"</code> is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]].
-                  </li>
-                  <li>
-                     The contents of the range controlled by the composition process is removed from the DOM.
-                  </li>
-                  <li>A beforeinput event with the inputType <code>"insertFromComposition"</code>
-                     is <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                     [[UI-EVENTS]] with the data attribute set to the part of the final composition string that is to be committed
-                     to the DOM.
-                  </li>
-                  <li>
-                     Unless the beforeinput event with the inputType <code>"insertFromComposition"</code> has been canceled,
-                     the DOM is updated with the part of the composition string that is to be committed to the DOM inserted
-                     at the start of the selection.
-                  </li>
-                  <li>A <code><a href="https://w3c.github.io/uievents/#event-type-compositionend">compositionend</a></code>
-                     event is dispatched. [[UI-EVENTS]].
-                  </li>
-                  <li>Unless the beforeinput event with the inputType <code>"insertFromComposition"</code> has been canceled,
-                     a input event with the inputType <code>"insertFromComposition"</code> is
-                     <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-                  </li>
-               </ol>
-            </li>
-            <li>
-               <p>If only a part of the composition string was committed to the DOM, while another part is not yet to be committed,
-                  the process starts over from step 3 with the non-committed part of the final composition string as the new initial
-                  composition string.
-               </p>
-            </li>
-         </ol>
-         <div class="note">
-            <p><i>This note is not normative.</i></p>
-            <p>Note that while every composition only has one <code>compositionstart</code> event,
-               it may have several <code>compositionend</code> events.
+          </ol>
+          <div class="note">
+            <p>
+              <i>This note is not normative.</i>
             </p>
-         </div>
-      </section>
-      <section>
-         <h2>Privacy and security considerations</h2>
-         <p><i>This section is not normative.</i></p>
-         <p>There are no known security or privacy impacts of this feature beyond
-            <a data-link-type="dfn" href="https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">fingerprinting</a>
-            [[fingerprinting-guidance]] techniques that already are available through existing events, such as the
-            <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#keydown"><code>keydown</code></a> and
-            <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#keypress"><code>keypress</code></a>
-            [[UI-EVENTS]] events.
-         </p>
-         <p>If this feature replaces existing events, it MAY lead to a decline in available
-            <a data-link-type="dfn" href="https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">fingerprinting</a>
-            [[fingerprinting-guidance]] techniques, as users' intentions are recorded,
-            and not the particular type of hardware they used to <a data-lt="express intention">express</a>
-            this intention.
-         </p>
-      </section>
-      <!-- Privacy/security considerations -->
-      <section>
-         <h2>Acknowledgements</h2>
-         <p>Thanks to:
-            Michael Aufreiter,
-            Adrian Bateman,
-            Oliver Buchtala,
-            Robin Berjon,
-            Enrica Casucci,
-            Bo Cupp,
-            Domenic Denicola,
-            Emil Eklund,
-            Olivier Forget,
-            Aryeh Gregor,
-            Marijn Haverbeke,
-            Yoshifumi Inoue,
-            Koji Ishii,
-            Gary Kacmarcik,
-            Ian Kilpatrick,
-            Frederico Caldeira Knabben,
-            Takayoshi Kochi,
-            Piotrek Koszuliński,
-            Travis Leithead,
-            Grisha Lyukshin,
-            Miles Maxfield,
-            Chaals McCathie Nevile,
-            Masayuki Nakano,
-            Ryosuke Niwa,
-            Julie Parent,
-            Ben Peters,
-            Florian Rivoal,
-            Morgan Smith,
-            Hallvord R. M. Steen,
-            Johan Sörlin,
-            Cristian Talau,
-            Dave Tapuska,
-            Ojan Vafai,
-            Léonie Watson,
-            Xiaoqian Wu,
-            Chong Zhang,
-            Joanmarie,
-            and everyone in the Editing Taskforce for their input and feedback.
-         </p>
-      </section>
-   </body>
+            <p>
+              The default action for this beforeinput event is the removal of
+              the targetRanges from the DOM (i.e. the initial composition
+              string will be removed from the DOM).
+            </p>
+            <p>
+              The beforeinput event can be canceled. Canceling the event will
+              prevent the browser from removing the initial composition string
+              from the DOM. Canceling or handling the event will not prevent
+              the composition from taking place or influence the contents of
+              the initial composition string.
+            </p>
+          </div>
+        </li>
+        <li>
+          <p>
+            A <code><a href=
+            "https://w3c.github.io/uievents/#event-type-compositionstart">compositionstart</a></code>
+            event is dispatched. [[UI-EVENTS]].
+          </p>
+        </li>
+        <li>
+          <p>
+            If the composition has an empty initial composition string, this
+            step is skipped.
+          </p>
+          <ol>
+            <li>A beforeinput event with the inputType
+            <code>"insertCompositionText"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]] with the data attribute set to the initial
+            composition string.
+            </li>
+            <li>The DOM is updated with the insertion of the initial
+            composition string at the start of the selection.
+            </li>
+            <li>An input event with the inputType
+            <code>"insertCompositionText"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]]
+            </li>
+          </ol>
+          <div class="note">
+            <p>
+              <i>This note is not normative.</i>
+            </p>
+            <p>
+              Notice that the beforeinput event cannot be canceled.
+            </p>
+          </div>
+        </li>
+        <li>
+          <p>
+            With each DOM update of the composition string:
+          </p>
+          <ol>
+            <li>A beforeinput event with the inputType
+            <code>"insertCompositionText"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]] with the data attribute set to the updated contents
+            of the composition text.
+            </li>
+            <li>A <code><a href=
+            "https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
+            event is dispatched. [[UI-EVENTS]].
+            </li>
+            <li>The DOM is updated.
+            </li>
+            <li>An input event with the inputType
+            <code>"insertCompositionText"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]].
+            </li>
+          </ol>
+          <div class="note">
+            <p>
+              This step is repeated as long as no text is to be committed to
+              the DOM (i.e. is made to be part of the DOM outside the range
+              controlled by the composition).
+            </p>
+          </div>
+        </li>
+        <li>
+          <p>
+            When a part or the entire composition string is to be committed to
+            the DOM:
+          </p>
+          <ol>
+            <li>A beforeinput event with the inputType
+            <code>"deleteCompositionText"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]].
+            </li>
+            <li>The contents of the range controlled by the composition process
+            is removed from the DOM.
+            </li>
+            <li>A beforeinput event with the inputType
+            <code>"insertFromComposition"</code> is <a href=
+            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [[UI-EVENTS]] with the data attribute set to the part of the final
+            composition string that is to be committed to the DOM.
+            </li>
+            <li>Unless the beforeinput event with the inputType
+            <code>"insertFromComposition"</code> has been canceled, the DOM is
+            updated with the part of the composition string that is to be
+            committed to the DOM inserted at the start of the selection.
+            </li>
+            <li>A <code><a href=
+            "https://w3c.github.io/uievents/#event-type-compositionend">compositionend</a></code>
+            event is dispatched. [[UI-EVENTS]].
+            </li>
+            <li>Unless the beforeinput event with the inputType
+            <code>"insertFromComposition"</code> has been canceled, a input
+            event with the inputType <code>"insertFromComposition"</code> is
+            <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <p>
+            If only a part of the composition string was committed to the DOM,
+            while another part is not yet to be committed, the process starts
+            over from step 3 with the non-committed part of the final
+            composition string as the new initial composition string.
+          </p>
+        </li>
+      </ol>
+      <div class="note">
+        <p>
+          <i>This note is not normative.</i>
+        </p>
+        <p>
+          Note that while every composition only has one
+          <code>compositionstart</code> event, it may have several
+          <code>compositionend</code> events.
+        </p>
+      </div>
+    </section>
+    <section>
+      <h2>
+        Privacy and security considerations
+      </h2>
+      <p>
+        <i>This section is not normative.</i>
+      </p>
+      <p>
+        There are no known security or privacy impacts of this feature beyond
+        <a data-link-type="dfn" data-cite=
+        "fingerprinting-guidance#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques that already are available
+        through existing events, such as the <a data-link-type="dfn" data-cite=
+        "uievents#keydown"><code>keydown</code></a> and <a data-link-type="dfn"
+        data-cite="uievents#keypress"><code>keypress</code></a> [[UI-EVENTS]]
+        events.
+      </p>
+      <p>
+        If this feature replaces existing events, it MAY lead to a decline in
+        available <a data-link-type="dfn" data-cite=
+        "fingerprinting-guidance#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques, as users' intentions are
+        recorded, and not the particular type of hardware they used to
+        <a data-lt="express intention">express</a> this intention.
+      </p>
+    </section><!-- Privacy/security considerations -->
+    <section>
+      <h2>
+        Acknowledgements
+      </h2>
+      <p>
+        Thanks to: Michael Aufreiter, Adrian Bateman, Oliver Buchtala, Robin
+        Berjon, Enrica Casucci, Bo Cupp, Domenic Denicola, Emil Eklund, Olivier
+        Forget, Aryeh Gregor, Marijn Haverbeke, Yoshifumi Inoue, Koji Ishii,
+        Gary Kacmarcik, Ian Kilpatrick, Frederico Caldeira Knabben, Takayoshi
+        Kochi, Piotrek Koszuliński, Travis Leithead, Grisha Lyukshin, Miles
+        Maxfield, Chaals McCathie Nevile, Masayuki Nakano, Ryosuke Niwa, Julie
+        Parent, Ben Peters, Florian Rivoal, Morgan Smith, Hallvord R. M. Steen,
+        Johan Sörlin, Cristian Talau, Dave Tapuska, Ojan Vafai, Léonie Watson,
+        Xiaoqian Wu, Chong Zhang, Joanmarie, and everyone in the Editing
+        Taskforce for their input and feedback.
+      </p>
+    </section>
+  </body>
 </html>
