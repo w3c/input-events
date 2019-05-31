@@ -29,24 +29,10 @@
                                         companyURL: "https://www.microsoft.com",
                                         note: "until 23 February 2015",
                                         w3cid: "69167" }]
-                   ,   wg:           "Web Platform Working Group"
-                   ,   wgURI:        "https://www.w3.org/WebPlatform/WG/"
+                   ,   wg:           "Web Applications Working Group"
+                   ,   wgURI:        "https://www.w3.org/2019/webapps/"
+                   ,   github: "w3c/input-events"
                ,   otherLinks: [{
-                           key: 'Participate',
-                           data: [{
-                               value: 'We are on GitHub.',
-                               href: 'https://github.com/w3c/input-events/tree/v1'
-                           }, {
-                               value: 'File a bug.',
-                               href: 'https://github.com/w3c/input-events/issues'
-                           }, {
-                               value: 'Commit history.',
-                               href: 'https://github.com/w3c/input-events/commits/gh-pages'
-                           }, {
-                               value: 'Mailing list.',
-                               href: 'https://lists.w3.org/Archives/Public/public-webapps/'
-                           }]
-                       }, {
                            key: 'Latest published version by level',
                            data: [{
                                value: 'Level 1',
@@ -67,10 +53,7 @@
                        }
                    ]
                    ,   wgPublicList: "public-editing-tf"
-                   ,   license: "w3c-software-doc"
-                   ,   wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status"
-                   ,   edDraftURI:   "https://rawgit.com/w3c/input-events/v1/index.html"
-                   ,   noLegacyStyle: true
+                   ,   wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/114929/status"
                  };
 
       </script>
@@ -85,8 +68,8 @@
          </p>
       </section>
       <section id='sotd'>
-         <p>Input Events Level 1 is the first version of Input Events [[INPUT-EVENTS]].
-            The <a href="https://github.com/web-platform-tests/wpt/tree/master/input-events">test suite</a>
+         <p>Input Events Level 1 is the first version of Input Events [[INPUT-EVENTS]].</p>
+         <p>The <a href="https://github.com/web-platform-tests/wpt/tree/master/input-events">test suite</a>
             and <a href="https://w3c.github.io/test-results/input-events/">implementation reports</a>
             for the Input Events specification are still work in progress.
          </p>
@@ -229,7 +212,7 @@
                   are null as well as when the <a>getTargetRanges()</a> method
                   returns an empty or non-empty Array, based on the inputType.
                </p>
-               <table class="parameters">
+               <table class="parameters simple">
                   <thead>
                      <tr>
                         <th>Editing host</th>
@@ -319,7 +302,7 @@
                   This specification defines the <dfn>inputType values</dfn> as
                   the values in the inputType column of the following table.
                </p>
-               <table class="parameters">
+               <table class="parameters simple">
                   <thead>
                      <tr>
                         <th>inputType</th>
@@ -1196,7 +1179,7 @@
                <p><dfn><code>data</code></dfn> holds information plaintext data
                   related to what is to be added to the document.
                </p>
-               <table class="parameters">
+               <table class="parameters simple">
                   <thead>
                      <tr>
                         <th>inputType</th>
@@ -1284,7 +1267,7 @@
                   returns an arrays <a>StaticRanges</a> that will be affected
                   by the event if it is not cancelled.
                </p>
-               <table class="parameters">
+               <table class="parameters simple">
                   <thead>
                      <tr>
                         <th>inputType</th>
@@ -1337,7 +1320,7 @@
             <!-- interface-InputEvent-Attributes -->
             <section id="interface-InputEvent-Methods" dfn-for="InputEvent">
                <h5>Methods</h5>
-               <table class="parameters">
+               <table class="parameters simple">
                   <thead>
                      <tr>
                         <th>inputType</th>
