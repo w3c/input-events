@@ -73,6 +73,7 @@
         ],
         wgPublicList: "public-editing-tf",
         wgPatentURI: "https://www.w3.org/2004/01/pp-impl/114929/status",
+        xref: ["HTML"]
       };
     </script>
   </head>
@@ -128,15 +129,6 @@
         Definitions
       </h2>
       <dl>
-        <dt>
-          <code><dfn data-cite="HTML#datatransfer">DataTransfer</dfn></code>
-        </dt>
-        <dd>
-          A <a href=
-          "https://html.spec.whatwg.org/multipage/interaction.html#datatransfer">
-          DataTransfer</a> object contains richtext and plaintext data for some
-          inputtypes. [[HTML]]
-        </dd>
         <dt>
           <dfn>express intention</dfn>
         </dt>
@@ -245,31 +237,29 @@
         deletion of content, and formatting changes.
       </p>
       <p>
-        Input events are <a href=
-        "https://www.w3.org/TR/uievents/#dispatch">dispatched</a> [[UI-EVENTS]]
-        on elements that act as editing hosts, including elements with the
-        contenteditable attribute set, <code><a data-link-type="element" href=
-        "https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">
-        textarea</a></code> elements, and <code><a data-link-type="element"
-        href=
-        "https://html.spec.whatwg.org/multipage/forms.html#the-input-element">input</a></code>
-        elements that permit text input.
+        Input events are <a data-cite="uievents#dispatch">dispatched</a>
+        [[UI-EVENTS]] on elements that act as editing hosts, including elements
+        with the contenteditable attribute set, <a data-link-type="element"
+        data-cite="html/form-elements.html#the-textarea-element">`textarea`</a>
+        elements, and <code><a data-link-type="element" data-cite=
+        "html/input.html#the-input-element">input</a></code> elements that
+        permit text input.
       </p>
       <section id="interface-InputEvent">
         <h4>
           Interface InputEvent
         </h4>
-        <pre class="idl">
-                partial interface InputEvent {
-                    readonly attribute DataTransfer? dataTransfer;
-                    sequence&lt;StaticRange&gt; getTargetRanges();
-                };
+        <pre class="idl" data-cite="HTML">
+            partial interface InputEvent {
+               readonly attribute DataTransfer? dataTransfer;
+               sequence&lt;StaticRange&gt; getTargetRanges();
+            };
 
-                partial dictionary InputEventInit {
-                    DataTransfer? dataTransfer = null;
-                    sequence&lt;StaticRange&gt; targetRanges = [];
-                };
-            </pre>
+            partial dictionary InputEventInit {
+               DataTransfer? dataTransfer = null;
+               sequence&lt;StaticRange&gt; targetRanges = [];
+            };
+         </pre>
         <p>
           The <code><dfn data-cite=
           "UI-EVENTS#interface-inputevent">InputEvent</dfn></code> and
@@ -1441,11 +1431,10 @@
                   <code>"insertFromYank"</code>
                 </td>
                 <td>
-                  <code><a href=
-                  "https://html.spec.whatwg.org/multipage/forms.html#the-input-element">
-                  input</a></code> or <code><a href=
-                  "https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">
-                  textarea</a></code>
+                  <code><a data-cite=
+                  "html/input.html#the-input-element">input</a></code> or
+                  <code><a data-cite=
+                  "html/form-elements.html#the-textarea-element">textarea</a></code>
                 </td>
                 <td>
                   the plain text string to be inserted
@@ -1473,10 +1462,9 @@
                   Any
                 </td>
                 <td>
-                  a string containing a <a href=
-                  "https://www.w3.org/TR/cssom-1/#serialize-a-css-component-value">
-                  serialized CSS component value</a> [[CSSOM]] of the proposed
-                  color
+                  a string containing a <a data-cite=
+                  "cssom-1#serialize-a-css-component-value">serialized CSS
+                  component value</a> [[CSSOM]] of the proposed color
                 </td>
               </tr>
               <tr>
@@ -1517,8 +1505,8 @@
           <p>
             <dfn data-dfn-for="InputEvent">dataTransfer</dfn> holds information
             about richtext and plaintext data that is to be taken from or added
-            to the document in a <a>DataTransfer</a> object if there is
-            relevant data.
+            to the document in a {{DataTransfer}} object if there is relevant
+            data.
           </p>
           <p>
             <dfn data-dfn-for="InputEvent">getTargetRanges()</dfn> returns an
@@ -1553,32 +1541,30 @@
                   <code>contenteditable</code>
                 </td>
                 <td>
-                  A prepopulated <a>DataTransfer</a> object so that:
+                  A prepopulated {{DataTransfer}} object so that:
                   <ol>
-                    <li>The <a>DataTransfer</a> object's <a href=
-                    "https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">
-                      drag data store item list</a> contains one entry with the
-                      <a href=
-                      "https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">
-                      drag data item type string</a> <code>"text/html"</code>,
-                      whose <a href=
-                      "https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">
-                      kind</a> is <i>Plain Unicode string</i>, and whose data
-                      is a HTML representation of the content that is in the
-                      clipboard, or in the <a>kill buffer</a>, to be dropped or
-                      otherwise the content that is to be added. [[HTML]]
+                    <li>The {{DataTransfer}} object's <a data-cite=
+                    "html/dnd.html#drag-data-store-item-list">drag data store
+                    item list</a> contains one entry with the <a data-cite=
+                    "html/dnd.html#the-drag-data-item-type-string">drag data
+                    item type string</a> <code>"text/html"</code>, whose
+                    <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">kind</a> is
+                    <i>Plain Unicode string</i>, and whose data is a HTML
+                    representation of the content that is in the clipboard, or
+                    in the <a>kill buffer</a>, to be dropped or otherwise the
+                    content that is to be added. [[HTML]]
                     </li>
-                    <li>The <a>DataTransfer</a> object's <a href=
-                    "https://html.spec.whatwg.org/multipage/interaction.html#drag-data-store-item-list">
-                      drag data store item list</a> contains one entry with the
-                      <a href=
-                      "https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-type-string">
-                      drag data item type string</a> <code>"text/plain"</code>,
-                      whose <a href=
-                      "https://html.spec.whatwg.org/multipage/interaction.html#the-drag-data-item-kind">
-                      kind</a> is <i>Plain Unicode string</i>, and whose data
-                      is a plain text representation of the content that is to
-                      be pasted, dropped or otherwise added. [[HTML]]
+                    <li>The {{DataTransfer}} object's <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">drag data store
+                    item list</a> contains one entry with the <a data-cite=
+                    "html/dnd.html#the-drag-data-item-type-string">drag data
+                    item type string</a> <code>"text/plain"</code>, whose
+                    <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">kind</a> is
+                    <i>Plain Unicode string</i>, and whose data is a plain text
+                    representation of the content that is to be pasted, dropped
+                    or otherwise added. [[HTML]]
                     </li>
                   </ol>
                 </td>
@@ -1645,11 +1631,10 @@
                   All remaining
                 </td>
                 <td>
-                  <code><a data-link-type="element" href=
-                  "https://html.spec.whatwg.org/multipage/forms.html#the-input-element">
-                  input</a></code> or <code><a data-link-type="element" href=
-                  "https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">
-                  textarea</a></code>
+                  <code><a data-link-type="element" data-cite=
+                  "html/input.html#the-input-element">input</a></code> or
+                  <code><a data-link-type="element" data-cite=
+                  "html/form-elements.html#the-textarea-element">textarea</a></code>
                 </td>
                 <td>
                   an empty Array
@@ -1764,8 +1749,7 @@
               </table>
               <p>
                 A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                agent</a> MUST <a href=
-                "https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
+                agent</a> MUST <a data-cite="uievents#dispatch">dispatch</a>
                 [[UI-EVENTS]] this event when the user has attempted to input
                 in a contenteditable element. It does not necessarily mean the
                 <a href="https://www.w3.org/TR/uievents/#user-agent">user
@@ -1773,10 +1757,10 @@
               </p>
               <p>
                 A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                agent</a> MUST NOT <a href=
-                "https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                [[UI-EVENTS]] this event due to events that are not caused by
-                attempted user input, such as system events.
+                agent</a> MUST NOT <a data-cite=
+                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event due
+                to events that are not caused by attempted user input, such as
+                system events.
               </p>
             </dd>
           </dl>
@@ -1866,13 +1850,12 @@
                 </tr>
               </table>
               <p>
-                A <a data-link-type="dfn" href=
-                "https://www.w3.org/TR/uievents/#glossary-user-agent">user
-                agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" href=
-                "https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-                [[UI-EVENTS]] this event immediately after the DOM has been
-                updated due to a user expressed intention to change the
-                document contents which the browser has handled.
+                A <a data-link-type="dfn" data-cite="uievents#user-agent">user
+                agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" data-cite=
+                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event
+                immediately after the DOM has been updated due to a user
+                expressed intention to change the document contents which the
+                browser has handled.
               </p>
             </dd>
           </dl>
@@ -2062,23 +2045,21 @@
       </p>
       <p>
         There are no known security or privacy impacts of this feature beyond
-        <a data-link-type="dfn" href=
-        "https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">
-        fingerprinting</a> [[fingerprinting-guidance]] techniques that already
-        are available through existing events, such as the <a data-link-type=
-        "dfn" href=
-        "https://www.w3.org/TR/uievents/#keydown"><code>keydown</code></a> and
-        <a data-link-type="dfn" href=
-        "https://www.w3.org/TR/uievents/#keypress"><code>keypress</code></a>
-        [[UI-EVENTS]] events.
+        <a data-link-type="dfn" data-cite=
+        "fingerprinting-guidance#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques that already are available
+        through existing events, such as the <a data-link-type="dfn" data-cite=
+        "uievents#keydown"><code>keydown</code></a> and <a data-link-type="dfn"
+        data-cite="uievents#keypress"><code>keypress</code></a> [[UI-EVENTS]]
+        events.
       </p>
       <p>
         If this feature replaces existing events, it MAY lead to a decline in
-        available <a data-link-type="dfn" href=
-        "https://www.w3.org/TR/fingerprinting-guidance/#dfn-browser-fingerprinting">
-        fingerprinting</a> [[fingerprinting-guidance]] techniques, as users'
-        intentions are recorded, and not the particular type of hardware they
-        used to <a data-lt="express intention">express</a> this intention.
+        available <a data-link-type="dfn" data-cite=
+        "fingerprinting-guidance#dfn-browser-fingerprinting">fingerprinting</a>
+        [[fingerprinting-guidance]] techniques, as users' intentions are
+        recorded, and not the particular type of hardware they used to
+        <a data-lt="express intention">express</a> this intention.
       </p>
     </section><!-- Privacy/security considerations -->
     <section>
