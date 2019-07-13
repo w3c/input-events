@@ -1451,11 +1451,6 @@
             to the document in a {{DataTransfer}} object if there is relevant
             data.
           </p>
-          <p>
-            <dfn data-dfn-for="InputEvent">getTargetRanges()</dfn> returns an
-            arrays <a>StaticRanges</a> that will be affected by the event if it
-            is not cancelled.
-          </p>
           <table class="parameters simple">
             <thead>
               <tr>
@@ -1488,7 +1483,7 @@
                   <ol>
                     <li>The {{DataTransfer}} object's <a data-cite=
                     "html/dnd.html#drag-data-store">drag data store</a> is in
-                    <a data-cite="html/dnd.html#drag-data-store">read-only</a>
+                    <a data-cite="html/dnd.html#concept-dnd-ro">read-only</a>
                     mode. [[HTML]]
                     </li>
                     <li>The {{DataTransfer}} object's <a data-cite=
@@ -1530,6 +1525,11 @@
               </tr>
             </tbody>
           </table>
+          <p>
+            <dfn data-dfn-for="InputEvent">getTargetRanges()</dfn> returns an
+            arrays <a>StaticRanges</a> that will be affected by the event if it
+            is not cancelled.
+          </p>
         </section><!-- interface-InputEvent-Attributes -->
         <section id="interface-InputEvent-Methods" data-dfn-for="InputEvent">
           <h5>
