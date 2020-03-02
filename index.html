@@ -239,10 +239,11 @@
       </p>
       <p>
         Input events are <a data-cite="uievents#dispatch">dispatched</a>
-        [[UI-EVENTS]] on elements that act as editing hosts, including elements
-        with the contenteditable attribute set, <a data-link-type="element"
-        data-cite="html/form-elements.html#the-textarea-element">`textarea`</a>
-        elements, and <code><a data-link-type="element" data-cite=
+        [[UI-EVENTS]] on elements that act as [=editing hosts=], including
+        elements with the contenteditable attribute set, <a data-link-type=
+        "element" data-cite=
+        "html/form-elements.html#the-textarea-element">`textarea`</a> elements,
+        and <code><a data-link-type="element" data-cite=
         "html/input.html#the-input-element">input</a></code> elements that
         permit text input.
       </p>
@@ -1543,6 +1544,7 @@
                     "html/dnd.html#drag-data-store">drag data store</a> is in
                     <a data-cite="html/dnd.html#concept-dnd-ro">read-only</a>
                     mode. [[HTML]]
+                    </li>
                     <li>The {{DataTransfer}} object's <a data-cite=
                     "html/dnd.html#drag-data-store-item-list">drag data store
                     item list</a> contains one entry with the <a data-cite=
@@ -1649,7 +1651,7 @@
           </table>
           <p>
             returns , unless the inputType is <code>"historyUndo"</code> or
-            <code>"historyRedo"</code> or the editing host is not a
+            <code>"historyRedo"</code> or the [=editing host=] is not a
             contenteditable element, in which case it returns an empty Array.
           </p>
         </section><!-- interface-InputEvent-Methods -->
