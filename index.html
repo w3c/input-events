@@ -1337,15 +1337,6 @@
             Other specifications may expand on this definition.
           </div>
           <div class="note">
-            <p>
-              <i>This note is not normative.</i>
-            </p>
-            When an <code>"insertFromPaste"</code> {{beforeinput}}
-            event is dispatched, it should be preceded by a
-            <a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
-            [[CLIPBOARD-APIS]] event.
-          </div>
-          <div class="note">
             The existence of the above mentioned <code>inputTypes</code> does
             not mean that any given implementation will support all of these.
             But if a given browser supports an editing operation which
@@ -2047,6 +2038,15 @@
           <code>compositionend</code> events.
         </p>
       </div>
+    </section>
+    <section>
+      <h2>Event order when using <code>"insertFromPaste"</code></h2>
+      <p>
+        When an <code>"insertFromPaste"</code> {{beforeinput}}
+        event is dispatched, it MUST be preceded by a
+        <a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
+        [[CLIPBOARD-APIS]] event.
+      </p>
     </section>
     <section>
       <h2>
