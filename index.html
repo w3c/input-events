@@ -2040,6 +2040,15 @@
       </div>
     </section>
     <section>
+      <h2>Event order when using <code>"insertFromPaste"</code></h2>
+      <p>
+        When an <code>"insertFromPaste"</code> {{beforeinput}}
+        event is dispatched, it MUST be preceded by a
+        <a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
+        [[CLIPBOARD-APIS]] event.
+      </p>
+    </section>
+    <section>
       <h2>
         Privacy and security considerations
       </h2>
