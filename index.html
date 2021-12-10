@@ -1541,6 +1541,17 @@
                     <a data-cite="html/dnd.html#concept-dnd-ro">read-only</a>
                     mode. [[HTML]]
                     </li>
+                    <li>If the pasted content is a file, the {{DataTransfer}}
+                    object's <a data-cite="html/dnd.html#the-drag-data-item-kind">
+                    drag data store item list</a> contains one entry with the
+                    <a data-cite="html/dnd.html#the-drag-data-item-type-string">drag data
+                    item type string</a> being the file's
+                    <a data-cite="mimesniff#mime-type">mime-type</a>, whose
+                    <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">kind</a> is
+                    <i>File</i>, and whose data is a <a data-cite="FileAPI#dfn-file">File object</a> 
+                    corresponding to the pasted file. [[HTML]]
+                    </li>
                     <li>The {{DataTransfer}} object's <a data-cite=
                     "html/dnd.html#drag-data-store-item-list">drag data store
                     item list</a> contains one entry with the <a data-cite=
