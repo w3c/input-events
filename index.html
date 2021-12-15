@@ -69,7 +69,7 @@
             ],
           },
         ],
-        xref: ["HTML", "mimesniff"],
+        xref: ["dom", "html", "infra", "mimesniff", "uievents"],
       };
     </script>
   </head>
@@ -234,20 +234,15 @@
         deletion of content, and formatting changes.
       </p>
       <p>
-        Input events are <a data-cite="uievents#dispatch">dispatched</a>
-        [[UI-EVENTS]] on elements that act as [=editing hosts=], including
-        elements with the contenteditable attribute set, <a data-link-type=
-        "element" data-cite=
-        "html/form-elements.html#the-textarea-element">`textarea`</a> elements,
-        and <code><a data-link-type="element" data-cite=
-        "html/input.html#the-input-element">input</a></code> elements that
-        permit text input.
+        Input events are [=dispatched=] on elements that act as [=editing
+        hosts=], including elements with the contenteditable attribute set,
+        [^textarea^] elements, and [^input^] elements that permit text input.
       </p>
       <section id="interface-InputEvent">
         <h4>
           Interface InputEvent
         </h4>
-        <pre class="idl" data-cite="HTML">
+        <pre class="idl">
             partial interface InputEvent {
                readonly attribute DataTransfer? dataTransfer;
                sequence&lt;StaticRange&gt; getTargetRanges();
@@ -257,18 +252,11 @@
                DataTransfer? dataTransfer = null;
                sequence&lt;StaticRange&gt; targetRanges = [];
             };
-         </pre>
-        <p>
-          The <code><dfn data-cite=
-          "UI-EVENTS#interface-inputevent">InputEvent</dfn></code> and
-          <code><dfn data-cite=
-          "UI-EVENTS#interface-inputevent">InputEventInit</dfn></code> objects
-          are defined in [[UI-EVENTS]].
-        </p>
+        </pre>
         <p data-dfn-for="InputEventInit">
-          The attributes <dfn>inputType</dfn>, <dfn>dataTransfer</dfn> and
-          <dfn>targetRanges</dfn> of <a>InputEventInit</a> initialize the
-          corresponding attributes of the <a>InputEvent</a> object.
+          The attributes {{InputEvent/inputType}}, <dfn>dataTransfer</dfn> and
+          <dfn>targetRanges</dfn> of {{InputEventInit}} initialize the
+          corresponding attributes of the {{InputEvent}} object.
         </p>
         <section>
           <h5>
@@ -1340,10 +1328,9 @@
             The existence of the above mentioned <code>inputTypes</code> does
             not mean that any given implementation will support all of these.
             But if a given browser supports an editing operation which
-            potentially leads to a change of the DOM, it MUST <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatch</a>
-            [[UI-EVENTS]] the corresponding <code>beforeinput</code> and
-            <code>input</code> events.
+            potentially leads to a change of the DOM, it MUST [=dispatch=] the
+            corresponding <code>beforeinput</code> and <code>input</code>
+            events.
           </div>
           <div class="note">
             If the selection is collapsed, <code>"deleteContentBackward"</code>
@@ -1773,19 +1760,14 @@
                 </tr>
               </table>
               <p>
-                A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                agent</a> MUST <a data-cite="uievents#dispatch">dispatch</a>
-                [[UI-EVENTS]] this event when the user has attempted to input
-                in a contenteditable element. It does not necessarily mean the
-                <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                agent</a> [[UI-EVENTS]] will then update the DOM.
+                A [=user agent=] MUST [=dispatch=] this event when the user has
+                attempted to input in a contenteditable element. It does not
+                necessarily mean the [=user agent=] will then update the DOM.
               </p>
               <p>
-                A <a href="https://www.w3.org/TR/uievents/#user-agent">user
-                agent</a> MUST NOT <a data-cite=
-                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event due
-                to events that are not caused by attempted user input, such as
-                system events.
+                A [=user agent=] MUST NOT [=dispatch=] this event due to events
+                that are not caused by attempted user input, such as system
+                events.
               </p>
             </dd>
           </dl>
@@ -1875,12 +1857,9 @@
                 </tr>
               </table>
               <p>
-                A <a data-link-type="dfn" data-cite="uievents#user-agent">user
-                agent</a> [[UI-EVENTS]] MUST <a data-link-type="dfn" data-cite=
-                "uievents#dispatch">dispatch</a> [[UI-EVENTS]] this event
-                immediately after the DOM has been updated due to a user
-                expressed intention to change the document contents which the
-                browser has handled.
+                A [=user agent=] MUST [=dispatch=] this event immediately after
+                the DOM has been updated due to a user expressed intention to
+                change the document contents which the browser has handled.
               </p>
             </dd>
           </dl>
@@ -1906,17 +1885,14 @@
             <li>The UA extracts the initial composition string from the DOM.
             </li>
             <li>A beforeinput event with the inputType
-            <code>"deleteByComposition"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]].
+            <code>"deleteByComposition"</code> is [=dispatched=].
             </li>
             <li>Unless the beforeinput event has been canceled, the initial
             composition string is removed from the DOM.
             </li>
             <li>Unless the beforeinput event has been canceled, an input event
-            with the inputType <code>"deleteByComposition"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]].
+              with the inputType <code>"deleteByComposition"</code> is
+              [=dispatched=].
             </li>
           </ol>
           <div class="note">
@@ -1941,7 +1917,7 @@
           <p>
             A <code><a href=
             "https://w3c.github.io/uievents/#event-type-compositionstart">compositionstart</a></code>
-            event is dispatched. [[UI-EVENTS]].
+            event is [=dispatched=].
           </p>
         </li>
         <li>
@@ -1951,18 +1927,14 @@
           </p>
           <ol>
             <li>A beforeinput event with the inputType
-            <code>"insertCompositionText"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]] with the data attribute set to the initial
-            composition string.
+            <code>"insertCompositionText"</code> is [=dispatched=] with the
+            data attribute set to the initial composition string.
             </li>
             <li>The DOM is updated with the insertion of the initial
             composition string at the start of the selection.
             </li>
             <li>An input event with the inputType
-            <code>"insertCompositionText"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]]
+            <code>"insertCompositionText"</code> is [=dispatched=]
             </li>
           </ol>
           <div class="note">
@@ -1980,21 +1952,17 @@
           </p>
           <ol>
             <li>A beforeinput event with the inputType
-            <code>"insertCompositionText"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]] with the data attribute set to the updated contents
-            of the composition text.
+            <code>"insertCompositionText"</code> is [=dispatched=] with the
+            data attribute set to the updated contents of the composition text.
             </li>
             <li>A <code><a href=
             "https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
-            event is dispatched. [[UI-EVENTS]].
+            event is [=dispatched=].
             </li>
             <li>The DOM is updated.
             </li>
             <li>An input event with the inputType
-            <code>"insertCompositionText"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]].
+            <code>"insertCompositionText"</code> is [=dispatched=].
             </li>
           </ol>
           <div class="note">
@@ -2012,18 +1980,15 @@
           </p>
           <ol>
             <li>A beforeinput event with the inputType
-            <code>"deleteCompositionText"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]].
+            <code>"deleteCompositionText"</code> is [=dispatched=].
             </li>
             <li>The contents of the range controlled by the composition process
             is removed from the DOM.
             </li>
             <li>A beforeinput event with the inputType
-            <code>"insertFromComposition"</code> is <a href=
-            "https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
-            [[UI-EVENTS]] with the data attribute set to the part of the final
-            composition string that is to be committed to the DOM.
+            <code>"insertFromComposition"</code> is [=dispatched=] with the
+            data attribute set to the part of the final composition string that
+            is to be committed to the DOM.
             </li>
             <li>Unless the beforeinput event with the inputType
             <code>"insertFromComposition"</code> has been canceled, the DOM is
@@ -2032,12 +1997,12 @@
             </li>
             <li>A <code><a href=
             "https://w3c.github.io/uievents/#event-type-compositionend">compositionend</a></code>
-            event is dispatched. [[UI-EVENTS]].
+            event is [=dispatched=].
             </li>
             <li>Unless the beforeinput event with the inputType
             <code>"insertFromComposition"</code> has been canceled, a input
             event with the inputType <code>"insertFromComposition"</code> is
-            <a href="https://www.w3.org/TR/uievents/#dispatch">dispatched</a>
+            [=dispatched=]
             </li>
           </ol>
         </li>
