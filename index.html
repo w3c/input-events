@@ -299,7 +299,6 @@
                 <td>
                   <code>"insertText"</code>,
                   <code>"insertCompositionText"</code>,
-                  <code>"insertFromComposition"</code>,
                   <code>"formatSetBlockTextDirection"</code>,
                   <code>"formatSetInlineTextDirection"</code>,
                   <code>"formatBackColor"</code>,
@@ -345,7 +344,6 @@
                 <td>
                   <code>"insertText"</code>,
                   <code>"insertCompositionText"</code>,
-                  <code>"insertFromComposition"</code>,
                   <code>"insertFromPaste"</code>,
                   <code>"insertFromPasteAsQuotation"</code>,
                   <code>"insertFromDrop"</code>,
@@ -688,24 +686,6 @@
               </tr>
               <tr>
                 <td>
-                  <code>"insertFromComposition"</code>
-                </td>
-                <td>
-                  insert a finalized composed string that will not
-                  form part of the next composition string
-                </td>
-                <td>
-                  Yes
-                </td>
-                <td>
-                  Yes
-                </td>
-                <td>
-                  Any
-                </td>
-              </tr>
-              <tr>
-                <td>
                   <code>"insertLink"</code>
                 </td>
                 <td>
@@ -716,42 +696,6 @@
                 </td>
                 <td>
                   Yes
-                </td>
-                <td>
-                  Any
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <code>"deleteByComposition"</code>
-                </td>
-                <td>
-                  remove a part of the DOM in order to recompose this part
-                  using IME
-                </td>
-                <td>
-                  Yes
-                </td>
-                <td>
-                  Yes
-                </td>
-                <td>
-                  Any
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <code>"deleteCompositionText"</code>
-                </td>
-                <td>
-                  delete the current composition string before commiting a
-                  finalized string to the DOM
-                </td>
-                <td>
-                  Yes
-                </td>
-                <td>
-                  No
                 </td>
                 <td>
                   Any
@@ -1395,9 +1339,8 @@
             <tbody>
               <tr>
                 <td>
-                  <code>"insertText"</code>,
-                  <code>"insertCompositionText"</code> or
-                  <code>"insertFromComposition"</code>
+                  <code>"insertText"</code> or
+                  <code>"insertCompositionText"</code>
                 </td>
                 <td>
                   Any
@@ -1868,163 +1811,28 @@
     </section>
     <section>
       <h2>
-        Event order during IME composition
+        Input Event Order During Composition
       </h2>
       <p>
-        An IME composition causes several beforeinput events, not all of which
-        can be canceled.
+        The start of a composition is marked by dispatching a {{compositionstart}} event.
       </p>
-      <ol>
-        <li>
-          <p>
-            If the composition is starting with an empty initial composition
-            string (i.e. the composition is not recomposing an existing range
-            of the DOM), this step is skipped.
-          </p>
-          <ol>
-            <li>The UA extracts the initial composition string from the DOM.
-            </li>
-            <li>A beforeinput event with the inputType
-            <code>"deleteByComposition"</code> is [=dispatched=].
-            </li>
-            <li>Unless the beforeinput event has been canceled, the initial
-            composition string is removed from the DOM.
-            </li>
-            <li>Unless the beforeinput event has been canceled, an input event
-              with the inputType <code>"deleteByComposition"</code> is
-              [=dispatched=].
-            </li>
-          </ol>
-          <div class="note">
-            <p>
-              <i>This note is not normative.</i>
-            </p>
-            <p>
-              The default action for this beforeinput event is the removal of
-              the targetRanges from the DOM (i.e. the initial composition
-              string will be removed from the DOM).
-            </p>
-            <p>
-              The beforeinput event can be canceled. Canceling the event will
-              prevent the browser from removing the initial composition string
-              from the DOM. Canceling or handling the event will not prevent
-              the composition from taking place or influence the contents of
-              the initial composition string.
-            </p>
-          </div>
-        </li>
-        <li>
-          <p>
-            A <code><a href=
-            "https://w3c.github.io/uievents/#event-type-compositionstart">compositionstart</a></code>
-            event is [=dispatched=].
-          </p>
-        </li>
-        <li>
-          <p>
-            If the composition has an empty initial composition string, this
-            step is skipped.
-          </p>
-          <ol>
-            <li>A beforeinput event with the inputType
-            <code>"insertCompositionText"</code> is [=dispatched=] with the
-            data attribute set to the initial composition string.
-            </li>
-            <li>The DOM is updated with the insertion of the initial
-            composition string at the start of the selection.
-            </li>
-            <li>An input event with the inputType
-            <code>"insertCompositionText"</code> is [=dispatched=]
-            </li>
-          </ol>
-          <div class="note">
-            <p>
-              <i>This note is not normative.</i>
-            </p>
-            <p>
-              Notice that the beforeinput event cannot be canceled.
-            </p>
-          </div>
-        </li>
-        <li>
-          <p>
-            With each DOM update of the composition string:
-          </p>
-          <ol>
-            <li>A beforeinput event with the inputType
-            <code>"insertCompositionText"</code> is [=dispatched=] with the
-            data attribute set to the updated contents of the composition text.
-            </li>
-            <li>A <code><a href=
-            "https://w3c.github.io/uievents/#event-type-compositionupdate">compositionupdate</a></code>
-            event is [=dispatched=].
-            </li>
-            <li>The DOM is updated.
-            </li>
-            <li>An input event with the inputType
-            <code>"insertCompositionText"</code> is [=dispatched=].
-            </li>
-          </ol>
-          <div class="note">
-            <p>
-              This step is repeated as long as no text is to be committed to
-              the DOM (i.e. is made to be part of the DOM outside the range
-              controlled by the composition).
-            </p>
-          </div>
-        </li>
-        <li>
-          <p>
-            When a part or the entire composition string is to be committed to
-            the DOM:
-          </p>
-          <ol>
-            <li>A beforeinput event with the inputType
-            <code>"deleteCompositionText"</code> is [=dispatched=].
-            </li>
-            <li>The contents of the range controlled by the composition process
-            is removed from the DOM.
-            </li>
-            <li>A beforeinput event with the inputType
-            <code>"insertFromComposition"</code> is [=dispatched=] with the
-            data attribute set to the part of the final composition string that
-            is to be committed to the DOM.
-            </li>
-            <li>Unless the beforeinput event with the inputType
-            <code>"insertFromComposition"</code> has been canceled, the DOM is
-            updated with the part of the composition string that is to be
-            committed to the DOM inserted at the start of the selection.
-            </li>
-            <li>A <code><a href=
-            "https://w3c.github.io/uievents/#event-type-compositionend">compositionend</a></code>
-            event is [=dispatched=].
-            </li>
-            <li>Unless the beforeinput event with the inputType
-            <code>"insertFromComposition"</code> has been canceled, a input
-            event with the inputType <code>"insertFromComposition"</code> is
-            [=dispatched=]
-            </li>
-          </ol>
-        </li>
-        <li>
-          <p>
-            If only a part of the composition string was committed to the DOM,
-            while another part is not yet to be committed, the process starts
-            over from step 3 with the non-committed part of the final
-            composition string as the new initial composition string.
-          </p>
-        </li>
-      </ol>
-      <div class="note">
-        <p>
-          <i>This note is not normative.</i>
-        </p>
-        <p>
-          Note that while every composition only has one
-          <code>compositionstart</code> event, it may have several
-          <code>compositionend</code> events.
-        </p>
-      </div>
+      <p>
+        During a [=composition session=], whenever a [=text composition system=] updates its [=active text passage=], a {{compositionupdate}} event is dispatched.
+      </p>
+      <p>
+        After each {{compositionupdate}} event, a pair of {{beforeinput}} and {{input}} events are dispatched. The {{beforeinput}} and {{input}} events:
+      </p>
+      <ul>
+        <li>Are not cancellable</li>
+        <li>Have an {{inputType}} set to {{insertCompositionText}}</li>
+        <li>Have a {{data}} attribute equal to that of the {{compositionupdate}} event</li>
+        <li>Have a [=target range=] that surrounds the [=active text passage=] of the composition</li>
+      </ul>
+      <p>The DOM contents of the [=active text passage=] are updated after the {{beforeinput}} event is dispatched and before the {{input}} event is dispatched.</p>
+      </p>
+      <p>
+        The end of a [=composition session=] is marked by dispatching a {{compositionend}} event.
+      </p>
     </section>
     <section>
       <h2>Event order when using <code>"insertFromPaste"</code></h2>
