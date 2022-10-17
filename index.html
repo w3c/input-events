@@ -69,7 +69,7 @@
             ],
           },
         ],
-        xref: ["dom", "html", "infra", "mimesniff", "uievents"],
+        xref: ["dom", "html", "infra", "mimesniff", "uievents", "i18n-glossary",]
       };
     </script>
   </head>
@@ -147,14 +147,6 @@
           The user can replace the current selection with the content held in
           the kill buffer by indicating an intention to <dfn>yank</dfn> the
           kill buffer.
-        </dd>
-        <dt>
-          <dfn>character</dfn>
-        </dt>
-        <dd>
-          A <a>character</a> is an <a href=
-          "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended
-          grapheme cluster</a> . [[UAX29]]
         </dd>
       </dl>
     </section>
@@ -654,7 +646,7 @@
                   <code>"insertTranspose"</code>
                 </td>
                 <td>
-                  transpose the last two <a data-lt="character">characters</a>
+                  transpose the last two [=graphemes=].
                   that were entered
                 </td>
                 <td>
