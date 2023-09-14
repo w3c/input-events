@@ -145,7 +145,7 @@
           that is separate from the clipboard which allows for the temporal
           storage of content that was deleted using specific deletion commands.
           The user can replace the current selection with the content held in
-          the kill buffer by indicating an intention to <dfn>yank</dfn> the
+          the kill buffer by indicating an intention to yank the
           kill buffer.
         </dd>
         <dt>
@@ -255,7 +255,7 @@
         </pre>
         <p data-dfn-for="InputEventInit">
           The attributes {{InputEvent/inputType}}, <dfn>dataTransfer</dfn> and
-          <dfn>targetRanges</dfn> of {{InputEventInit}} initialize the
+          <dfn data-lt="targetRange">targetRanges</dfn> of {{InputEventInit}} initialize the
           corresponding attributes of the {{InputEvent}} object.
         </p>
         <section>
@@ -436,7 +436,7 @@
             selection.
           </p>
           <p>
-            This specification defines the <dfn>inputType values</dfn> as the
+            This specification defines the inputType values as the
             values in the inputType column of the following table.
           </p>
           <table class="parameters simple">
@@ -1533,7 +1533,7 @@
             </tbody>
           </table>
           <p>
-            <dfn data-dfn-for="InputEvent">getTargetRanges()</dfn> returns an
+            <dfn data-dfn-for="InputEvent" data-lt="targetRange">getTargetRanges()</dfn> returns an
             arrays <a>StaticRanges</a> that will be affected by the event if it
             is not cancelled.
           </p>
@@ -1814,24 +1814,24 @@
         Input Event Order During Composition
       </h2>
       <p>
-        The start of a composition is marked by dispatching a {{compositionstart}} event.
+        The start of a composition is marked by dispatching a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionstart">compositionstart</a> event.
       </p>
       <p>
-        During a [=composition session=], whenever a [=text composition system=] updates its [=active text passage=], a {{compositionupdate}} event is dispatched.
+        During a composition session, whenever a text composition system updates its active text passage, a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event is dispatched.
       </p>
       <p>
-        After each {{compositionupdate}} event, a pair of {{beforeinput}} and {{input}} events are dispatched. The {{beforeinput}} and {{input}} events:
+        After each <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event, a pair of {{beforeinput}} and {{input}} events are dispatched. The {{beforeinput}} and {{input}} events:
       </p>
       <ul>
         <li>Are not cancellable</li>
-        <li>Have an {{inputType}} set to {{insertCompositionText}}</li>
-        <li>Have a {{data}} attribute equal to that of the {{compositionupdate}} event</li>
-        <li>Have a [=target range=] that surrounds the [=active text passage=] of the composition</li>
+        <li>Have an {{InputEvent/inputType}} set to <code>"insertCompositionText"</code></li>
+        <li>Have a {{data}} attribute equal to that of the <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event</li>
+        <li>Have a {{InputEvent/targetRange}} that surrounds the active text passage of the composition</li>
       </ul>
-      <p>The DOM contents of the [=active text passage=] are updated after the {{beforeinput}} event is dispatched and before the {{input}} event is dispatched.</p>
+      <p>The DOM contents of the active text passage are updated after the {{beforeinput}} event is dispatched and before the {{input}} event is dispatched.</p>
       </p>
       <p>
-        The end of a [=composition session=] is marked by dispatching a {{compositionend}} event.
+        The end of a composition session is marked by dispatching a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionend">compositionend</a> event.
       </p>
     </section>
     <section>
