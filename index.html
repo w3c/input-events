@@ -69,7 +69,7 @@
             ],
           },
         ],
-        xref: ["dom", "html", "infra", "mimesniff", "uievents"],
+        xref: ["dom", "html", "infra", "mimesniff", "uievents", "i18n-glossary",]
       };
     </script>
   </head>
@@ -147,14 +147,6 @@
           The user can replace the current selection with the content held in
           the kill buffer by indicating an intention to yank the
           kill buffer.
-        </dd>
-        <dt>
-          <dfn>character</dfn>
-        </dt>
-        <dd>
-          A <a>character</a> is an <a href=
-          "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">extended
-          grapheme cluster</a> . [[UAX29]]
         </dd>
       </dl>
     </section>
@@ -654,7 +646,7 @@
                   <code>"insertTranspose"</code>
                 </td>
                 <td>
-                  transpose the last two <a data-lt="character">characters</a>
+                  transpose the last two [=grapheme cluster=].
                   that were entered
                 </td>
                 <td>
@@ -1296,9 +1288,7 @@
             </p>In some scripts on some platforms, backward deletion within a
             text node with a collapsed selection will delete a single <a href=
             "https://infra.spec.whatwg.org/#code-points">code point</a>
-            [[INFRA]] rather than a entire <a href=
-            "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme
-            cluster</a> [[UAX29]]. The <a>getTargetRanges()</a> method can be
+            [[INFRA]] rather than an entire [=grapheme cluster=]. The <a>getTargetRanges()</a> method can be
             used to find out how many <a href=
             "https://infra.spec.whatwg.org/#code-points">code points</a>
             [[INFRA]] the browser will remove by default if deleting within a
@@ -1308,9 +1298,7 @@
             <p>
               <i>This note is not normative.</i>
             </p>In some scripts on some platforms, forward deletion within a
-            text node with a collapsed selection will delete an entire <a href=
-            "http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries">grapheme
-            cluster</a> [[UAX29]] rather than a single <a href=
+            text node with a collapsed selection will delete an entire [=grapheme cluster=] rather than a single <a href=
             "https://infra.spec.whatwg.org/#code-points">code point</a>
             [[INFRA]]. The <a>getTargetRanges()</a> method can be used to find
             out how many <a href=
