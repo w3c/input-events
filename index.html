@@ -1653,11 +1653,27 @@
                     action</a> [[UI-EVENTS]]
                   </th>
                   <td>
-                    Varies: 'Update the DOM' for contentEditable=typing editing
-                    hosts for inputTypes <code>"insertCompositionText"</code>
-                    and <code>"deleteCompositionText"</code>. 'Update the DOM
-                    element' for <code>contentEditable="true"</code> editing
-                    hosts for all inputTypes. None otherwise.
+                    <ul>
+                      <li>
+                        For contentEditable=typing editing
+                        hosts for inputTypes <code>"insertCompositionText"</code>
+                        and <code>"deleteCompositionText"</code>: 'Update the DOM'.
+                      </li>
+                      <li>
+                        For <code>contentEditable="true"</code> editing hosts
+                        for all inputTypes: 'Update the DOM'.
+                      </li>
+                      <li>
+                        For
+                        <a href="https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext editing hosts</a>
+                        for all inputTypes:
+                        <a href="https://w3c.github.io/edit-context/#dfn-handle-input-for-editcontext">Handle input for EditContext</a>
+                        given the editing host element.
+                      </li>
+                      <li>
+                        None otherwise.
+                      </li>
+                    </ul>
                   </td>
                 </tr>
                 <tr>
@@ -1788,9 +1804,14 @@
                 </tr>
               </table>
               <p>
-                A [=user agent=] MUST [=dispatch=] this event immediately after
-                the DOM has been updated due to a user expressed intention to
-                change the document contents which the browser has handled.
+                A [=user agent=] MUST [=dispatch=] this event immediately after the DOM has been
+                updated due to  user expressed intention to change the document contents which the
+                browser has handled. If the browser makes no DOM change, either because the
+                editing host is an
+                <a href="https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext editing host</a>
+                (which does not do automatic DOM changes) or because the [=user agent=]
+                concludes that no DOM change is needed, the user agent MUST NOT
+                dispatch this event.
               </p>
             </dd>
           </dl>
