@@ -1,8 +1,13 @@
-**The Input Events spec**
-
-[Level 1](https://rawgit.com/w3c/input-events/v1/index.html)
+**The Input Events spec level 2**
 
 [Level 2](http://w3c.github.io/input-events/)
+
+This repository contains the code of Input Events spec level 2.
+
+
+**The Input Events spec level 1 (Discontinued draft)**
+
+[Level 1](https://www.w3.org/TR/2023/DISC-input-events-1-20230928/) 
 
 Level 1 and 2 each have three implementations (Chrome, Firefox and Safari). Level 2 is close to the consensus reached within the Editing Taskforce at the end of 2016. Level 1 is a subset that was split off in early 2017, when the Chromium team announced that it would not implement the entire specifition. At this time Safari had already implemented the full specification. We also did not want to give up level 2 of the spec, because it actually resolves a lot of issues and there has been no counter-proposal to effectively solve these issues from the Android team or others. Given that Chromium team told the Editing Taskforce that it either had to release a spec with their proposed changes or they would drop the spec entirely, it was decided to split the specification in two levels. By 2022, most of level 2 has been implemented in Chromium, and level 2 was adjusted remove three IME-specific input types. With this change, the implementations in all three browsers are following level 2. 
 
