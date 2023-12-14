@@ -145,8 +145,7 @@
           that is separate from the clipboard which allows for the temporal
           storage of content that was deleted using specific deletion commands.
           The user can replace the current selection with the content held in
-          the kill buffer by indicating an intention to yank the
-          kill buffer.
+          the kill buffer by indicating an intention to yank the kill buffer.
         </dd>
       </dl>
     </section>
@@ -247,8 +246,8 @@
         </pre>
         <p data-dfn-for="InputEventInit">
           The attributes {{InputEvent/inputType}}, <dfn>dataTransfer</dfn> and
-          <dfn data-lt="targetRange">targetRanges</dfn> of {{InputEventInit}} initialize the
-          corresponding attributes of the {{InputEvent}} object.
+          <dfn data-lt="targetRange">targetRanges</dfn> of {{InputEventInit}}
+          initialize the corresponding attributes of the {{InputEvent}} object.
         </p>
         <section>
           <h5>
@@ -428,8 +427,8 @@
             selection.
           </p>
           <p>
-            This specification defines the inputType values as the
-            values in the inputType column of the following table.
+            This specification defines the inputType values as the values in
+            the inputType column of the following table.
           </p>
           <table class="parameters simple">
             <thead>
@@ -612,7 +611,8 @@
                   <code>"insertFromPaste"</code>
                 </td>
                 <td>
-                  paste content from clipboard or paste image from client provided image library
+                  paste content from clipboard or paste image from client
+                  provided image library
                 </td>
                 <td>
                   No
@@ -646,8 +646,8 @@
                   <code>"insertTranspose"</code>
                 </td>
                 <td>
-                  transpose the last two [=grapheme cluster=].
-                  that were entered
+                  transpose the last two [=grapheme cluster=]. that were
+                  entered
                 </td>
                 <td>
                   No
@@ -1436,14 +1436,16 @@
                     mode. [[HTML]]
                     </li>
                     <li>If the pasted content is a file, the {{DataTransfer}}
-                    object's <a data-cite="html/dnd.html#the-drag-data-item-kind">
-                    drag data store item list</a> contains one entry with the
-                    <a data-cite="html/dnd.html#the-drag-data-item-type-string">drag data
+                    object's <a data-cite=
+                    "html/dnd.html#the-drag-data-item-kind">drag data store
+                    item list</a> contains one entry with the <a data-cite=
+                    "html/dnd.html#the-drag-data-item-type-string">drag data
                     item type string</a> being the file's [=mime type=], whose
                     <a data-cite=
                     "html/dnd.html#the-drag-data-item-kind">kind</a> is
-                    <i>File</i>, and whose data is a <a data-cite="FileAPI#dfn-file">File object</a>
-                    corresponding to the pasted file. [[HTML]]
+                    <i>File</i>, and whose data is a <a data-cite=
+                    "FileAPI#dfn-file">File object</a> corresponding to the
+                    pasted file. [[HTML]]
                     </li>
                     <li>The {{DataTransfer}} object's <a data-cite=
                     "html/dnd.html#drag-data-store-item-list">drag data store
@@ -1477,8 +1479,8 @@
                     <a data-cite=
                     "html/dnd.html#the-drag-data-item-kind">kind</a> is
                     <i>Plain Unicode string</i>, and whose data is a plain text
-                    representation of the link that is dropped
-                    or otherwise added. [[HTML]]
+                    representation of the link that is dropped or otherwise
+                    added. [[HTML]]
                     </li>
                   </ol>
                 </td>
@@ -1497,19 +1499,23 @@
             </tbody>
           </table>
           <p>
-            <dfn data-dfn-for="InputEvent" data-lt="targetRange">getTargetRanges()</dfn> returns an
-            arrays <a>StaticRanges</a> representing the text that the event will modify if it is not canceled.
-            The returned <a>StaticRanges</a> MUST cover only the <a data-cite="infra#code-points">code points</a> that the browser would normally replace,
-            even if they are only part of a [=grapheme cluster=].
+            <dfn data-dfn-for="InputEvent" data-lt=
+            "targetRange">getTargetRanges()</dfn> returns an arrays
+            <a>StaticRanges</a> representing the text that the event will
+            modify if it is not canceled. The returned <a>StaticRanges</a> MUST
+            cover only the <a data-cite="infra#code-points">code points</a>
+            that the browser would normally replace, even if they are only part
+            of a [=grapheme cluster=].
           </p>
           <div class="note" data-link-for="InputEvent">
             <p>
               <i>This note is not normative.</i>
-            </p>
-            Depending on the script and the platform, deleting backward or forward in a text node with a collapsed selection may affect
-            one or multiple <a data-cite="infra">code points</a> or an entire [=grapheme cluster=].
-            For example, deleting backward in a text node containing “café” may remove either the acute accent or the entire “é” character,
-            depending on the script and the platform. 
+            </p>Depending on the script and the platform, deleting backward or
+            forward in a text node with a collapsed selection may affect one or
+            multiple <a data-cite="infra">code points</a> or an entire
+            [=grapheme cluster=]. For example, deleting backward in a text node
+            containing “café” may remove either the acute accent or the entire
+            “é” character, depending on the script and the platform.
           </div>
         </section><!-- interface-InputEvent-Attributes -->
         <section id="interface-InputEvent-Methods" data-dfn-for="InputEvent">
@@ -1639,24 +1645,22 @@
                   </th>
                   <td>
                     <ul>
-                      <li>
-                        For contentEditable=typing editing
-                        hosts for inputTypes <code>"insertCompositionText"</code>
-                        and <code>"deleteCompositionText"</code>: 'Update the DOM'.
+                      <li>For contentEditable=typing editing hosts for
+                      inputTypes <code>"insertCompositionText"</code> and
+                      <code>"deleteCompositionText"</code>: 'Update the DOM'.
                       </li>
-                      <li>
-                        For <code>contentEditable="true"</code> [=editing hosts=]
-                        for all inputTypes: 'Update the DOM'.
+                      <li>For <code>contentEditable="true"</code> [=editing
+                      hosts=] for all inputTypes: 'Update the DOM'.
                       </li>
-                      <li>
-                        For
-                        <a href="https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext editing hosts</a>
-                        for all inputTypes:
-                        <a href="https://w3c.github.io/edit-context/#dfn-handle-input-for-editcontext">Handle input for EditContext</a>
-                        given the [=editing host=] element.
+                      <li>For <a href=
+                      "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">
+                        EditContext editing hosts</a> for all inputTypes:
+                        <a href=
+                        "https://w3c.github.io/edit-context/#dfn-handle-input-for-editcontext">
+                        Handle input for EditContext</a> given the [=editing
+                        host=] element.
                       </li>
-                      <li>
-                        None otherwise.
+                      <li>None otherwise.
                       </li>
                     </ul>
                   </td>
@@ -1789,14 +1793,15 @@
                 </tr>
               </table>
               <p>
-                A [=user agent=] MUST [=dispatch=] this event immediately after the DOM has been
-                updated due to  user expressed intention to change the document contents which the
-                browser has handled. If the browser makes no DOM change, either because the
-                editing host is an
-                <a href="https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext editing host</a>
-                (which does not do automatic DOM changes) or because the [=user agent=]
-                concludes that no DOM change is needed, the user agent MUST NOT
-                dispatch this event.
+                A [=user agent=] MUST [=dispatch=] this event immediately after
+                the DOM has been updated due to user expressed intention to
+                change the document contents which the browser has handled. If
+                the browser makes no DOM change, either because the editing
+                host is an <a href=
+                "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">
+                EditContext editing host</a> (which does not do automatic DOM
+                changes) or because the [=user agent=] concludes that no DOM
+                change is needed, the user agent MUST NOT dispatch this event.
               </p>
             </dd>
           </dl>
@@ -1808,32 +1813,58 @@
         Input Event Order During Composition
       </h2>
       <p>
-        The start of a composition is marked by dispatching a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionstart">compositionstart</a> event.
+        The start of a composition is marked by dispatching a
+        <a data-link-type="dfn" href=
+        "https://www.w3.org/TR/uievents/#compositionstart">compositionstart</a>
+        event.
       </p>
       <p>
-        During a composition session, whenever a text composition system updates its active text passage, a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event is dispatched.
+        During a composition session, whenever a text composition system
+        updates its active text passage, a <a data-link-type="dfn" href=
+        "https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a>
+        event is dispatched.
       </p>
       <p>
-        After each <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event, a pair of {{beforeinput}} and {{input}} events are dispatched. The {{beforeinput}} and {{input}} events:
+        After each <a data-link-type="dfn" href=
+        "https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a>
+        event, a pair of {{beforeinput}} and {{input}} events are dispatched.
+        The {{beforeinput}} and {{input}} events:
       </p>
       <ul>
-        <li>Are not cancellable</li>
-        <li>Have an {{InputEvent/inputType}} set to <code>"insertCompositionText"</code></li>
-        <li>Have a {{data}} attribute equal to that of the <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a> event</li>
-        <li>Have a {{InputEvent/targetRange}} that surrounds the active text passage of the composition</li>
+        <li>Are not cancellable
+        </li>
+        <li>Have an {{InputEvent/inputType}} set to
+        <code>"insertCompositionText"</code>
+        </li>
+        <li>Have a {{data}} attribute equal to that of the <a data-link-type=
+        "dfn" href=
+        "https://www.w3.org/TR/uievents/#compositionupdate">compositionupdate</a>
+        event
+        </li>
+        <li>Have a {{InputEvent/targetRange}} that surrounds the active text
+        passage of the composition
+        </li>
       </ul>
-      <p>The DOM contents of the active text passage are updated after the {{beforeinput}} event is dispatched and before the {{input}} event is dispatched.</p>
+      <p>
+        The DOM contents of the active text passage are updated after the
+        {{beforeinput}} event is dispatched and before the {{input}} event is
+        dispatched.
       </p>
       <p>
-        The end of a composition session is marked by dispatching a <a data-link-type="dfn" href="https://www.w3.org/TR/uievents/#compositionend">compositionend</a> event.
+        The end of a composition session is marked by dispatching a
+        <a data-link-type="dfn" href=
+        "https://www.w3.org/TR/uievents/#compositionend">compositionend</a>
+        event.
       </p>
     </section>
     <section>
-      <h2>Event order when using <code>"insertFromPaste"</code></h2>
+      <h2>
+        Event order when using <code>"insertFromPaste"</code>
+      </h2>
       <p>
-        When an <code>"insertFromPaste"</code> {{beforeinput}}
-        event is dispatched, it MUST be preceded by a
-        <a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
+        When an <code>"insertFromPaste"</code> {{beforeinput}} event is
+        dispatched, it MUST be preceded by a <a href=
+        "https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
         [[CLIPBOARD-APIS]] event.
       </p>
     </section>
