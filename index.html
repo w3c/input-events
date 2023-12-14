@@ -1499,15 +1499,15 @@
           <p>
             <dfn data-dfn-for="InputEvent" data-lt="targetRange">getTargetRanges()</dfn> returns an
             arrays <a>StaticRanges</a> representing the text that the event will modify if it is not canceled.
-            The returned <a>StaticRanges</a> MUST cover only the <a href=“https://infra.spec.whatwg.org/#code-points”>code points</a>
-            [[INFRA]] that the browser would normally replace, even if they are only part of a [=grapheme cluster=].
+            The returned <a>StaticRanges</a> MUST cover only the <a data-cite="infra#code-points">code points</a> that the browser would normally replace,
+            even if they are only part of a [=grapheme cluster=].
           </p>
           <div class="note" data-link-for="InputEvent">
             <p>
               <i>This note is not normative.</i>
             </p>
             Depending on the script and the platform, deleting backward or forward in a text node with a collapsed selection may affect
-            a single <a href= “https://infra.spec.whatwg.org/#code-points”>code point</a> [[INFRA]] or a whole [=grapheme cluster=].
+            one or multiple <a data-cite="infra">code points</a> or an entire [=grapheme cluster=].
             For example, deleting backward in a text node containing “café” may remove either the acute accent or the entire “é” character,
             depending on the script and the platform. 
           </div>
