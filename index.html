@@ -1494,12 +1494,13 @@
             <dfn data-dfn-for="InputEvent" data-lt=
             "targetRange">getTargetRanges()</dfn> returns an array of
             <a>StaticRanges</a> representing the content that the event will
-            modify if it is not canceled, if the [=editing host=] is
-            contenteditable node or an <a href=
+            modify if it is not canceled if the [=editing host=] is a
+            contenteditable node, or the content that the browser assumes to be
+            affected by the event if the [=editing host=] is an <a href=
             "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">
-            EditContext editing host</a>. Otherwise this method will return
-            none. The returned <a>StaticRanges</a> MUST cover only the <a
-            data-cite="infra#code-points">code points</a>
+            EditContext editing host</a>. Otherwise this method returns an
+            empty Array. The returned <a>StaticRanges</a> MUST cover only the
+            <a data-cite="infra#code-points">code points</a>
             that the browser would normally replace, even if they are only part
             of a [=grapheme cluster=].
           </p>
