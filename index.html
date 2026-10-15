@@ -1702,6 +1702,46 @@
                 that are not caused by attempted user input, such as system
                 events.
               </p>
+              <div class="note">
+                <p>
+                  <i>This note is not normative.</i>
+                </p>
+                <p>
+                  Third-party browser extensions, such as spelling or grammar
+                  checkers, may modify the contents of editable elements by
+                  dispatching synthetic <a>beforeinput</a> events (events
+                  whose {{Event/isTrusted}} attribute is <code>false</code>),
+                  as the [=user agent=] does not [=dispatch=] events for such
+                  modifications. To remain compatible with such extensions,
+                  JavaScript developers are advised to listen for these
+                  synthetic <code>beforeinput</code> events and to handle
+                  those whose {{InputEvent/inputType}} is
+                  <code>"insertReplacementText"</code>,
+                  <code>"insertFromPaste"</code>, <code>"deleteContent"</code>,
+                  <code>"deleteContentBackward"</code> or
+                  <code>"deleteContentForward"</code> in the same way as the
+                  corresponding trusted events.
+                </p>
+                <p>
+                  This applies also to editors that use an <a href=
+                  "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
+                  editing host</a>: even though handling of the deletion
+                  inputTypes <code>"deleteContent"</code>,
+                  <code>"deleteContentBackward"</code> and
+                  <code>"deleteContentForward"</code> is usually not needed
+                  there, as the [=user agent=] handles them through the
+                  EditContext, editors should still handle synthetic
+                  <code>beforeinput</code> events of these inputTypes
+                  dispatched by extensions. Likewise, where a third-party
+                  extension inserts content the way a paste operation would,
+                  listening for the synthetic <code>beforeinput</code> event
+                  with inputType <code>"insertFromPaste"</code> is preferable
+                  to listening for a synthetic <a href=
+                  "https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
+                  [[CLIPBOARD-APIS]] event, as <code>paste</code> events do not
+                  carry target ranges.
+                </p>
+              </div>
             </dd>
           </dl>
         </div><!-- beforeinput -->
