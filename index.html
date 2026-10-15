@@ -237,9 +237,14 @@
             };
         </pre>
         <p data-dfn-for="InputEventInit">
-          The attributes {{InputEvent/inputType}}, <dfn>dataTransfer</dfn> and
-          <dfn data-lt="targetRange">targetRanges</dfn> of {{InputEventInit}}
-          initialize the corresponding attributes of the {{InputEvent}} object.
+          The attributes {{InputEvent/inputType}} and <dfn>dataTransfer</dfn> of
+          {{InputEventInit}} initialize the corresponding attributes of the
+          {{InputEvent}} object.
+        </p>
+        <p data-dfn-for="InputEventInit">
+          The <dfn data-lt="targetRange">targetRanges</dfn> attribute of
+          {{InputEventInit}} initializes the [=target ranges=] of the
+          {{InputEvent}} object, which <code>getTargetRanges()</code> returns.
         </p>
         <section>
           <h5>
@@ -1492,17 +1497,70 @@
           </table>
           <p>
             <dfn data-dfn-for="InputEvent" data-lt=
-            "targetRange">getTargetRanges()</dfn> returns an array of
-            <a>StaticRanges</a> representing the content that the event will
-            modify if it is not canceled if the [=editing host=] is a
-            contenteditable node, or the content that the browser assumes to be
-            affected by the event if the [=editing host=] is an <a href=
-            "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
-            editing host</a>. Otherwise this method returns an empty Array. The
-            returned <a>StaticRanges</a> MUST cover only the <a data-cite=
-            "infra#code-points">code points</a> that the browser would normally
-            replace, even if they are only part of a [=grapheme cluster=].
+            "targetRange">getTargetRanges()</dfn> returns the [=target ranges=]
+            of the {{InputEvent}} object.
           </p>
+          <p data-dfn-for="InputEvent">
+            Each {{InputEvent}} object has associated <dfn>target ranges</dfn>,
+            which is a sequence of <a>StaticRanges</a>. When an {{InputEvent}}
+            object is created, its [=target ranges=] are set to the value of the
+            <code>targetRanges</code> attribute of the {{InputEventInit}}
+            dictionary, or to an empty sequence if that attribute was not given.
+          </p>
+          <p data-dfn-for="InputEvent">
+            A [=user agent=] MUST set the [=target ranges=] of a <a data-cite=
+            "DOM#concept-event-trusted">trusted</a> {{InputEvent}} that it
+            [=dispatch=]es as follows:
+          </p>
+          <ul data-link-for="InputEvent">
+            <li>If the [=editing host=] is a contenteditable node, the [=target
+            ranges=] MUST represent the content that the event will modify if it
+            is not canceled.
+            </li>
+            <li>Otherwise, if the [=editing host=] is an <a href=
+            "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
+            editing host</a>, the [=target ranges=] MUST represent the content
+            that the [=user agent=] assumes to be affected by the event.
+            </li>
+            <li>Otherwise, the [=target ranges=] MUST be empty.
+            </li>
+          </ul>
+          <p data-dfn-for="InputEvent">
+            The [=target ranges=] of an {{InputEvent}} [=dispatch=]ed by a
+            [=user agent=] MUST cover only the <a data-cite=
+            "infra#code-points">code points</a> that the [=user agent=] would
+            normally replace, even if they are only part of a [=grapheme
+            cluster=].
+          </p>
+          <p data-dfn-for="InputEvent">
+            When an {{InputEvent}} object is created by script, its [=target
+            ranges=] are the ones the creating script set through the
+            <code>targetRanges</code> attribute of the {{InputEventInit}}
+            dictionary. A [=user agent=] MUST NOT alter them, and MUST NOT
+            derive them from the [=editing host=], the {{InputEvent/inputType}}
+            or the state of the DOM. In particular, the [=target ranges=] of an
+            {{InputEvent}} that is not <a data-cite=
+            "DOM#concept-event-trusted">trusted</a> are an empty sequence if the
+            creating script did not set them, even if the event is dispatched on
+            an [=editing host=] and has an {{InputEvent/inputType}} for which a
+            [=user agent=] would otherwise compute [=target ranges=].
+          </p>
+          <div class="note" data-link-for="InputEvent">
+            <p>
+              <i>This note is not normative.</i>
+            </p>
+            <p>
+              Being able to create an {{InputEvent}} with known [=target
+              ranges=] allows an editor to express an input intention that the
+              [=user agent=] doesn't have a way of mapping to a user gesture.
+              For example, an editor whose UI has a “delete word backward”
+              button can dispatch a <code>beforeinput</code> event with an
+              {{InputEvent/inputType}} of <code>"deleteWordBackward"</code>
+              and the [=target ranges=] it computed for the word before the
+              caret, so that event handlers can act on it just as they would act
+              on a <a data-cite="DOM#concept-event-trusted">trusted</a> event.
+            </p>
+          </div>
           <div class="note" data-link-for="InputEvent">
             <p>
               <i>This note is not normative.</i>
@@ -1574,9 +1632,14 @@
             </tbody>
           </table>
           <p>
-            returns , unless the inputType is <code>"historyUndo"</code> or
-            <code>"historyRedo"</code> or the [=editing host=] is not a
-            contenteditable element, in which case it returns an empty Array.
+            The following table describes the [=target ranges=] a [=user agent=]
+            sets on the {{InputEvent}} objects it [=dispatch=]es as <a data-cite=
+            "DOM#concept-event-trusted">trusted</a> events.
+          </p>
+          <p data-dfn-for="InputEvent">
+            For an {{InputEvent}} created by script, the [=target ranges=] are
+            the ones set in the {{InputEventInit}} dictionary, regardless of the
+            {{InputEvent/inputType}} or the [=editing host=].
           </p>
         </section><!-- interface-InputEvent-Methods -->
       </section><!-- interface-InputEvent -->
@@ -1702,6 +1765,13 @@
                 that are not caused by attempted user input, such as system
                 events.
               </p>
+              <p>
+                This does not prevent a script from [=dispatch=]ing a
+                <code>beforeinput</code> event. Such an event is not <a data-cite=
+                "DOM#concept-event-trusted">trusted</a>, so its [=target
+                ranges=] are the ones that were set when the {{InputEvent}}
+                object was created, and <code>getTargetRanges()</code> returns them.
+              </p>
               <div class="note">
                 <p>
                   <i>This note is not normative.</i>
@@ -1825,6 +1895,12 @@
                         richtext data added or removed from element, which MAY
                         be null if it doesn't apply.
                       </li>
+                      <li>
+                        <a><code class=
+                        "methods-name">InputEvent.getTargetRanges()</code></a>:
+                        returns an array of <a>StaticRanges</a> which were
+                        affected by the change to the DOM.
+                      </li>
                     </ul>
                   </td>
                 </tr>
@@ -1839,6 +1915,13 @@
                 EditContext editing host</a> (which does not do automatic DOM
                 changes) or because the [=user agent=] concludes that no DOM
                 change is needed, the user agent MUST NOT dispatch this event.
+              </p>
+              <p>
+                As for the <code>beforeinput</code> event, an
+                {{InputEvent}} of type <code>input</code> that is created by
+                script has the [=target ranges=] given in the
+                {{InputEventInit}} dictionary, and <code>getTargetRanges()</code>
+                returns them.
               </p>
             </dd>
           </dl>
