@@ -237,8 +237,8 @@
             };
         </pre>
         <p data-dfn-for="InputEventInit">
-          The attributes {{InputEvent/inputType}} and <dfn>dataTransfer</dfn> of
-          {{InputEventInit}} initialize the corresponding attributes of the
+          The attributes {{InputEvent/inputType}} and <dfn>dataTransfer</dfn>
+          of {{InputEventInit}} initialize the corresponding attributes of the
           {{InputEvent}} object.
         </p>
         <p data-dfn-for="InputEventInit">
@@ -1503,9 +1503,10 @@
           <p data-dfn-for="InputEvent">
             Each {{InputEvent}} object has associated <dfn>target ranges</dfn>,
             which is a sequence of <a>StaticRanges</a>. When an {{InputEvent}}
-            object is created, its [=target ranges=] are set to the value of the
-            <code>targetRanges</code> attribute of the {{InputEventInit}}
-            dictionary, or to an empty sequence if that attribute was not given.
+            object is created, its [=target ranges=] are set to the value of
+            the <code>targetRanges</code> attribute of the {{InputEventInit}}
+            dictionary, or to an empty sequence if that attribute was not
+            given.
           </p>
           <p data-dfn-for="InputEvent">
             A [=user agent=] MUST set the [=target ranges=] of a <a data-cite=
@@ -1514,13 +1515,14 @@
           </p>
           <ul data-link-for="InputEvent">
             <li>If the [=editing host=] is a contenteditable node, the [=target
-            ranges=] MUST represent the content that the event will modify if it
-            is not canceled.
+            ranges=] MUST represent the content that the event will modify if
+            it is not canceled.
             </li>
             <li>Otherwise, if the [=editing host=] is an <a href=
-            "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
-            editing host</a>, the [=target ranges=] MUST represent the content
-            that the [=user agent=] assumes to be affected by the event.
+            "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">
+              EditContext editing host</a>, the [=target ranges=] MUST
+              represent the content that the [=user agent=] assumes to be
+              affected by the event.
             </li>
             <li>Otherwise, the [=target ranges=] MUST be empty.
             </li>
@@ -1540,10 +1542,11 @@
             derive them from the [=editing host=], the {{InputEvent/inputType}}
             or the state of the DOM. In particular, the [=target ranges=] of an
             {{InputEvent}} that is not <a data-cite=
-            "DOM#concept-event-trusted">trusted</a> are an empty sequence if the
-            creating script did not set them, even if the event is dispatched on
-            an [=editing host=] and has an {{InputEvent/inputType}} for which a
-            [=user agent=] would otherwise compute [=target ranges=].
+            "DOM#concept-event-trusted">trusted</a> are an empty sequence if
+            the creating script did not set them, even if the event is
+            dispatched on an [=editing host=] and has an
+            {{InputEvent/inputType}} for which a [=user agent=] would otherwise
+            compute [=target ranges=].
           </p>
           <div class="note" data-link-for="InputEvent">
             <p>
@@ -1555,10 +1558,10 @@
               [=user agent=] doesn't have a way of mapping to a user gesture.
               For example, an editor whose UI has a “delete word backward”
               button can dispatch a <code>beforeinput</code> event with an
-              {{InputEvent/inputType}} of <code>"deleteWordBackward"</code>
-              and the [=target ranges=] it computed for the word before the
-              caret, so that event handlers can act on it just as they would act
-              on a <a data-cite="DOM#concept-event-trusted">trusted</a> event.
+              {{InputEvent/inputType}} of <code>"deleteWordBackward"</code> and
+              the [=target ranges=] it computed for the word before the caret,
+              so that event handlers can act on it just as they would act on a
+              <a data-cite="DOM#concept-event-trusted">trusted</a> event.
             </p>
           </div>
           <div class="note" data-link-for="InputEvent">
@@ -1632,14 +1635,14 @@
             </tbody>
           </table>
           <p>
-            The following table describes the [=target ranges=] a [=user agent=]
-            sets on the {{InputEvent}} objects it [=dispatch=]es as <a data-cite=
-            "DOM#concept-event-trusted">trusted</a> events.
+            The following table describes the [=target ranges=] a [=user
+            agent=] sets on the {{InputEvent}} objects it [=dispatch=]es as
+            <a data-cite="DOM#concept-event-trusted">trusted</a> events.
           </p>
           <p data-dfn-for="InputEvent">
             For an {{InputEvent}} created by script, the [=target ranges=] are
-            the ones set in the {{InputEventInit}} dictionary, regardless of the
-            {{InputEvent/inputType}} or the [=editing host=].
+            the ones set in the {{InputEventInit}} dictionary, regardless of
+            the {{InputEvent/inputType}} or the [=editing host=].
           </p>
         </section><!-- interface-InputEvent-Methods -->
       </section><!-- interface-InputEvent -->
@@ -1767,10 +1770,11 @@
               </p>
               <p>
                 This does not prevent a script from [=dispatch=]ing a
-                <code>beforeinput</code> event. Such an event is not <a data-cite=
-                "DOM#concept-event-trusted">trusted</a>, so its [=target
-                ranges=] are the ones that were set when the {{InputEvent}}
-                object was created, and <code>getTargetRanges()</code> returns them.
+                <code>beforeinput</code> event. Such an event is not
+                <a data-cite="DOM#concept-event-trusted">trusted</a>, so its
+                [=target ranges=] are the ones that were set when the
+                {{InputEvent}} object was created, and
+                <code>getTargetRanges()</code> returns them.
               </p>
               <div class="note">
                 <p>
@@ -1779,13 +1783,13 @@
                 <p>
                   Third-party browser extensions, such as spelling or grammar
                   checkers, may modify the contents of editable elements by
-                  dispatching synthetic <a>beforeinput</a> events (events
-                  whose {{Event/isTrusted}} attribute is <code>false</code>),
-                  as the [=user agent=] does not [=dispatch=] events for such
+                  dispatching synthetic <a>beforeinput</a> events (events whose
+                  {{Event/isTrusted}} attribute is <code>false</code>), as the
+                  [=user agent=] does not [=dispatch=] events for such
                   modifications. To remain compatible with such extensions,
                   JavaScript developers are advised to listen for these
-                  synthetic <code>beforeinput</code> events and to handle
-                  those whose {{InputEvent/inputType}} is
+                  synthetic <code>beforeinput</code> events and to handle those
+                  whose {{InputEvent/inputType}} is
                   <code>"insertReplacementText"</code>,
                   <code>"insertFromPaste"</code>, <code>"deleteContent"</code>,
                   <code>"deleteContentBackward"</code> or
@@ -1794,9 +1798,9 @@
                 </p>
                 <p>
                   This applies also to editors that use an <a href=
-                  "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
-                  editing host</a>: even though handling of the deletion
-                  inputTypes <code>"deleteContent"</code>,
+                  "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">
+                  EditContext editing host</a>: even though handling of the
+                  deletion inputTypes <code>"deleteContent"</code>,
                   <code>"deleteContentBackward"</code> and
                   <code>"deleteContentForward"</code> is usually not needed
                   there, as the [=user agent=] handles them through the
@@ -1807,9 +1811,9 @@
                   listening for the synthetic <code>beforeinput</code> event
                   with inputType <code>"insertFromPaste"</code> is preferable
                   to listening for a synthetic <a href=
-                  "https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">paste</a>
-                  [[CLIPBOARD-APIS]] event, as <code>paste</code> events do not
-                  carry target ranges.
+                  "https://www.w3.org/TR/clipboard-apis/#clipboard-event-paste">
+                  paste</a> [[CLIPBOARD-APIS]] event, as <code>paste</code>
+                  events do not carry target ranges.
                 </p>
               </div>
             </dd>
@@ -1917,11 +1921,10 @@
                 change is needed, the user agent MUST NOT dispatch this event.
               </p>
               <p>
-                As for the <code>beforeinput</code> event, an
-                {{InputEvent}} of type <code>input</code> that is created by
-                script has the [=target ranges=] given in the
-                {{InputEventInit}} dictionary, and <code>getTargetRanges()</code>
-                returns them.
+                As for the <code>beforeinput</code> event, an {{InputEvent}} of
+                type <code>input</code> that is created by script has the
+                [=target ranges=] given in the {{InputEventInit}} dictionary,
+                and <code>getTargetRanges()</code> returns them.
               </p>
             </dd>
           </dl>
