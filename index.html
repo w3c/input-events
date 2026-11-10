@@ -1519,7 +1519,9 @@
             </li>
             <li>Otherwise, if the [=editing host=] is an <a href=
             "https://w3c.github.io/edit-context/#dfn-editcontext-editing-host">EditContext
-            editing host</a>, the [=target ranges=] MUST represent the content
+            editing host</a> and the {{InputEvent/inputType}} is not
+            <code>"insertCompositionText"</code>,
+            the [=target ranges=] MUST represent the content
             that the [=user agent=] assumes to be affected by the event.
             </li>
             <li>Otherwise, the [=target ranges=] MUST be empty.
